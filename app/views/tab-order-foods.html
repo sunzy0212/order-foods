@@ -1,0 +1,27 @@
+<ion-view view-title="点餐" hide-nav-bar="true">
+    <ion-content>
+        <div class="row row-no-padding responsive-break">
+            <div class="col col-25" style="width: 100%">
+                <ion-list class="tabs-striped tabs-top tabs-background-positive tabs-color-light">
+                    <ion-item ng-repeat="type in foodTypes">
+                        <a class="tabs">
+                            <p ng-bind="type"></p>
+                        </a>
+                    </ion-item>
+                </ion-list>
+            </div>
+            <div class="col col-75" style="width: 100%">
+                <ion-list>
+                    <ion-item ng-repeat="food in foods">
+                        <h3 ng-bind="food.name"></h3>
+                        <p ng-bind="food.price"></p>
+                        <img ng-src="{{food.img}}">
+                        <p ng-bind="food.level"></p>
+                        <p ng-bind="food.sellNumPerMonth"></p>
+                        <p ng-bind="food.state"></p>
+                    </ion-item>
+                </ion-list>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

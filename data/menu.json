@@ -1,0 +1,62 @@
+[
+    {
+        "name":"牛眼粒",
+        "img": "images/yeoman.png",
+        "type": "热菜",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    },
+    {
+        "name":"水煮鱼",
+        "img": "images/yeoman.png",
+        "type": "热菜",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    },
+    {
+        "name":"宫爆鸡丁",
+        "img": "images/yeoman.png",
+        "type": "冷菜",
+        "description": "如同与 i",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    },
+    {
+        "name":"鱼香茄子",
+        "img": "images/yeoman.png",
+        "type": "冷菜",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+]
