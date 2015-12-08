@@ -15,8 +15,9 @@ var getMenu=require('./api/menu/get-menu');
 //wechat config
 var config={
     token: 'order_food_wechat_hybrid_app',
-    appid: 'wx7515064e9a56542e',
+    appid: 'wx8802127829e580bb',
     encodingAESKey: 'k2XZcERrRAaqKA4gFu0O6mSar61bVa8ZvYWTto9Zhbj'
+//    appsecret:'6b5c8cd47198df0fcc8734cc08b05789'
 };
 
 var app = express();
@@ -32,14 +33,21 @@ app.use(express.query());
 /*app.use(bodyParser());*/
 app.use('/menu',getMenu);
 
-/*app.get('/app', function(request, response) {
+app.get('/app', function(request, response) {
     response.render('index.html');
-});*/
+});
 
-app.use('/app', wechat(config,function(req,res,next){
+app.use('/wechat', wechat(config,function(req,res,next){
     // 微信输入信息都在req.weixin上
     var message=req.weixin;
-    res.render('index.html');
+
+    switch(message.type){
+        case 'click':
+            if(message.key=='V1001_TODAY_MUSIC"'){
+                res.redirect('/app');
+            }
+            break;
+    }
 }));
 
 module.exports = app;
