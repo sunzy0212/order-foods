@@ -1,16 +1,12 @@
-/**
- * Created by zhiyuans on 12/4/2015.
- */
-function Menu(){
+var OAuth=require('wechat-oauth');
 
-}
-
-Menu.prototype.fun1=function(){
-    this.fun2();
-};
-Menu.prototype.fun2=function(){
-    console.log('fun2')
+var config={
+    token: 'order_food_wechat_hybrid_app',
+    appid: 'wx8802127829e580bb',
+    encodingAESKey: 'k2XZcERrRAaqKA4gFu0O6mSar61bVa8ZvYWTto9Zhbj',
+    appsecret:'d4624c36b6795d1d99dcf0547af5443d'
 };
 
-var menu = new Menu();
-menu.fun1();
+var oauth=new OAuth(config.appid,config.appsecret);
+var url=oauth.getAuthorizeURL('http://zhiyuanagent.cloudapp.net/app','','snsapi_userinfo');
+console.log(url);

@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var path = require('path');
 var wechat=require('wechat');
+var OAuth=require('wechat-oauth');
 
 /*var session = require('express-session');
  var MongoStore = require('connect-mongo')(session);*/
@@ -16,11 +17,12 @@ var getMenu=require('./api/menu/get-menu');
 var config={
     token: 'order_food_wechat_hybrid_app',
     appid: 'wx8802127829e580bb',
-    encodingAESKey: 'k2XZcERrRAaqKA4gFu0O6mSar61bVa8ZvYWTto9Zhbj'
-//    appsecret:'6b5c8cd47198df0fcc8734cc08b05789'
+    encodingAESKey: 'k2XZcERrRAaqKA4gFu0O6mSar61bVa8ZvYWTto9Zhbj',
+    appsecret:'d4624c36b6795d1d99dcf0547af5443d'
 };
 
 var app = express();
+var oauth=new OAuth(config.appid,config.appsecret);
 
 // Configuration
 app.use(express.static(path.join(__dirname, 'app')));
@@ -33,8 +35,13 @@ app.use(express.query());
 /*app.use(bodyParser());*/
 app.use('/menu',getMenu);
 
-app.get('/app', function(request, response) {
-    response.render('index.html');
+app.get('/app', function(req, res) {
+    var code=req.query.code;
+    oauth.getAccessToken(code,function(err,ret){
+        var accessToken=ret.data.access_token;
+        var openId=ret.data.openid;
+        res.render('index.html');
+    });
 });
 
 app.use('/wechat', wechat(config,function(req,res,next){
