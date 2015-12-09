@@ -9,8 +9,8 @@
  * Main module of the application.
  */
 angular
-  .module('orderFoodsApp', ['ionic','orderFoodsApp.controllers'])
-    .run(function($ionicPlatform) {
+  .module('orderFoodsApp', ['ionic','orderFoodsApp.controllers','orderFoodsApp.services'])
+    .run(['$ionicPlatform','user',function($ionicPlatform,user) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -23,8 +23,10 @@ angular
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
+            //设置用户信息
+            user.openId=angular.element("#render_openId").text().trim();
         });
-    })
+    }])
     .config(function($stateProvider,$urlRouterProvider){
         $stateProvider
             // setup an abstract state for the tabs directive
@@ -64,3 +66,4 @@ angular
     });
 
 var ctrlModule = angular.module('orderFoodsApp.controllers',[]);
+var serviceModule = angular.module('orderFoodsApp.services',[]);

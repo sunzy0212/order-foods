@@ -33,9 +33,17 @@
     <script src="scripts/controllers/order-foods.js" type="application/javascript"></script>
     <script src="scripts/controllers/orders.js" type="application/javascript"></script>
     <script src="scripts/controllers/mine.js" type="application/javascript"></script>
+    <script src="scripts/services/user.js" type="application/javascript"></script>
 
 </head>
 <body ng-app="orderFoodsApp">
+<!--后台渲染过来的数据-->
+<div style="display: none;">
+    <span id="render_openId">
+        <%=openId%>
+    </span>
+</div>
+
 <!--
   The nav bar that will be updated as we navigate between views.
 -->

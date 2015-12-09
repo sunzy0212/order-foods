@@ -35,26 +35,35 @@ app.use(express.query());
 /*app.use(bodyParser());*/
 app.use('/menu',getMenu);
 
+//微信访问
 app.get('/app', function(req, res) {
     var code=req.query.code;
     oauth.getAccessToken(code,function(err,ret){
         var accessToken=ret.data.access_token;
         var openId=ret.data.openid;
-        res.render('index.html');
+        oauth.getUser(openId, function (err,ret) {
+            console.log(ret);
+            res.render('index.html',{
+                openId:openId
+            });
+        });
+
     });
 });
+//浏览器访问
+app.get('/bowser', function(req, res) {
+    var openId='wechat_openId';
+    res.render('index.html',{
+        openId:openId
+    });
+
+});
+
 
 app.use('/wechat', wechat(config,function(req,res,next){
     // 微信输入信息都在req.weixin上
     var message=req.weixin;
 
-    switch(message.type){
-        case 'click':
-            if(message.key=='V1001_TODAY_MUSIC"'){
-                res.redirect('/app');
-            }
-            break;
-    }
 }));
 
 module.exports = app;
