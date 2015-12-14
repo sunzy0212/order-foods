@@ -42,5 +42,18 @@ ctrlModule
 
         });
 
+        $scope.GetFoodsByType = function(foodType){
+            var url='/menu/GetFoodsByType';
+            var sendData={
+                'foodType':foodType
+            };
+            $http.post(url,sendData)
+                .success(function(data){
+                    $scope.foods=data;
+                })
+                .error(function(XMLHttpRequest, textStatus, errorThrown){
+
+                });
+        }
 
     }]);
