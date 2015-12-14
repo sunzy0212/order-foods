@@ -7,7 +7,8 @@ var Schema=mongodb.mongoose.Schema;
 var menuSchema=new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique : true
     },   //菜的名字
     img: {
         type: String,

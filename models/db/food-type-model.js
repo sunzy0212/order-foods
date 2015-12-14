@@ -6,8 +6,9 @@ var Schema=mongodb.mongoose.Schema;
 
 var foodTypeSchema=new Schema({
     name:{
-        type: String,
-        required: true
+        type : String,
+        required : true,
+        unique : true
     }
 });
 
