@@ -67,3 +67,4 @@ angular
 
 var ctrlModule = angular.module('orderFoodsApp.controllers',[]);
 var serviceModule = angular.module('orderFoodsApp.services',[]);
+var directiveModule = angular.module('orderFoodsApp.directives',[]);

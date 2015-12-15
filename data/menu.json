@@ -88,6 +88,131 @@
         "state": false,
         "level": 5,
         "valuation": ["fghjk","fghj"]
+    },
+    {
+        "name":"鱼香茄子",
+        "img": "images/yeoman.png",
+        "type": "hot",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    },
+    {
+        "name":"西红柿炒鸡蛋",
+        "img": "images/yeoman.png",
+        "type": "家常小炒",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
     }
-
+    ,
+    {
+        "name":"西红柿牛腩",
+        "img": "images/yeoman.png",
+        "type": "煲仔",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+    ,
+    {
+        "name":"红烧肉",
+        "img": "images/yeoman.png",
+        "type": "硬菜",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+    ,
+    {
+        "name":"韭菜草鸡蛋",
+        "img": "images/yeoman.png",
+        "type": "yu",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+    ,
+    {
+        "name":"西瓜汁",
+        "img": "images/yeoman.png",
+        "type": "饮料",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+    ,
+    {
+        "name":"桂花糕",
+        "img": "images/yeoman.png",
+        "type": "甜点",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+    ,
+    {
+        "name":"鸭脖",
+        "img": "images/yeoman.png",
+        "type": "小食",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
 ]

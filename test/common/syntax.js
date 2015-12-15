@@ -1,12 +1,17 @@
 /**
  * Created by ZhiyuanSun on 15/12/13.
  */
-var foodName = "公报";
+function ConstructSideBar(foodsArray){
+    var ret = new Array();
+    for(var i=0; i<foodsArray.length; i++){
+        ret.push({
+            name: foodsArray[i],
+            isActive: false
+        })
+    }
+    return ret;
+}
 
-console.log(typeof foodName);
-
-var foodNames = new Array("hhll","hjkl");
-
-console.log(foodNames);
-console.log(foodNames.length);
+var sideBar = ConstructSideBar(['cai1','cai2','cai3']);
+console.log(sideBar);
 

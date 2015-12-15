@@ -1,24 +1,33 @@
 <ion-view view-title="点餐" hide-nav-bar="true">
+    <ion-header-bar>
+        <h2>header</h2>
+    </ion-header-bar>
     <ion-content>
         <div class="row row-no-padding responsive-break">
             <div class="col col-20" style="width: 100%">
-                <ion-scroll zooming="true" direction="y" style="height: 500px;" paging="false" scrollbar-y="false">
-                    <div ng-repeat="type in foodTypes" class="tab-item" ng-click="GetFoodsByType(type)">
-                        <i class="icon ion-ios-home"></i>
-                        <p ng-bind="type"></p>
-                        <hr>
+                <ion-scroll delegate-handle="sideBarScroll" zooming="true" direction="y" style="height: 500px;" paging="false" scrollbar-y="false">
+                    <div style="margin-top: 10px;"></div>
+                    <div ng-repeat="type in foodTypes">
+                        <div class="tab-item side-bar-item" ng-click="GetFoodsByType(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
+                            <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>
+                            <p ng-bind="type.name" ng-class="{true:'side-bar-item-text-active',false:'side-bar-item-text-disactive'}[type.isActive]"></p>
+                        </div>
+                        <hr class="side-bar-hr">
                     </div>
                 </ion-scroll>
             </div>
             <div class="col col-80" style="width: 100%">
-                <ion-scroll zooming="true" direction="y" paging="false" style="height: 500px;">
+                <ion-scroll delegate-handle="contentScroll" zooming="true" direction="y" paging="false" style="height: 500px; background-color: #cccccc;">
                     <ion-list>
-                        <ion-item ng-repeat="food in foods">
+                        <ion-item ng-repeat="food in foods" class="item-thumbnail-left" style="margin:5px 5px 5px 5px;">
+                            <img ng-src="{{food.img}}">
                             <h3 ng-bind="food.name"></h3>
                             <p ng-bind="food.price"></p>
-                            <img ng-src="{{food.img}}">
-                            <p ng-bind="food.level"></p>
-                            <p ng-bind="food.sellNumPerMonth"></p>
+                            <p>
+                                <!--<span ng-bind="food.level"></span>-->
+
+                                月售<span ng-bind="food.sellNumPerMonth"></span>
+                            </p>
                             <p ng-bind="food.state"></p>
                         </ion-item>
                     </ion-list>

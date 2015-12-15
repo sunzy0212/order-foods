@@ -1,0 +1,35 @@
+.side-bar-item{
+    margin-left: 3%;
+    margin-right: 3%;
+    opacity: 1 !important;
+}
+
+.side-bar-item-active{
+    background-color: #4cae4c;
+}
+
+.side-bar-item-disactive{
+    background-color: #ffffff;
+}
+
+.side-bar-item-icon-active{
+    color: #ffffff;
+}
+
+.side-bar-item-icon-disactive{
+    color: #4cae4c;
+}
+
+.side-bar-item-text-active{
+    color: #ffffff;
+}
+
+.side-bar-item-text-disactive{
+    color: #111;
+}
+
+.side-bar-hr{
+    width: 60%;
+    margin-top: 0px;
+    margin-bottom: -1px;
+}
