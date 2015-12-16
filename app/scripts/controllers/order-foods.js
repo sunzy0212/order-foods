@@ -18,17 +18,17 @@ ctrlModule
                     if($scope.foodTypes.length > 0){
                         $scope.foodTypes[0].isActive = true;
                     }
-                    callback(null,data[0]);
+                    callback(null,$scope.foodTypes[0]);
                 }).error(function(XMLHttpRequest, textStatus, errorThrown){
 
                 });
             },
-            function GetFoodsByType(foodType,callback){
+            function (foodType,callback){
                 if(foodType == 'undefined'){
                     callback(null,'done');
                 }
                 else{
-                    var url='/menu/GetFoodsByType';
+                    /*var url='/menu/GetFoodsByType';
                     var sendData={
                         'foodType':foodType
                     };
@@ -39,7 +39,8 @@ ctrlModule
                         })
                         .error(function(XMLHttpRequest, textStatus, errorThrown){
 
-                        });
+                        });*/
+                    GetFoodsByType(foodType);
                 }
 
             }
@@ -48,7 +49,9 @@ ctrlModule
 
         });
 
-        $scope.GetFoodsByType = function(sideItem){
+        $scope.GetFoodsByTypeClick = GetFoodsByType;
+
+        function GetFoodsByType(sideItem){
             //设置选中的side bar项
             SideBarItemSelect(sideItem);
 
@@ -63,11 +66,62 @@ ctrlModule
             $http.post(url,sendData)
                 .success(function(data){
                     $scope.foods=data;
+
+                    //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
+                    //会修改$scope.foods
+                    ConstructFoodPrice(data);
                 })
                 .error(function(XMLHttpRequest, textStatus, errorThrown){
 
                 });
         };
+
+        //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
+        function ConstructFoodPrice(foods){
+            for(var i=0; i < foods.length; i++){
+                var foodPrice = foods[i].price;
+                var foodPriceRet = new Array();
+                for(var key in foodPrice){
+                    if(foodPrice[key] != -1){
+                        foodPriceRet.push({
+                            name:   GetFoodWeightDisplayName(key),
+                            num:    foodPrice[key]
+                        });
+                    }
+                }
+
+                //当菜不区分份量时，
+                if(foodPriceRet.length == 1){
+                    foodPriceRet[0].name = "";
+                }
+
+                $scope.foods[i].price = foodPriceRet;
+            }
+        }
+
+        //将数据库中用于表示菜的份量的关键词，转换成用于显示的中文字符
+        // small --> 小份
+        // middle --> 中份
+        // large --> 大份
+        function GetFoodWeightDisplayName(str){
+            var ret = "";
+            switch (str){
+                case 'small':
+                    ret = "小份";
+                    break;
+                case 'middle':
+                    ret = "中份";
+                    break;
+                case 'large':
+                    ret = "大份";
+                    break;
+                default :
+                    ret = "中份";
+                    break;
+            }
+
+            return ret;
+        }
 
         //设置选中的side bar项
         function SideBarItemSelect(sideItem){

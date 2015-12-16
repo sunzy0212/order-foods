@@ -8,7 +8,7 @@
                 <ion-scroll delegate-handle="sideBarScroll" zooming="true" direction="y" style="height: 500px;" paging="false" scrollbar-y="false">
                     <div style="margin-top: 10px;"></div>
                     <div ng-repeat="type in foodTypes">
-                        <div class="tab-item side-bar-item" ng-click="GetFoodsByType(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
+                        <div class="tab-item side-bar-item" ng-click="GetFoodsByTypeClick(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
                             <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>
                             <p ng-bind="type.name" ng-class="{true:'side-bar-item-text-active',false:'side-bar-item-text-disactive'}[type.isActive]"></p>
                         </div>
@@ -21,14 +21,21 @@
                     <ion-list>
                         <ion-item ng-repeat="food in foods" class="item-thumbnail-left" style="margin:5px 5px 5px 5px;">
                             <img ng-src="{{food.img}}">
-                            <h3 ng-bind="food.name"></h3>
-                            <p ng-bind="food.price"></p>
+                            <h2 ng-bind="food.name"></h2>
                             <p>
-                                <!--<span ng-bind="food.level"></span>-->
                                 <food-rate level="food.level"></food-rate>
-                                月售<span ng-bind="food.sellNumPerMonth"></span>
+                                <span class="food-description-font">
+                                    月售<span ng-bind="food.sellNumPerMonth"></span>份
+                                </span>
                             </p>
+
                             <p ng-bind="food.state"></p>
+                            <p>
+                                <span ng-repeat="price in food.price">
+                                    <span class="food-description-font" ng-bind="price.name"></span>
+                                    <span ng-bind="price.num"></span>
+                                </span>
+                            </p>
                         </ion-item>
                     </ion-list>
                 </ion-scroll>

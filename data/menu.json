@@ -11,7 +11,7 @@
         },
         "sellNumPerMonth": 80,
         "state": false,
-        "level": 5,
+        "level": 0,
         "valuation": ["fghjk","fghj"]
     },
     {
@@ -74,6 +74,37 @@
         "level": 5,
         "valuation": ["fghjk","fghj"]
     },
+    {
+        "name":"山药排骨",
+        "img": "images/yeoman.png",
+        "type": "热菜",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    },
+    {
+        "name":"冬瓜排骨",
+        "img": "images/yeoman.png",
+        "type": "热菜",
+        "description": "法国海军快乐和健康",
+        "price": {
+            "small": 20,
+            "middle": 30,
+            "large": 40
+        },
+        "sellNumPerMonth": 80,
+        "state": false,
+        "level": 5,
+        "valuation": ["fghjk","fghj"]
+    }
+    ,
     {
         "name":"酸菜鱼",
         "img": "images/yeoman.png",

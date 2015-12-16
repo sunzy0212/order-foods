@@ -23,7 +23,7 @@ var menuSchema=new Schema({
             type: Number,
             min: 0
         },  //小份
-        middel: {
+        middle: {
             type: Number,
             min: 0
         }, //中份
