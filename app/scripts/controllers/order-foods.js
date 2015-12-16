@@ -92,7 +92,7 @@ ctrlModule
 
                 //当菜不区分份量时，
                 if(foodPriceRet.length == 1){
-                    foodPriceRet[0].name = "";
+                    foodPriceRet[0].name = "普通份";
                 }
 
                 $scope.foods[i].price = foodPriceRet;

@@ -36,6 +36,19 @@
                                     <span ng-bind="price.num"></span>
                                 </span>
                             </p>
+                            <div class="row row-no-padding responsive-break">
+                                <div class="col col-50">
+                                    <i class="icon ion-ios-minus" style="color: #4cae4c;"></i>
+                                    <span>1</span>
+                                    <i class="icon ion-ios-plus"></i>
+                                </div>
+                                <div class="col col-50">
+                                    <select>
+                                        <option ng-repeat="price in food.price" ng-bind="price.name">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                         </ion-item>
                     </ion-list>
                 </ion-scroll>

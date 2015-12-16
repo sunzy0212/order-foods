@@ -5,8 +5,8 @@
         "type": "热菜",
         "description": "法国海军快乐和健康",
         "price": {
-            "small": 20,
-            "middle": 30,
+            "small": -1,
+            "middle": -1,
             "large": 40
         },
         "sellNumPerMonth": 80,
@@ -20,7 +20,7 @@
         "type": "热菜",
         "description": "法国海军快乐和健康",
         "price": {
-            "small": 20,
+            "small": -1,
             "middle": 30,
             "large": 40
         },
@@ -80,8 +80,8 @@
         "type": "热菜",
         "description": "法国海军快乐和健康",
         "price": {
-            "small": 20,
-            "middle": 30,
+            "small": -1,
+            "middle": -1,
             "large": 40
         },
         "sellNumPerMonth": 80,

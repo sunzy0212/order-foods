@@ -20,16 +20,13 @@ var menuSchema=new Schema({
     description: String, //菜的描述
     price: {
         small: {
-            type: Number,
-            min: 0
+            type: Number
         },  //小份
         middle: {
-            type: Number,
-            min: 0
+            type: Number
         }, //中份
         large: {
-            type: Number,
-            min: 0
+            type: Number
         }   //大份
     },  //菜的价格
     sellNumPerMonth: {
