@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('orderFoodsApp', ['ionic','orderFoodsApp.controllers','orderFoodsApp.services'])
+  .module('orderFoodsApp', ['ionic','orderFoodsApp.controllers','orderFoodsApp.services','orderFoodsApp.directives'])
     .run(['$ionicPlatform','user',function($ionicPlatform,user) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
