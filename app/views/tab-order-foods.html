@@ -22,13 +22,14 @@
                         <ion-item ng-repeat="food in foods" class="item-thumbnail-left" style="margin:5px 5px 5px 5px;">
                             <img ng-src="{{food.img}}">
                             <h2 ng-bind="food.name"></h2>
+                            <food-characteristic content="characteristic"></food-characteristic>
                             <div>
                                 <food-rate level="food.level"></food-rate>
                                 <span class="food-description-font">
                                     月售<span ng-bind="food.sellNumPerMonth"></span>份
                                 </span>
                                 <br>
-                                <span ng-bind="food.state"></span>
+                                <!--<span ng-bind="food.state"></span>-->
                             </div>
                             <div>
                                 <span ng-repeat="price in food.price">

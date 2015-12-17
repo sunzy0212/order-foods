@@ -4,7 +4,7 @@
 ctrlModule
 .controller('orderFoodsCtrl',['$scope','$http','$ionicScrollDelegate',function($scope,$http,$ionicScrollDelegate){
         $scope.isSideBarItemActive
-
+        $scope.characteristic = "辣";
         async.waterfall([
             function GetAllFoodTypes(callback){
                 $.ajax({
