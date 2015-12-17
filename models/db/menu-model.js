@@ -18,6 +18,7 @@ var menuSchema=new Schema({
         type: String
     },   //菜的类型
     description: String, //菜的描述
+    characteristic: [String], //菜的特征
     price: {
         small: {
             type: Number

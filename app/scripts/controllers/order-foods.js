@@ -3,8 +3,6 @@
  */
 ctrlModule
 .controller('orderFoodsCtrl',['$scope','$http','$ionicScrollDelegate',function($scope,$http,$ionicScrollDelegate){
-        $scope.isSideBarItemActive
-        $scope.characteristic = "辣";
         async.waterfall([
             function GetAllFoodTypes(callback){
                 $.ajax({
@@ -28,18 +26,6 @@ ctrlModule
                     callback(null,'done');
                 }
                 else{
-                    /*var url='/menu/GetFoodsByType';
-                    var sendData={
-                        'foodType':foodType
-                    };
-                    $http.post(url,sendData)
-                        .success(function(data){
-                            $scope.foods=data;
-                            callback(null,'done');
-                        })
-                        .error(function(XMLHttpRequest, textStatus, errorThrown){
-
-                        });*/
                     GetFoodsByType(foodType);
                 }
 
@@ -50,6 +36,10 @@ ctrlModule
         });
 
         $scope.GetFoodsByTypeClick = GetFoodsByType;
+
+        $scope.SelectVolume = function(){
+            alert($scope.selectVolumeName);
+        };
 
         function GetFoodsByType(sideItem){
             //设置选中的side bar项

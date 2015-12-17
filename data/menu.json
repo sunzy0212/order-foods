@@ -3,6 +3,7 @@
         "name":"牛眼粒",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": -1,
@@ -18,6 +19,7 @@
         "name":"水煮牛蛙",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": -1,
@@ -33,6 +35,7 @@
         "name":"宫爆鸡丁",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "如同与 i",
         "price": {
             "small": 20,
@@ -48,6 +51,7 @@
         "name":"鱼香茄子",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -63,6 +67,7 @@
         "name":"水煮鱼",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -78,6 +83,7 @@
         "name":"山药排骨",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": -1,
@@ -93,6 +99,7 @@
         "name":"冬瓜排骨",
         "img": "images/yeoman.png",
         "type": "热菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -109,6 +116,7 @@
         "name":"酸菜鱼",
         "img": "images/yeoman.png",
         "type": "冷菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -124,6 +132,7 @@
         "name":"鱼香茄子",
         "img": "images/yeoman.png",
         "type": "hot",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -139,6 +148,7 @@
         "name":"西红柿炒鸡蛋",
         "img": "images/yeoman.png",
         "type": "家常小炒",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -155,6 +165,7 @@
         "name":"西红柿牛腩",
         "img": "images/yeoman.png",
         "type": "煲仔",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -171,6 +182,7 @@
         "name":"红烧肉",
         "img": "images/yeoman.png",
         "type": "硬菜",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -187,6 +199,7 @@
         "name":"韭菜草鸡蛋",
         "img": "images/yeoman.png",
         "type": "yu",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -203,6 +216,7 @@
         "name":"西瓜汁",
         "img": "images/yeoman.png",
         "type": "饮料",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -219,6 +233,7 @@
         "name":"桂花糕",
         "img": "images/yeoman.png",
         "type": "甜点",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,
@@ -235,6 +250,7 @@
         "name":"鸭脖",
         "img": "images/yeoman.png",
         "type": "小食",
+        "characteristic": ["新","招牌","辣"],
         "description": "法国海军快乐和健康",
         "price": {
             "small": 20,

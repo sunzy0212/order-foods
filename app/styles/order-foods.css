@@ -50,9 +50,17 @@
     color: #ffffff;
     margin-top: 0px;
     margin-bottom: 0px;
-    background-color: red;
     text-align: center;
 }
+
+.food-characteristic-font-odd{
+    background-color: red;
+}
+
+.food-characteristic-font-even{
+    background-color: purple;
+}
+
 
 h2{
     margin: 0px 0px 0px 0px !important;
