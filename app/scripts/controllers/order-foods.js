@@ -37,8 +37,8 @@ ctrlModule
 
         $scope.GetFoodsByTypeClick = GetFoodsByType;
 
-        $scope.SelectVolume = function(){
-            alert($scope.selectVolumeName);
+        $scope.SelectVolume = function(selectVolumeName){
+            alert(selectVolumeName);
         };
 
         function GetFoodsByType(sideItem){
