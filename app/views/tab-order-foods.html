@@ -1,63 +1,61 @@
 <ion-view view-title="点餐" hide-nav-bar="true">
-    <ion-header-bar>
+    <div class="order-food-layout-header">
         <h2>header</h2>
-    </ion-header-bar>
-    <ion-content>
-        <div class="row row-no-padding responsive-break">
-            <div class="col col-20" style="width: 100%">
-                <ion-scroll delegate-handle="sideBarScroll" zooming="true" direction="y" style="height: 500px;" paging="false" scrollbar-y="false">
-                    <div style="margin-top: 10px;"></div>
-                    <div ng-repeat="type in foodTypes">
-                        <div class="tab-item side-bar-item" ng-click="GetFoodsByTypeClick(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
-                            <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>
-                            <p ng-bind="type.name" ng-class="{true:'side-bar-item-text-active',false:'side-bar-item-text-disactive'}[type.isActive]"></p>
-                        </div>
-                        <hr class="side-bar-hr">
+    </div>
+    <div class="row row-no-padding responsive-break order-food-layout-content">
+        <div class="col col-20 order-food-layout-side-bar">
+            <ion-scroll delegate-handle="sideBarScroll" zooming="false" direction="y" paging="false" scrollbar-y="false" style="height: 100%;">
+                <div style="margin-top: 10px;"></div>
+                <div ng-repeat="type in foodTypes">
+                    <div class="tab-item side-bar-item" ng-click="GetFoodsByTypeClick(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
+                        <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>
+                        <p ng-bind="type.name" ng-class="{true:'side-bar-item-text-active',false:'side-bar-item-text-disactive'}[type.isActive]"></p>
                     </div>
-                </ion-scroll>
-            </div>
-            <div class="col col-80" style="width: 100%">
-                <ion-scroll delegate-handle="contentScroll" zooming="true" direction="y" paging="false" style="height: 500px; background-color: #cccccc;">
-                    <ion-list>
-                        <ion-item ng-repeat="food in foods" class="item-thumbnail-left" style="margin:5px 5px 5px 5px;">
-                            <img ng-src="{{food.img}}">
-                            <h2 ng-bind="food.name"></h2>
-                            <span ng-repeat="chara in food.characteristic">
-                                <span class="food-characteristic-font" ng-class-odd="'food-characteristic-font-odd'" ng-class-even="'food-characteristic-font-even'" ng-bind="chara"></span>
-                            </span>
-                            <br>
-
-                            <food-rate level="food.level"></food-rate>
-                            <span class="food-description-font">
-                                月售<span ng-bind="food.sellNumPerMonth"></span>份
-                            </span>
-                            <br>
-                                <!--<span ng-bind="food.state"></span>-->
-                            <div>
-                                <span ng-repeat="price in food.price">
-                                    <span class="food-description-font" ng-bind="price.name"></span>
-                                    <span ng-bind="price.num"></span>
-                                </span>
-                            </div>
-                            <div class="row row-no-padding responsive-break">
-                                <div class="col col-70">
-                                    <i class="icon ion-ios-minus select-food-icon"></i>
-                                    <span>1</span>
-                                    <i class="icon ion-ios-plus select-food-icon"></i>
-                                </div>
-                                <div class="col col-30">
-                                    <select
-                                            ng-model="selectVolumeName"
-                                            ng-options="item.name as item.name for item in food.price"
-                                            ng-change="SelectVolume(selectVolumeName)"
-                                            ng-init="selectVolumeName=food.price[0].name">
-                                    </select>
-                                </div>
-                            </div>
-                        </ion-item>
-                    </ion-list>
-                </ion-scroll>
-            </div>
+                    <hr class="side-bar-hr">
+                </div>
+            </ion-scroll>
         </div>
-    </ion-content>
+        <div class="col col-80 order-food-layout-food-content">
+            <ion-scroll delegate-handle="contentScroll" zooming="false" direction="y" paging="false" style="height: 100%; background-color: #cccccc;">
+                <ion-list>
+                    <ion-item ng-repeat="food in foods" class="item-thumbnail-left" style="margin:5px 5px 5px 5px;">
+                        <img ng-src="{{food.img}}">
+                        <h2 ng-bind="food.name"></h2>
+                        <span ng-repeat="chara in food.characteristic">
+                            <span class="food-characteristic-font" ng-class-odd="'food-characteristic-font-odd'" ng-class-even="'food-characteristic-font-even'" ng-bind="chara"></span>
+                        </span>
+                        <br>
+
+                        <food-rate level="food.level"></food-rate>
+                        <span class="food-description-font">
+                            月售<span ng-bind="food.sellNumPerMonth"></span>份
+                        </span>
+                        <br>
+                            <!--<span ng-bind="food.state"></span>-->
+                        <div>
+                            <span ng-repeat="price in food.price">
+                                <span class="food-description-font" ng-bind="price.name"></span>
+                                <span ng-bind="price.num"></span>
+                            </span>
+                        </div>
+                        <div class="row row-no-padding responsive-break">
+                            <div class="col col-70">
+                                <i class="icon ion-ios-minus select-food-icon"></i>
+                                <span>1</span>
+                                <i class="icon ion-ios-plus select-food-icon"></i>
+                            </div>
+                            <div class="col col-30">
+                                <select
+                                        ng-model="selectVolumeName"
+                                        ng-options="item.name as item.name for item in food.price"
+                                        ng-change="SelectVolume(selectVolumeName)"
+                                        ng-init="selectVolumeName=food.price[0].name">
+                                </select>
+                            </div>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-scroll>
+        </div>
+    </div>
 </ion-view>

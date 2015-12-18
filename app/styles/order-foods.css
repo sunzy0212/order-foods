@@ -1,3 +1,43 @@
+.order-food-layout-header{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 8%;
+}
+
+.order-food-layout-content{
+    position: absolute;
+    top: 8%;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 82%;
+}
+
+.order-food-layout-footer{
+    height: 10%;
+}
+
+.order-food-layout-side-bar{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 100%;
+}
+
+.order-food-layout-food-content{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 20%;
+    right: 0px;
+    height: 100%;
+}
+
 .side-bar-item{
     margin-left: 3%;
     margin-right: 3%;
