@@ -23,7 +23,7 @@
                             <img ng-src="{{food.img}}">
                             <h2 ng-bind="food.name"></h2>
                             <span ng-repeat="chara in food.characteristic">
-                                <span class="food-characteristic-font" ng-class-odd="'food-characteristic-font-odd'" ng-class-even="'food-characteristic-font-odd'" ng-bind="chara"></span>
+                                <span class="food-characteristic-font" ng-class-odd="'food-characteristic-font-odd'" ng-class-even="'food-characteristic-font-even'" ng-bind="chara"></span>
                             </span>
                             <br>
 
@@ -46,14 +46,11 @@
                                     <i class="icon ion-ios-plus select-food-icon"></i>
                                 </div>
                                 <div class="col col-30">
-                                    <!--<select ng-model="selectVolumeName" ng-change="SelectVolume(selectVolumeName)">
-                                        <option ng-repeat="price in food.price" ng-bind="price.name">
-                                        </option>
-                                    </select>-->
                                     <select
                                             ng-model="selectVolumeName"
                                             ng-options="item.name as item.name for item in food.price"
-                                            ng-change="SelectVolume(selectVolumeName)">
+                                            ng-change="SelectVolume(selectVolumeName)"
+                                            ng-init="selectVolumeName=food.price[0].name">
                                     </select>
                                 </div>
                             </div>
