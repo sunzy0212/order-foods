@@ -2,7 +2,9 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-.controller('orderFoodsCtrl',['$scope','$http','$ionicScrollDelegate','userOrder',function($scope,$http,$ionicScrollDelegate,userOrder){
+.controller('orderFoodsCtrl',['$scope','$rootScope','$http','$ionicScrollDelegate','userOrder',function($scope,$rootScope,$http,$ionicScrollDelegate,userOrder){
+
+        $scope.totalMoney = 0;
 
         async.waterfall([
             function GetAllFoodTypes(callback){
@@ -46,16 +48,23 @@ ctrlModule
             else{
                 throw new Error("不能确定您当前所选的菜的份量。");
             }
+
+            $scope.totalMoney = userOrder.totalMoney;
+            $rootScope.totalNum = userOrder.totalNum;
+
         };
         $scope.minusFoodClick = function(foodName){
             var selectedVolume = $scope.foodSelectedArray[foodName];
             if(selectedVolume != undefined){
-                userOrder.minusFood(foodName, selectedVolume.name);
-                selectedVolume.num = userOrder.getFoodNum(foodName,selectedVolume.name);
+                userOrder.minusFood(foodName, selectedVolume.name, selectedVolume.price);
+                selectedVolume.num = userOrder.getFoodNum(foodName, selectedVolume.name);
             }
             else{
                 throw new Error("不能确定您当前所选的菜的份量。");
             }
+
+            $scope.totalMoney = userOrder.totalMoney;
+            $rootScope.totalNum = userOrder.totalNum;
         };
 
         $scope.SelectVolume = function(foodName, selectVolume){

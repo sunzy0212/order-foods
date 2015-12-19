@@ -72,7 +72,10 @@ angular
                 }
             });
         $urlRouterProvider.otherwise('/tab/order-foods');
-    });
+    })
+    .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder',function($scope,$rootScope,userOrder){
+        $rootScope.totalNum = userOrder.totalNum;
+    }]);
 
 var ctrlModule = angular.module('orderFoodsApp.controllers',['orderFoodsApp.services']);
 var serviceModule = angular.module('orderFoodsApp.services',[]);
