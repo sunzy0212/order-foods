@@ -79,28 +79,37 @@
 }
 
 .select-food-icon{
-    font-size: 25px;
+    font-size: 30px;
 }
 
 .food-characteristic-font{
     border-radius: 3px 3px 3px 3px;
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
-    font-size: 10px;
     color: #ffffff;
     margin-top: 0px;
     margin-bottom: 0px;
     text-align: center;
 }
 
+.food-state-font{
+    background-color: orange;
+    font-size: 14px;
+}
+
 .food-characteristic-font-odd{
+    font-size: 10px;
     background-color: red;
 }
 
 .food-characteristic-font-even{
     background-color: purple;
+    font-size: 10px;
 }
 
+.food-price-select{
+    font-size: 8px;
+}
 
 h2{
     margin: 0px 0px 0px 0px !important;

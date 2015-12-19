@@ -5,7 +5,7 @@
     <div class="row row-no-padding responsive-break order-food-layout-content">
         <div class="col col-20 order-food-layout-side-bar">
             <ion-scroll delegate-handle="sideBarScroll" zooming="false" direction="y" paging="false" scrollbar-y="false" style="height: 100%;">
-                <div style="margin-top: 10px;"></div>
+                <!--<div style="margin-top: 0px;"></div>-->
                 <div ng-repeat="type in foodTypes">
                     <div class="tab-item side-bar-item" ng-click="GetFoodsByTypeClick(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
                         <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>
@@ -20,7 +20,15 @@
                 <ion-list>
                     <ion-item ng-repeat="food in foods" class="item-thumbnail-left" style="margin:5px 5px 5px 5px;">
                         <img ng-src="{{food.img}}">
-                        <h2 ng-bind="food.name"></h2>
+                        <div class="row row-no-padding responsive-break">
+                            <div class="col col-67">
+                                <h2 ng-bind="food.name"></h2>
+                            </div>
+                            <div class="col col-33">
+                                <span class="food-characteristic-font food-state-font" ng-hide="food.state">已售罄</span>
+                                <span class="food-characteristic-font food-state-font" ng-show="food.state">供应中</span>
+                            </div>
+                        </div>
                         <span ng-repeat="chara in food.characteristic">
                             <span class="food-characteristic-font" ng-class-odd="'food-characteristic-font-odd'" ng-class-even="'food-characteristic-font-even'" ng-bind="chara"></span>
                         </span>
@@ -39,13 +47,13 @@
                             </span>
                         </div>
                         <div class="row row-no-padding responsive-break">
-                            <div class="col col-70">
+                            <div class="col col-67">
                                 <i class="icon ion-ios-minus select-food-icon"></i>
                                 <span>1</span>
                                 <i class="icon ion-ios-plus select-food-icon"></i>
                             </div>
-                            <div class="col col-30">
-                                <select
+                            <div class="col col-33">
+                                <select class="food-price-select"
                                         ng-model="selectVolumeName"
                                         ng-options="item.name as item.name for item in food.price"
                                         ng-change="SelectVolume(selectVolumeName)"
