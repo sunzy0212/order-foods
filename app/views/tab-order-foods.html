@@ -43,21 +43,30 @@
                         <div>
                             <span ng-repeat="price in food.price">
                                 <span class="food-description-font" ng-bind="price.name"></span>
-                                <span ng-bind="price.num"></span>
+                                <span ng-bind="price.price"></span>
                             </span>
                         </div>
                         <div class="row row-no-padding responsive-break">
                             <div class="col col-67" style="position: relative;">
-                                <i class="icon ion-ios-minus select-food-icon" style="position: absolute;left: 0px;"></i>
-                                <span style="position: absolute; left: 40%;top: 20%;">1</span>
-                                <i class="icon ion-ios-plus select-food-icon" style="position: absolute;right: 10%;"></i>
+                                <i
+                                        class="icon ion-ios-minus select-food-icon"
+                                        ng-click="minusFoodClick(food.name)"
+                                        style="position: absolute;left: 0px;"
+                                        ng-show="foodSelectedArray[food.name].num > 0">
+                                </i>
+                                <span
+                                        ng-bind="foodSelectedArray[food.name].num"
+                                        style="position: absolute; left: 40%;top: 20%;"
+                                        ng-show="foodSelectedArray[food.name].num > 0">
+                                </span>
+                                <i class="icon ion-ios-plus select-food-icon" ng-click="addFoodClick(food.name)" style="position: absolute;right: 10%;"></i>
                             </div>
                             <div class="col col-33">
                                 <select class="food-price-select"
-                                        ng-model="selectVolumeName"
-                                        ng-options="item.name as item.name for item in food.price"
-                                        ng-change="SelectVolume(selectVolumeName)"
-                                        ng-init="selectVolumeName=food.price[0].name">
+                                        ng-model="selectVolume"
+                                        ng-options="item as item.name for item in food.price"
+                                        ng-change="SelectVolume(food.name,selectVolume)"
+                                        ng-init="selectVolume=food.price[0]">
                                 </select>
                             </div>
                         </div>

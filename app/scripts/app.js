@@ -65,6 +65,6 @@ angular
         $urlRouterProvider.otherwise('/tab/order-foods');
     });
 
-var ctrlModule = angular.module('orderFoodsApp.controllers',[]);
+var ctrlModule = angular.module('orderFoodsApp.controllers',['orderFoodsApp.services']);
 var serviceModule = angular.module('orderFoodsApp.services',[]);
 var directiveModule = angular.module('orderFoodsApp.directives',[]);

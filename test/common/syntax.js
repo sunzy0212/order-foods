@@ -1,18 +1,7 @@
-/**
- * Created by ZhiyuanSun on 15/12/13.
- */
-/*function ConstructSideBar(foodsArray){
-    var ret = new Array();
-    for(var i=0; i<foodsArray.length; i++){
-        ret.push({
-            name: foodsArray[i],
-            isActive: false
-        })
-    }
-    return ret;
-}
+var dic = new Array();
+var key='我的';
+dic[key] = 'cai1';
+dic['key2'] = 'cai2';
+dic['key3'] = 'cai3';
 
-var sideBar = ConstructSideBar(['cai1','cai2','cai3']);
-console.log(sideBar);*/
-var str="辣辣"
-console.log(str.length);
+console.log(dic);

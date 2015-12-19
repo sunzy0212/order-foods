@@ -6,24 +6,34 @@ var mongodb = require('./mongodb');
 var Schema = mongodb.mongoose.Schema;
 
 var FoodsSchema = new Schema ({
-    foodName : {
+    foodName : {    //菜名
         type : String,
         required : Number
     },
-    foodNum : {
+    foodNum : {     //份数
         type : Number,
         default : 1
+    },
+    price : {       //价格
+        type : Number
+    },
+    volume : {      //份量
+        type : String
     }
 });
 
+// Status状态说明：
+//      0   --  "Created",
+//      1   --  "Conformed",
+//      2   --  "Paid"
 var OrderSchema = new Schema ({
     foods : [FoodsSchema],
     status : {
-        type : [String],
-        enum : ["Created","Conformed","Paid"]
+        type : Number,
+        enum : [0,1,2]
     },
     money : {
-        type : [Number],
+        type : Number,
         required : true
     }
     /*time : {

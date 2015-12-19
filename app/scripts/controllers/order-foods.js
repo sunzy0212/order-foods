@@ -2,7 +2,8 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-.controller('orderFoodsCtrl',['$scope','$http','$ionicScrollDelegate',function($scope,$http,$ionicScrollDelegate){
+.controller('orderFoodsCtrl',['$scope','$http','$ionicScrollDelegate','userOrder',function($scope,$http,$ionicScrollDelegate,userOrder){
+
         async.waterfall([
             function GetAllFoodTypes(callback){
                 $.ajax({
@@ -36,9 +37,38 @@ ctrlModule
         });
 
         $scope.GetFoodsByTypeClick = GetFoodsByType;
+        $scope.addFoodClick = function(foodName){
+            var selectedVolume = $scope.foodSelectedArray[foodName];
+            if(selectedVolume != undefined){
+                userOrder.addFood(foodName, selectedVolume.name, selectedVolume.price);
+                selectedVolume.num = userOrder.getFoodNum(foodName,selectedVolume.name);
+            }
+            else{
+                throw new Error("不能确定您当前所选的菜的份量。");
+            }
+        };
+        $scope.minusFoodClick = function(foodName){
+            var selectedVolume = $scope.foodSelectedArray[foodName];
+            if(selectedVolume != undefined){
+                userOrder.minusFood(foodName, selectedVolume.name);
+                selectedVolume.num = userOrder.getFoodNum(foodName,selectedVolume.name);
+            }
+            else{
+                throw new Error("不能确定您当前所选的菜的份量。");
+            }
+        };
 
-        $scope.SelectVolume = function(selectVolumeName){
-            alert(selectVolumeName);
+        $scope.SelectVolume = function(foodName, selectVolume){
+            var selectVolumeItem = $scope.foodSelectedArray[foodName];
+
+            if(selectVolumeItem != undefined){
+                selectVolumeItem.name = selectVolume.name;
+                selectVolumeItem.price = selectVolume.price;
+                selectVolumeItem.num = userOrder.getFoodNum(foodName, selectVolume.name);
+            }
+            else{
+                throw new Error("不能确定您当前所选的菜的份量。");
+            }
         };
 
         function GetFoodsByType(sideItem){
@@ -60,6 +90,10 @@ ctrlModule
                     //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
                     //会修改$scope.foods
                     ConstructFoodPrice(data);
+
+                    //初始化每一种菜的不同份量的选择情况
+                    InitFoodSelectedArray();
+
                 })
                 .error(function(XMLHttpRequest, textStatus, errorThrown){
 
@@ -73,10 +107,9 @@ ctrlModule
                 var foodPriceRet = new Array();
                 for(var key in foodPrice){
                     if(foodPrice[key] != -1){
-                        foodPriceRet.push({
-                            name:   GetFoodWeightDisplayName(key),
-                            num:    foodPrice[key]
-                        });
+                        foodPriceRet.push(
+                            new FoodVolumeModel(GetFoodWeightDisplayName(key), 0, foodPrice[key])
+                        );
                     }
                 }
 
@@ -87,6 +120,17 @@ ctrlModule
 
                 $scope.foods[i].price = foodPriceRet;
             }
+        }
+
+        //初始化 $scope.foodSelectedArray
+        //该数组表示每一种菜当前select控件的选择情况
+        //初始化为$scope.foods[i].price的第0个元素
+        function InitFoodSelectedArray(){
+            $scope.foodSelectedArray = new Array();
+
+            $scope.foods.forEach(function(item){
+                $scope.foodSelectedArray[item.name] = new FoodVolumeModel(item.price[0].name, item.price[0].num, item.price[0].price);
+            });
         }
 
         //将数据库中用于表示菜的份量的关键词，转换成用于显示的中文字符
@@ -137,4 +181,10 @@ function ConstructSideBar(foodsArray){
         })
     }
     return ret;
+}
+
+function FoodVolumeModel(name, num, price){
+    this.name = name;
+    this.num = num;
+    this.price = price;
 }
