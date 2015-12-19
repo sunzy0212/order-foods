@@ -4,16 +4,16 @@
     bottom: 0px;
     left: 0px;
     right: 0px;
-    height: 8%;
+    height: 9%;
 }
 
 .order-food-layout-content{
     position: absolute;
-    top: 8%;
+    top: 9%;
     bottom: 0px;
     left: 0px;
     right: 0px;
-    height: 82%;
+    height: 80%;
 }
 
 .order-food-layout-footer{
@@ -108,8 +108,30 @@
     font-size: 10px;
 }
 
-.food-price-select{
+.food-price-select {
     font-size: 8px;
+}
+
+.order-food-cart-header{
+    background-color: #eeeeee;
+}
+
+.order-food-cart-header-cart{
+    position: relative;
+    font-size: 30px;
+    color: #4cae4c;
+    text-align: center;
+}
+
+.vertical-line{
+    opacity: 0.3;
+    width: 1px;
+    height: 20px;
+    background: #000000;
+}
+.order-food-total-money{
+    font-weight: bold;
+    font-size: 20px;
 }
 
 h2{

@@ -1,11 +1,44 @@
 <ion-view view-title="点餐" hide-nav-bar="true">
-    <div class="order-food-layout-header">
-        <h2>header</h2>
+    <div id="orderFoodsHeader" class="order-food-layout-header">
+        <!--<div id="orderFoodsSubHeader" class="row row-no-padding order-food-cart-header">
+            <div class="col col-20 order-food-cart-header-cart">
+                <i class="ion ion-ios-cart" style="position: absolute;top:50%;"></i>
+            </div>
+            <div class="col col-80">
+                <div class="vertical-line"></div>
+                holl
+            </div>
+        </div>-->
+        <!--<div class="tab-item has-badge">
+            <i class="badge badge-assertive">
+                1
+            </i>
+            <i class="ion ion-ios-cart" style="font-size: 30px;"></i>
+        </div>-->
+        <table style="height: 100%;width: 100%;" class="order-food-cart-header">
+            <tr>
+                <td style="width: 20%;text-align: center;" >
+                    <div class="tab-item has-badge" style="margin-top: 3%;">
+                        <i class="badge badge-assertive">1</i>
+                        <i class="ion ion-ios-cart" style="font-size: 35px;color: #4cae4c;"></i>
+                    </div>
+                </td>
+                <td style="vertical-align: middle; width: 1%;text-align: center;">
+                    <div class="vertical-line"></div>
+                </td>
+                <td style="vertical-align: middle; width: 39%;text-align: left;">
+                    <span class="order-food-total-money" style="padding-left: 10%">¥</span>
+                    <span class="order-food-total-money">19</span>
+                </td>
+                <td style="vertical-align: middle; width: 40%;text-align: center;">
+                    <div class="button button-small button-energized" style="height: 30px;">选好了</div>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="row row-no-padding responsive-break order-food-layout-content">
         <div class="col col-20 order-food-layout-side-bar">
             <ion-scroll delegate-handle="sideBarScroll" zooming="false" direction="y" paging="false" scrollbar-y="false" style="height: 100%;">
-                <!--<div style="margin-top: 0px;"></div>-->
                 <div ng-repeat="type in foodTypes">
                     <div class="tab-item side-bar-item" ng-click="GetFoodsByTypeClick(type)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
                         <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>

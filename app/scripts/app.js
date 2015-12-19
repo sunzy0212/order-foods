@@ -44,6 +44,15 @@ angular
                     }
                 }
             })
+            .state('tab.cart',{
+                url:'/cart',
+                views:{
+                    'tab-cart':{
+                        templateUrl:'../views/tab-cart.html',
+                        controller:'cartCtrl'
+                    }
+                }
+            })
             .state('tab.orders',{
                 url:'/orders',
                 views:{
