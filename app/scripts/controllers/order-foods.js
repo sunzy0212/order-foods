@@ -3,7 +3,7 @@
  */
 ctrlModule
 .controller('orderFoodsCtrl',['$scope','$rootScope','$http','$ionicScrollDelegate','userOrder',function($scope,$rootScope,$http,$ionicScrollDelegate,userOrder){
-
+        console.log(userOrder);
         $scope.totalMoney = 0;
 
         async.waterfall([
@@ -15,6 +15,7 @@ ctrlModule
                 }).success(function(data){
                     //构建side bar用的数据
                     $scope.foodTypes = ConstructSideBar(data);
+
                     //初始设第一项为选中项
                     if($scope.foodTypes.length > 0){
                         $scope.foodTypes[0].isActive = true;
@@ -25,15 +26,13 @@ ctrlModule
                 });
             },
             function (foodType,callback){
-                if(foodType == 'undefined'){
+                if(foodType == undefined){
                     callback(null,'done');
                 }
                 else{
                     GetFoodsByType(foodType);
                 }
-
             }
-
         ],function(err,ret){
 
         });
@@ -49,10 +48,11 @@ ctrlModule
                 throw new Error("不能确定您当前所选的菜的份量。");
             }
 
-            $scope.totalMoney = userOrder.totalMoney;
-            $rootScope.totalNum = userOrder.totalNum;
+            $scope.totalMoney = userOrder.totalMoney();
+            $rootScope.totalNum = userOrder.totalNum();
 
         };
+
         $scope.minusFoodClick = function(foodName){
             var selectedVolume = $scope.foodSelectedArray[foodName];
             if(selectedVolume != undefined){
@@ -63,8 +63,8 @@ ctrlModule
                 throw new Error("不能确定您当前所选的菜的份量。");
             }
 
-            $scope.totalMoney = userOrder.totalMoney;
-            $rootScope.totalNum = userOrder.totalNum;
+            $scope.totalMoney = userOrder.totalMoney();
+            $rootScope.totalNum = userOrder.totalNum();
         };
 
         $scope.SelectVolume = function(foodName, selectVolume){
@@ -129,7 +129,7 @@ ctrlModule
 
                 $scope.foods[i].price = foodPriceRet;
             }
-        }
+        };
 
         //初始化 $scope.foodSelectedArray
         //该数组表示每一种菜当前select控件的选择情况

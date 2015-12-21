@@ -1,33 +1,78 @@
 /**
  * Created by ZhiyuanSun on 15/12/19.
  */
-serviceModule.service('userOrder', function(){
-    this.foods = new Array();
-    this.status = 0;
-    this.totalMoney = 0;
-    this.totalNum = 0;
-    this.time = new Date().now;
+serviceModule.service('userOrder', ['$cookies','localStorageService',function($cookies, localStorageService){
+    if($cookies.cart == undefined){
+        $cookies.cart = {
+            "foods" : new Array(),
+            "status" : 0,
+            "totalMoney" : 0,
+            "totalNum" : 0,
+            "time" : new Date()
+        };
+    }
+
+    this.foods = function(){
+        if($cookies.cart != undefined && $cookies.cart.foods != undefined){
+            return $cookies.cart.foods;
+        }
+        else{
+            return new Array();
+        }
+    };
+    this.status = function(){
+        if($cookies.cart != undefined && $cookies.cart.status != undefined){
+            return $cookies.cart.status;
+        }
+        else{
+            return 0;
+        }
+    };
+    this.totalMoney = function(){
+        if($cookies.cart != undefined && $cookies.cart.totalMoney != undefined){
+            return $cookies.cart.totalMoney;
+        }
+        else{
+            return 0;
+        }
+    };
+    this.totalNum = function(){
+        if($cookies.cart != undefined && $cookies.cart.totalNum != undefined){
+            return $cookies.cart.totalNum;
+        }
+        else{
+            return 0;
+        }
+    };
+    this.time = function(){
+        if($cookies.cart != undefined && $cookies.cart.time != undefined){
+            return $cookies.cart.time;
+        }
+        else{
+            return new Date();
+        }
+    };
 
     this.getFoodNum = function(foodName, volume){
         var foodNameKey = foodName + '(' + volume + ')';
-        if(this.foods[foodNameKey] == undefined){
+        if($cookies.cart.foods[foodNameKey] == undefined){
             return 0;
         }
-        return this.foods[foodNameKey].foodNum;
+        return $cookies.cart.foods[foodNameKey].foodNum;
     };
 
     this.addFood = function(foodName, volume, price){
-        this.totalNum += 1;
+        $cookies.cart.totalNum += 1;
 
         var foodNameKey = foodName + '(' + volume + ')';
-        if(this.foods[foodNameKey] == undefined){
-            this.foods[foodNameKey] = new Foods(foodName, 1, volume, price);
+        if($cookies.cart.foods[foodNameKey] == undefined){
+            $cookies.cart.foods[foodNameKey] = new Foods(foodName, 1, volume, price);
         }
         else{
-            this.foods[foodNameKey].foodNum += 1;
+            $cookies.cart.foods[foodNameKey].foodNum += 1;
         }
 
-        this.totalMoney += price;
+        $cookies.cart.totalMoney += price;
     };
 
     this.minusFood = function(foodName, volume, price){
@@ -35,18 +80,18 @@ serviceModule.service('userOrder', function(){
             throw new Error("购物车里已经没有购物纪录了。");
         }
         else{
-            this.totalNum -= 1;
+            $cookies.cart.totalNum -= 1;
         }
 
         var foodNameKey = foodName + '(' + volume + ')';
-        if(this.foods[foodNameKey] != undefined && this.foods[foodNameKey].foodNum > 0){
-            this.foods[foodNameKey].foodNum -= 1;
+        if($cookies.cart.foods[foodNameKey] != undefined && $cookies.cart.foods[foodNameKey].foodNum > 0){
+            $cookies.cart.foods[foodNameKey].foodNum -= 1;
         }
         else{
             throw new Error("购物车没有对应的点菜纪录。");
         }
 
-        this.totalMoney -= price;
+        $cookies.cart.totalMoney -= price;
     };
 
     function Foods(foodName, foodNum, volume, price){
@@ -79,4 +124,4 @@ serviceModule.service('userOrder', function(){
 
     return this;
 
-});
+}]);

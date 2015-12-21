@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('orderFoodsApp', ['ionic','orderFoodsApp.controllers','orderFoodsApp.services','orderFoodsApp.directives'])
+  .module('orderFoodsApp', ['ngCookies','LocalStorageModule','ionic','orderFoodsApp.controllers','orderFoodsApp.services','orderFoodsApp.directives'])
     .run(['$ionicPlatform','user',function($ionicPlatform,user) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -27,7 +27,7 @@ angular
             user.openId=angular.element("#render_openId").text().trim();
         });
     }])
-    .config(function($stateProvider,$urlRouterProvider){
+    .config(function($stateProvider,$urlRouterProvider,localStorageServiceProvider){
         $stateProvider
             // setup an abstract state for the tabs directive
             .state('tab', {
@@ -72,11 +72,15 @@ angular
                 }
             });
         $urlRouterProvider.otherwise('/tab/order-foods');
+        localStorageServiceProvider
+            .setPrefix('orderFoodsApp')
+            .setStorageType('localStorage')
+            .setNotify(true,true);
     })
     .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder',function($scope,$rootScope,userOrder){
         $rootScope.totalNum = userOrder.totalNum;
     }]);
 
-var ctrlModule = angular.module('orderFoodsApp.controllers',['orderFoodsApp.services']);
-var serviceModule = angular.module('orderFoodsApp.services',[]);
+var ctrlModule = angular.module('orderFoodsApp.controllers',['orderFoodsApp.services','ngCookies']);
+var serviceModule = angular.module('orderFoodsApp.services',['ngCookies','LocalStorageModule']);
 var directiveModule = angular.module('orderFoodsApp.directives',[]);
