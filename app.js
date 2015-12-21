@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var wechat=require('wechat');
 var oauth=require('./models/common/global-values').oauthClient;
+var async=require('async');
 
 /*var session = require('express-session');
  var MongoStore = require('connect-mongo')(session);*/
@@ -30,29 +31,51 @@ app.use('/menu',getMenu);
 //微信访问
 app.get('/app', function(req, res) {
     var code=req.query.code;
+    if(code == undefined){
+        res.render('404.html');
+    }
 
-    //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
-    oauth.getAccessToken(code,function(err,ret){
-        var accessToken=ret.data.access_token;
-        var openId=ret.data.openid;
+    var maxTime = 3;
+    var count = 0;
+    var accessToken = null;
+    async.whilst(
+        function(){
+            return (accessToken == null) && count<maxTime;
+        },
+        function(callback){
+            //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
+            oauth.getAccessToken(code, function(err, ret){
+                count++;
+                if(ret.data !=undefined && ret.data.access_token !=undefined){
+                        accessToken = ret.data.access_token;
+                        callback(null, ret.data.openid);
+                }
 
-        res.render('index.html',{
-            openId:openId
+
+                //获取微信用户的其它个人信息
+                /*oauth.getUser(openId, function (err,ret) {
+                 if(err){
+
+                 }
+                 else{
+                 res.render('index.html',{
+                 openId:openId
+                 });
+                 }
+                 });*/
+
+            });
+        },
+        function(err,openId){
+            if(count >= maxTime){
+                res.render('404.html');
+            }
+            res.render('index.html',{
+                openId:openId
+            });
         });
 
-        //获取微信用户的其它个人信息
-        /*oauth.getUser(openId, function (err,ret) {
-            if(err){
 
-            }
-            else{
-                res.render('index.html',{
-                    openId:openId
-                });
-            }
-        });*/
-
-    });
 });
 
 //浏览器访问
