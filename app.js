@@ -52,17 +52,7 @@ app.get('/app', function(req, res) {
                 }
 
 
-                //获取微信用户的其它个人信息
-                /*oauth.getUser(openId, function (err,ret) {
-                 if(err){
 
-                 }
-                 else{
-                 res.render('index.html',{
-                 openId:openId
-                 });
-                 }
-                 });*/
 
             });
         },
@@ -70,6 +60,18 @@ app.get('/app', function(req, res) {
             if(count >= maxTime){
                 res.render('404.html');
             }
+            //获取微信用户的其它个人信息
+            /*oauth.getUser(openId, function (err,ret) {
+             if(err){
+
+             }
+             else{
+             res.render('index.html',{
+             openId:openId
+             });
+             }
+             });*/
+
             res.render('index.html',{
                 openId:openId
             });

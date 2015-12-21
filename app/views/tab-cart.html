@@ -1,5 +1,32 @@
 <ion-view view-title="购物车" hide-nav-bar="true">
-    <ion-content class="padding">
+    <div class="order-food-layout-header order-food-cart-header" style="vertical-align: middle;">
+        <!--<div class="button button-small button-balanced" style="height: 30px;width: 70px; position: absolute; left: 10%;">选好了</div>-->
+        <table style="height: 100%;width: 100%;" class="order-food-cart-header">
+            <tr>
+                <td style="width: 50%; vertical-align: middle; text-align: left;">
+                    <div class="button button-small button-balanced" style="height: 30px;width: 70px;margin-left: 10%;">选好了</div>
+                </td>
+                <td style="width: 50%; text-align: right; vertical-align: middle">
+                    <i class="ion-ios-trash" style="font-size: 30px;color: #4cae4c; padding-right: 10%;"></i>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="order-food-layout-content">
+        <ion-scroll zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
+            <div class="list">
+
+                <div class="item item-divider">
+                </div>
+
+                <div class="item" ng-repeat="food in foods">
+                    <span ng-bind="food"></span>
+                </div>
+
+            </div>
+        </ion-scroll>
+    </div>
+ <!--   <ion-content class="padding">
         <p>购物车</p>
-    </ion-content>
+    </ion-content>-->
 </ion-view>
