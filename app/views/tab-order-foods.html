@@ -81,10 +81,11 @@
                             </div>
                             <div class="col col-33">
                                 <select class="food-price-select"
+                                        ng-init="selectVolume=foodSelectedArray[food.name]"
                                         ng-model="selectVolume"
                                         ng-options="item as item.name for item in food.price"
                                         ng-change="SelectVolume(food.name,selectVolume)"
-                                        ng-init="selectVolume=food.price[0]">
+                                        >
                                 </select>
                             </div>
                         </div>

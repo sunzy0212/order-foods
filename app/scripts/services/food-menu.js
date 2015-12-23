@@ -51,8 +51,6 @@ serviceModule.service('foodMenu',['$http', function($http){
             //会修改service的selectedFoods成员
             ConstructFoodPrice(that,data);
 
-            //初始化每一种菜的不同份量的选择情况
-            InitFoodSelectedArray(that);
             callback(null, that.selectedFoods);
         }).error(function(XMLHttpRequest, textStatus, errorThrown){
             callback(XMLHttpRequest);
@@ -144,10 +142,4 @@ function ConstructSideBar(foodsArray){
         })
     }
     return ret;
-}
-
-function FoodVolumeModel(name, num, price){
-    this.name = name;
-    this.num = num;
-    this.price = price;
 }

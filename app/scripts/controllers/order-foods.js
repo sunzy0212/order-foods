@@ -13,7 +13,7 @@ ctrlModule
                 else{
                     $scope.foodTypes = ret;
 
-                    InitGetFoodsByType(foodMenu, $scope);
+                    InitGetFoodsByType(foodMenu, userOrder, $scope);
                     $scope.$apply();
                 }
             })
@@ -21,7 +21,7 @@ ctrlModule
         else{
             $scope.foodTypes = foodMenu.menuSideBar;
 
-            InitGetFoodsByType(foodMenu, $scope);
+            InitGetFoodsByType(foodMenu, userOrder, $scope);
         }
 
 
@@ -70,23 +70,15 @@ ctrlModule
         };
 
         $scope.SelectVolume = function(foodName, selectVolume){
-            var selectVolumeItem = foodMenu.foodVolumeSelectedArray[foodName];
 
-            if(selectVolumeItem != undefined){
-                selectVolumeItem.name = selectVolume.name;
-                selectVolumeItem.price = selectVolume.price;
-                selectVolumeItem.num = userOrder.getFoodNum(foodName, selectVolume.name);
+            userOrder.setFoodVolumeSelectedArray(foodName, selectVolume);
 
-                //该数组表示每一种菜当前select控件的选择情况
-                $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
-            }
-            else{
-                throw new Error("不能确定您当前所选的菜的份量。");
-            }
+            //该数组表示每一种菜当前select控件的选择情况
+            $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
         };
     }]);
 
-function InitGetFoodsByType(foodMenu, $scope){
+function InitGetFoodsByType(foodMenu, userOrder, $scope){
     if(foodMenu.selectedFoods == null){
         if(foodMenu.menuSideBar != null && foodMenu.menuSideBar[0] != null){
             foodMenu.GetFoodsByType(foodMenu.menuSideBar[0], $scope, function(err, ret){
@@ -96,8 +88,12 @@ function InitGetFoodsByType(foodMenu, $scope){
                 else{
                     $scope.foods = ret;
 
+                    if(userOrder.foodVolumeSelectedArray == null){
+                        userOrder.initFoodVolumeSelectedArray($scope.foods);
+                    }
                     //该数组表示每一种菜当前select控件的选择情况
-                    $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
+                    $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
+
                     $scope.$apply();
                 }
             });
@@ -111,6 +107,6 @@ function InitGetFoodsByType(foodMenu, $scope){
         $scope.foods = foodMenu.selectedFoods;
 
         //该数组表示每一种菜当前select控件的选择情况
-        $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
+        $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
     }
 }
