@@ -3,5 +3,5 @@
  */
 ctrlModule
     .controller('ordersCtrl',['$scope',function($scope){
-
+        console.log('orderCtrl');
     }]);

@@ -3,7 +3,7 @@
  */
 ctrlModule
 .controller('orderFoodsCtrl',['$scope','$rootScope','$http','$ionicScrollDelegate','userOrder',function($scope,$rootScope,$http,$ionicScrollDelegate,userOrder){
-
+        console.log('orderFoodsCtrl');
         $scope.totalMoney = 0;
 
         async.waterfall([

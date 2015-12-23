@@ -37,6 +37,7 @@ angular
             })
             .state('tab.order-foods',{
                 url:'/order-foods',
+                cache: false,
                 views:{
                     'tab-order-foods':{
                         templateUrl:'../views/tab-order-foods.html',
@@ -46,6 +47,7 @@ angular
             })
             .state('tab.cart',{
                 url:'/cart',
+                cache: false,
                 views:{
                     'tab-cart':{
                         templateUrl:'../views/tab-cart.html',
@@ -55,6 +57,7 @@ angular
             })
             .state('tab.orders',{
                 url:'/orders',
+                cache: false,
                 views:{
                     'tab-orders':{
                         templateUrl:'views/tab-orders.html',
@@ -64,6 +67,7 @@ angular
             })
             .state('tab.mine',{
                 url:'/mine',
+                cache: false,
                 views:{
                     'tab-mine':{
                         templateUrl:'views/tab-mine.html',
