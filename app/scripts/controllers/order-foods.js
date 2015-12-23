@@ -88,8 +88,8 @@ ctrlModule
 
 function InitGetFoodsByType(foodMenu, $scope){
     if(foodMenu.selectedFoods == null){
-        if($scope.foodTypes != null && $scope.foodTypes[0] != null){
-            foodMenu.GetFoodsByType($scope.foodTypes[0], $scope, function(err, ret){
+        if(foodMenu.menuSideBar != null && foodMenu.menuSideBar[0] != null){
+            foodMenu.GetFoodsByType(foodMenu.menuSideBar[0], $scope, function(err, ret){
                 if(err){    //异常处理
 
                 }
@@ -98,6 +98,7 @@ function InitGetFoodsByType(foodMenu, $scope){
 
                     //该数组表示每一种菜当前select控件的选择情况
                     $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
+                    $scope.$apply();
                 }
             });
         }
@@ -107,6 +108,9 @@ function InitGetFoodsByType(foodMenu, $scope){
 
     }
     else{
+        $scope.foods = foodMenu.selectedFoods;
 
+        //该数组表示每一种菜当前select控件的选择情况
+        $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
     }
 }
