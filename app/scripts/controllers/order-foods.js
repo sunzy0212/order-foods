@@ -2,43 +2,45 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-.controller('orderFoodsCtrl',['$scope','$rootScope','$http','$ionicScrollDelegate','userOrder',function($scope,$rootScope,$http,$ionicScrollDelegate,userOrder){
-        console.log('orderFoodsCtrl');
+.controller('orderFoodsCtrl',['$scope','$rootScope','$http','$ionicScrollDelegate','userOrder','foodMenu',function($scope,$rootScope,$http,$ionicScrollDelegate,userOrder,foodMenu){
         $scope.totalMoney = 0;
+        //构建side bar用的数据
+        if(foodMenu.menuSideBar == null){
+            foodMenu.GetAllFoodTypes(function(err, ret){
+                if(err){    //异常处理
 
-        async.waterfall([
-            function GetAllFoodTypes(callback){
-                $.ajax({
-                    type:'GET',
-                    url:'/menu/GetFoodType',
-                    dataType:'json'
-                }).success(function(data){
-                    //构建side bar用的数据
-                    $scope.foodTypes = ConstructSideBar(data);
-                    //初始设第一项为选中项
-                    if($scope.foodTypes.length > 0){
-                        $scope.foodTypes[0].isActive = true;
-                    }
-                    callback(null,$scope.foodTypes[0]);
-                }).error(function(XMLHttpRequest, textStatus, errorThrown){
-
-                });
-            },
-            function (foodType,callback){
-                if(foodType == 'undefined'){
-                    callback(null,'done');
                 }
                 else{
-                    GetFoodsByType(foodType);
+                    $scope.foodTypes = ret;
+
+                    InitGetFoodsByType(foodMenu, $scope);
+                    $scope.$apply();
                 }
+            })
+        }
+        else{
+            $scope.foodTypes = foodMenu.menuSideBar;
 
-            }
+            InitGetFoodsByType(foodMenu, $scope);
+        }
 
-        ],function(err,ret){
 
-        });
 
-        $scope.GetFoodsByTypeClick = GetFoodsByType;
+        $scope.GetFoodsByTypeClick = function(foodType){
+            //设置content scroll到顶部
+            $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
+
+            foodMenu.GetFoodsByType(foodType, $scope, function(err, ret){
+                if(err){
+
+                }
+                else{
+                    $scope.foods=foodMenu.selectedFoods;
+                    $scope.$apply();
+                }
+            });
+        };
+
         $scope.addFoodClick = function(foodName){
             var selectedVolume = $scope.foodSelectedArray[foodName];
             if(selectedVolume != undefined){
@@ -68,132 +70,43 @@ ctrlModule
         };
 
         $scope.SelectVolume = function(foodName, selectVolume){
-            var selectVolumeItem = $scope.foodSelectedArray[foodName];
+            var selectVolumeItem = foodMenu.foodVolumeSelectedArray[foodName];
 
             if(selectVolumeItem != undefined){
                 selectVolumeItem.name = selectVolume.name;
                 selectVolumeItem.price = selectVolume.price;
                 selectVolumeItem.num = userOrder.getFoodNum(foodName, selectVolume.name);
+
+                //该数组表示每一种菜当前select控件的选择情况
+                $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
             }
             else{
                 throw new Error("不能确定您当前所选的菜的份量。");
             }
         };
-
-        function GetFoodsByType(sideItem){
-            //设置选中的side bar项
-            SideBarItemSelect(sideItem);
-
-            //设置content scroll到顶部
-            $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
-
-            //请求该菜型所对应的所有菜
-            var url='/menu/GetFoodsByType';
-            var sendData={
-                'foodType':sideItem.name
-            };
-            $http.post(url,sendData)
-                .success(function(data){
-                    $scope.foods=data;
-
-                    //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
-                    //会修改$scope.foods
-                    ConstructFoodPrice(data);
-
-                    //初始化每一种菜的不同份量的选择情况
-                    InitFoodSelectedArray();
-
-                })
-                .error(function(XMLHttpRequest, textStatus, errorThrown){
-
-                });
-        };
-
-        //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
-        function ConstructFoodPrice(foods){
-            for(var i=0; i < foods.length; i++){
-                var foodPrice = foods[i].price;
-                var foodPriceRet = new Array();
-                for(var key in foodPrice){
-                    if(foodPrice[key] != -1){
-                        foodPriceRet.push(
-                            new FoodVolumeModel(GetFoodWeightDisplayName(key), 0, foodPrice[key])
-                        );
-                    }
-                }
-
-                //当菜不区分份量时，
-                if(foodPriceRet.length == 1){
-                    foodPriceRet[0].name = "普通份";
-                }
-
-                $scope.foods[i].price = foodPriceRet;
-            }
-        }
-
-        //初始化 $scope.foodSelectedArray
-        //该数组表示每一种菜当前select控件的选择情况
-        //初始化为$scope.foods[i].price的第0个元素
-        function InitFoodSelectedArray(){
-            $scope.foodSelectedArray = new Array();
-
-            $scope.foods.forEach(function(item){
-                $scope.foodSelectedArray[item.name] = new FoodVolumeModel(item.price[0].name, item.price[0].num, item.price[0].price);
-            });
-        }
-
-        //将数据库中用于表示菜的份量的关键词，转换成用于显示的中文字符
-        // small --> 小份
-        // middle --> 中份
-        // large --> 大份
-        function GetFoodWeightDisplayName(str){
-            var ret = "";
-            switch (str){
-                case 'small':
-                    ret = "小份";
-                    break;
-                case 'middle':
-                    ret = "中份";
-                    break;
-                case 'large':
-                    ret = "大份";
-                    break;
-                default :
-                    ret = "中份";
-                    break;
-            }
-
-            return ret;
-        }
-
-        //设置选中的side bar项
-        function SideBarItemSelect(sideItem){
-            for(var i=0; i < $scope.foodTypes.length; i++){
-                if($scope.foodTypes[i].name == sideItem.name){
-                    $scope.foodTypes[i].isActive = true;
-                }
-                else{
-                    $scope.foodTypes[i].isActive = false;
-                }
-            }
-        }
-
     }]);
 
-//构建side bar用的数据：包含菜的名字和选中项
-function ConstructSideBar(foodsArray){
-    var ret = new Array();
-    for(var i=0; i<foodsArray.length; i++){
-        ret.push({
-            name: foodsArray[i],
-            isActive: false
-        })
-    }
-    return ret;
-}
+function InitGetFoodsByType(foodMenu, $scope){
+    if(foodMenu.selectedFoods == null){
+        if($scope.foodTypes != null && $scope.foodTypes[0] != null){
+            foodMenu.GetFoodsByType($scope.foodTypes[0], $scope, function(err, ret){
+                if(err){    //异常处理
 
-function FoodVolumeModel(name, num, price){
-    this.name = name;
-    this.num = num;
-    this.price = price;
+                }
+                else{
+                    $scope.foods = ret;
+
+                    //该数组表示每一种菜当前select控件的选择情况
+                    $scope.foodSelectedArray = foodMenu.foodVolumeSelectedArray;
+                }
+            });
+        }
+        else{
+
+        }
+
+    }
+    else{
+
+    }
 }

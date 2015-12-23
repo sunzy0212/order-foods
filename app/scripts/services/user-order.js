@@ -2,7 +2,7 @@
  * Created by ZhiyuanSun on 15/12/19.
  */
 serviceModule.service('userOrder', function(){
-    this.foods = new Array();
+    this.foods = {};
     this.status = 0;
     this.totalMoney = 0;
     this.totalNum = 0;
@@ -74,7 +74,8 @@ serviceModule.service('userOrder', function(){
         if(foodName == undefined){
             foodName = '';
         }
-        this.foodName = foodName + '(' + volume + ')';
+//        this.foodName = foodName + '(' + volume + ')';
+        this.foodName = foodName;
     }
 
     return this;

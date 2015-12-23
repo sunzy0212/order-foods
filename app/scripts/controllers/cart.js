@@ -3,6 +3,9 @@
  */
 ctrlModule
     .controller('cartCtrl',['$scope','userOrder',function($scope, userOrder){
-        console.log('cartCtrl');
         $scope.foods = userOrder.foods;
+
+        $scope.addFoodClick = function(foodName, volume, price){
+            userOrder.addFood(foodName, volume, price);
+        }
     }]);

@@ -1,0 +1,13 @@
+#cartList.item{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.vertical-content-middle{
+    height: 40px;
+    line-height: 40px;
+}
+
+.horizontal-content-center{
+    text-align: center;
+}
