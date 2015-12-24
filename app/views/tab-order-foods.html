@@ -83,7 +83,7 @@
                                 <select class="food-price-select"
                                         ng-init="selectVolume=foodSelectedArray[food.name]"
                                         ng-model="selectVolume"
-                                        ng-options="item as item.name for item in food.price"
+                                        ng-options="item as item.name for item in food.price track by item.name"
                                         ng-change="SelectVolume(food.name,selectVolume)"
                                         >
                                 </select>
