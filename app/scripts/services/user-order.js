@@ -49,6 +49,11 @@ serviceModule.service('userOrder', function(){
         var foodNameKey = foodName + '(' + volume + ')';
         if(this.foods[foodNameKey] != undefined && this.foods[foodNameKey].foodNum > 0){
             this.foods[foodNameKey].foodNum -= 1;
+
+            //如果该菜的数量为0，从对象中删除
+            if(0 == this.foods[foodNameKey].foodNum){
+                delete this.foods[foodNameKey];
+            }
         }
         else{
             throw new Error("购物车没有对应的点菜纪录。");
