@@ -4,6 +4,7 @@
 var userOrdersModel = require('../db/user-orders-model');
 var fs = require('fs');
 var async=require('async');
+var CommonFun = require('../common/common-func');
 
 function UserOrders(){
 
@@ -50,7 +51,7 @@ UserOrders.prototype.addAndUpdate = function(userOrder, callback){
         }
         if(doc){
             try{
-                that.copyARecordTo(userOrder, doc);
+                CommonFun.copyARecordTo(userOrder, doc);
             }
             catch (err){
                 callback(err);
@@ -64,18 +65,6 @@ UserOrders.prototype.addAndUpdate = function(userOrder, callback){
             });
         }
     });
-};
-
-//复制一条user order记录信息（从src到dest，属于值复制）
-UserOrders.prototype.copyARecordTo = function(src, dest){
-    for(var key in src){
-        if(dest[key] != 'undefined'){
-            dest[key] = src[key];
-        }
-        else{
-            throw Error('Copy a user order record to ' + dest + ' Failed, it does not contain the key of '+key);
-        }
-    }
 };
 
 //添加新记录，如果openId已经存在，则报错

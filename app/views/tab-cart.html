@@ -4,10 +4,10 @@
         <table style="height: 100%;width: 100%;" class="order-food-cart-header">
             <tr>
                 <td style="width: 50%; vertical-align: middle; text-align: left;">
-                    <div class="button button-small button-balanced" style="height: 30px;width: 70px;margin-left: 10%;">选好了</div>
+                    <div class="button button-small button-balanced" style="height: 30px;width: 70px;margin-left: 10%;">加菜</div>
                 </td>
                 <td style="width: 50%; text-align: right; vertical-align: middle">
-                    <i class="ion-ios-trash" style="font-size: 30px;color: #4cae4c; padding-right: 10%;"></i>
+                    清空<i class="ion-ios-trash" style="font-size: 30px;color: #4cae4c; padding-right: 10%;"></i>
                 </td>
             </tr>
         </table>
@@ -15,11 +15,32 @@
     <div class="order-food-layout-content">
         <ion-scroll zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
             <div class="list">
-
+                <label class="item item-input item-select cart-list vertical-content-middle">
+                    <span class="input-label">就餐人数：</span>
+                    <!--<select
+                            ng-model=""
+                            ng-init=""
+                            ng-options="item as item.name for item in food.price track by item.name"
+                            >
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>-->
+                </label>
+                <label class="item item-input item-select cart-list vertical-content-middle">
+                    <span class="input-label">我的桌号：</span>
+                    <select
+                            ng-init="seatNum = currentSelectSeat"
+                            ng-model="seatNum"
+                            ng-options="item as item.name for item in allSeats track by item.name"
+                            ng-change="selectSeatNum(seatNum)"
+                            >
+                    </select>
+                </label>
                 <div class="item item-divider food-item-divider">
                 </div>
-
-                <div id="cartList" class="item" ng-repeat="(foodName,foodEntity) in foods">
+                <!--所点的菜的详细列表-->
+                <div class="item cart-list" ng-repeat="(foodName,foodEntity) in foods">
                     <div class="row row-no-padding responsive-break">
                         <div class="col col-40 vertical-content-middle">
                             <span ng-bind="foodName"></span>

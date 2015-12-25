@@ -10,7 +10,7 @@
  */
 angular
   .module('orderFoodsApp', ['ionic','orderFoodsApp.controllers','orderFoodsApp.services','orderFoodsApp.directives'])
-    .run(['$ionicPlatform','user',function($ionicPlatform,user) {
+    .run(['$ionicPlatform','userInfo',function($ionicPlatform,userInfo) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -24,7 +24,7 @@ angular
                 StatusBar.styleDefault();
             }
             //设置用户信息
-            user.openId=angular.element("#render_openId").text().trim();
+            userInfo.openId=angular.element("#render_openId").text().trim();
         });
     }])
     .config(function($stateProvider,$urlRouterProvider){

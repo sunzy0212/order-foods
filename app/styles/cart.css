@@ -1,4 +1,4 @@
-#cartList.item{
+.cart-list{
     padding-top: 0px;
     padding-bottom: 0px;
 }
@@ -10,4 +10,9 @@
 
 .horizontal-content-center{
     text-align: center;
+}
+
+.item-select select{
+    padding-top: 0px;
+    padding-bottom: 0px;
 }

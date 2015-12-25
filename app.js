@@ -13,6 +13,7 @@ var async=require('async');
 
 //modules defined by myself
 var getMenu=require('./api/menu/get-menu');
+var getRestaurantInfo = require('./api/restaurant-info/restaurant-info');
 var globalValue=require('./models/common/global-values');
 
 var app = express();
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.query());
 /*app.use(bodyParser());*/
 app.use('/menu',getMenu);
+app.use('/restaurantInfo',getRestaurantInfo);
 
 //微信访问
 app.get('/app', function(req, res) {

@@ -2,7 +2,7 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-.controller('orderFoodsCtrl',['$scope','$rootScope','$http','$ionicScrollDelegate','userOrder','foodMenu',function($scope,$rootScope,$http,$ionicScrollDelegate,userOrder,foodMenu){
+.controller('orderFoodsCtrl',['$scope','$rootScope','$q','$http','$ionicScrollDelegate','userOrder','foodMenu', 'userInfo',function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo){
         $scope.totalMoney = 0;
         //构建side bar用的数据
         if(foodMenu.menuSideBar == null){
@@ -22,6 +22,16 @@ ctrlModule
             $scope.foodTypes = foodMenu.menuSideBar;
 
             InitGetFoodsByType(foodMenu, userOrder, $scope);
+        }
+
+        //如果餐厅信息未被加载，则加载餐厅信息
+        if(null == userInfo.allSeats){
+            userInfo.requestRestaurantInfo()
+                .then(function(data){
+
+                },function(err){
+
+                });
         }
 
 
@@ -76,6 +86,10 @@ ctrlModule
             //该数组表示每一种菜当前select控件的选择情况
             $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
         };
+
+        $scope.gotoCart = function(){
+            window.location.href = "#/tab/cart";
+        }
     }]);
 
 function InitGetFoodsByType(foodMenu, userOrder, $scope){

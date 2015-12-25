@@ -21,7 +21,7 @@ Menu.prototype.getAllFoods=function(callback){
             callback(err);
         }
         else{
-            callback(err,doc)
+            callback(null,doc)
         }
     });
 };
