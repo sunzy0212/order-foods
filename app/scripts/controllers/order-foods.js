@@ -5,7 +5,7 @@ ctrlModule
 .controller('orderFoodsCtrl',['$scope','$rootScope','$q','$http','$ionicScrollDelegate','userOrder','foodMenu', 'userInfo',function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo){
         $scope.totalMoney = 0;
         //构建side bar用的数据
-        if(foodMenu.menuSideBar == null){
+        /*if(foodMenu.menuSideBar == null){
             foodMenu.GetAllFoodTypes(function(err, ret){
                 if(err){    //异常处理
 
@@ -22,7 +22,17 @@ ctrlModule
             $scope.foodTypes = foodMenu.menuSideBar;
 
             InitGetFoodsByType(foodMenu, userOrder, $scope);
-        }
+        }*/
+
+        foodMenu.GetAllFoodTypes()
+            .then(function(menuSideBar){
+                $scope.foodTypes = menuSideBar.menuItems;
+                return foodMenu.GetFoodsByType(menuSideBar.currentSideItemName);
+            })
+            .then(function(typeFoods){
+                $scope.foods = typeFoods.selectedFoods;
+                $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+            });
 
         //如果餐厅信息未被加载，则加载餐厅信息
         if(null == userInfo.allSeats){
@@ -33,23 +43,6 @@ ctrlModule
 
                 });
         }
-
-
-
-        $scope.GetFoodsByTypeClick = function(foodType){
-            //设置content scroll到顶部
-            $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
-
-            foodMenu.GetFoodsByType(foodType, $scope, function(err, ret){
-                if(err){
-
-                }
-                else{
-                    $scope.foods=foodMenu.selectedFoods;
-                    $scope.$apply();
-                }
-            });
-        };
 
         $scope.addFoodClick = function(foodName){
             var selectedVolume = $scope.foodSelectedArray[foodName];
@@ -81,15 +74,29 @@ ctrlModule
 
         $scope.SelectVolume = function(foodName, selectVolume){
 
-            userOrder.setFoodVolumeSelectedArray(foodName, selectVolume);
+            foodMenu.setFoodVolumeSelectedArray(foodName, selectVolume);
 
             //该数组表示每一种菜当前select控件的选择情况
-            $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
+            $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
         };
 
         $scope.gotoCart = function(){
             window.location.href = "#/tab/cart";
-        }
+        };
+
+        $scope.GetFoodsByTypeClick = function(foodTypeName){
+            //设置content scroll到顶部
+            $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
+
+            //设置当前选择的菜的种类
+            foodMenu.menuSideBar.currentSideItemName = foodTypeName;
+
+            foodMenu.GetFoodsByType(foodTypeName)
+                .then(function(typeFoods){
+                    $scope.foods = typeFoods.selectedFoods;
+                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+                });
+        };
     }]);
 
 function InitGetFoodsByType(foodMenu, userOrder, $scope){

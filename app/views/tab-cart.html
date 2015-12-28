@@ -26,6 +26,13 @@
                         <option>2</option>
                         <option>3</option>
                     </select>-->
+                    <select
+                            ng-init="peopleNum = currentSelectPeopleNum"
+                            ng-model="peopleNum"
+                            ng-options="item as item for item in allPeople track by item"
+                            ng-change="selectPeopleNum(peopleNum)"
+                            >
+                    </select>
                 </label>
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">我的桌号：</span>

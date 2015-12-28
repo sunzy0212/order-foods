@@ -1,60 +1,99 @@
 /**
  * Created by zhiyuans on 12/23/2015.
  */
-serviceModule.service('foodMenu',['$http', function($http){
+serviceModule.service('foodMenu',['$http','$q', function($http,$q){
     var that = this;
     //数据成员变量
     this.menuSideBar = null;
+    this.foods = {};
     this.selectedFoods = null;
     this.foodVolumeSelectedArray = null;
 
-    //方法成员
-    this.GetAllFoodTypes = function(callback){
-        $.ajax({
-            type:       'GET',
-            url:        '/menu/GetFoodType',
-            dataType:   'json',
-            async:      true
-        }).success(function(data){
-            //构建side bar用的数据：包含菜的名字和当前被选中项
-            that.menuSideBar = ConstructSideBar(data);
-            //初始设第一项为选中项
-            if(that.menuSideBar.length > 0){
-                that.menuSideBar[0].isActive = true;
-            }
-            callback(null,that.menuSideBar);
-        }).error(function(XMLHttpRequest, textStatus, errorThrown){
-            callback(XMLHttpRequest);
-        });
+    this.setFoodVolumeSelectedArray = function(foodName, volume){
+        this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray[foodName] = volume;
     };
 
-    this.GetFoodsByType = function(sideItem, $scope, callback){
+    this.getFoodVolumeSelectedArray = function(){
+        return this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray;
+    };
+
+    //方法成员
+    this.GetAllFoodTypes = function(){
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+        if(null == that.menuSideBar){
+            $.ajax({
+                type:       'GET',
+                url:        '/menu/GetFoodType',
+                dataType:   'json',
+                async:      true
+            }).success(function(data){
+                //构建side bar用的数据：包含菜的名字和当前被选中项
+                that.menuSideBar = {
+                    menuItems    :   ConstructSideBar(data),
+                    currentSideItemName :   null
+                };
+
+                //初始设第一项为选中项
+                if(that.menuSideBar.menuItems.length > 0){
+                    that.menuSideBar.menuItems[0].isActive = true;
+                }
+
+                that.menuSideBar.currentSideItemName = that.menuSideBar.menuItems[0].name;
+
+                deferred.resolve(that.menuSideBar);
+            }).error(function(XMLHttpRequest, textStatus, errorThrown){
+                deferred.reject(XMLHttpRequest);
+            });
+        }
+        else{
+            deferred.resolve(that.menuSideBar);
+        }
+
+        return promise;
+    };
+
+    this.GetFoodsByType = function(sideItemName){
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
         //设置选中的side bar项
-        SideBarItemSelect(that, sideItem);
-        $scope.foodTypes = that.menuSideBar;
+        SideBarItemSelect(that, sideItemName);
 
-        //请求该菜型所对应的所有菜
-        var sendData={
-            'foodType':sideItem.name
-        };
+        if(null == that.foods[sideItemName]){
+            //请求该菜型所对应的所有菜
+            var sendData={
+                'foodType'  :   sideItemName
+            };
 
-        $.ajax({
-            type:       'POST',
-            url:        '/menu/GetFoodsByType',
-            dataType:   'json',
-            async:      true,
-            data:       sendData
-        }).success(function(data){
-            that.selectedFoods=data;
+            $.ajax({
+                type:       'POST',
+                url:        '/menu/GetFoodsByType',
+                dataType:   'json',
+                async:      true,
+                data:       sendData
+            }).success(function(data){
+                that.foods[sideItemName]={
+                    selectedFoods : data,
+                    foodVolumeSelectedArray : null
+                };
 
-            //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
-            //会修改service的selectedFoods成员
-            ConstructFoodPrice(that,data);
+                //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
+                //会修改service的selectedFoods成员
+                ConstructFoodPrice(that, sideItemName, data);
 
-            callback(null, that.selectedFoods);
-        }).error(function(XMLHttpRequest, textStatus, errorThrown){
-            callback(XMLHttpRequest);
-        });
+                InitFoodSelectedArray(that.foods[sideItemName]);
+                deferred.resolve(that.foods[sideItemName]);
+            }).error(function(XMLHttpRequest, textStatus, errorThrown){
+                deferred.reject(XMLHttpRequest);
+            });
+        }
+        else{
+            deferred.resolve(that.foods[sideItemName]);
+        }
+
+        return promise;
     };
 
    /* GetAllFoodTypes(this);
@@ -68,13 +107,13 @@ serviceModule.service('foodMenu',['$http', function($http){
 
 
 //设置选中的side bar项
-function SideBarItemSelect(that, sideItem){
-    for(var i=0; i < that.menuSideBar.length; i++){
-        if(that.menuSideBar[i].name == sideItem.name){
-            that.menuSideBar[i].isActive = true;
+function SideBarItemSelect(that, sideItemName){
+    for(var i=0; i < that.menuSideBar.menuItems.length; i++){
+        if(that.menuSideBar.menuItems[i].name == sideItemName){
+            that.menuSideBar.menuItems[i].isActive = true;
         }
         else{
-            that.menuSideBar[i].isActive = false;
+            that.menuSideBar.menuItems[i].isActive = false;
         }
     }
 }
@@ -82,16 +121,16 @@ function SideBarItemSelect(that, sideItem){
 //初始化 service的foodVolumeSelectedArray成员
 //该数组表示每一种菜当前select控件的选择情况
 //初始化为service的selectedFoods[i].price的第0个元素
-function InitFoodSelectedArray(that){
-    that.foodVolumeSelectedArray = new Array();
+function InitFoodSelectedArray(typeFoods){
+    typeFoods.foodVolumeSelectedArray = new Array();
 
-    that.selectedFoods.forEach(function(item){
-        that.foodVolumeSelectedArray[item.name] = new FoodVolumeModel(item.price[0].name, item.price[0].num, item.price[0].price);
+    typeFoods.selectedFoods.forEach(function(item){
+        typeFoods.foodVolumeSelectedArray[item.name] = new FoodVolumeModel(item.price[0].name, item.price[0].num, item.price[0].price);
     });
 }
 
 //用于处理同一种菜，不同份量时，价格不同时的显示与点餐
-function ConstructFoodPrice(that, foods){
+function ConstructFoodPrice(that, foodTypeName, foods){
     for(var i=0; i < foods.length; i++){
         var foodPrice = foods[i].price;
         var foodPriceRet = new Array();
@@ -108,7 +147,7 @@ function ConstructFoodPrice(that, foods){
             foodPriceRet[0].name = "普通份";
         }
 
-        that.selectedFoods[i].price = foodPriceRet;
+        that.foods[foodTypeName].selectedFoods[i].price = foodPriceRet;
     }
 }
 
@@ -142,4 +181,10 @@ function ConstructSideBar(foodsArray){
         })
     }
     return ret;
+}
+
+function FoodVolumeModel(name, num, price){
+    this.name = name;
+    this.num = num;
+    this.price = price;
 }

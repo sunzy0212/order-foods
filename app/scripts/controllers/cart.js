@@ -9,16 +9,20 @@ ctrlModule
             userInfo.requestRestaurantInfo()
                 .then(function(data){
                     $scope.allSeats = userInfo.allSeats;
+                    $scope.allPeople = userInfo.allPeople;
 
                     $scope.currentSelectSeat = userInfo.seatNum;
+                    $scope.currentSelectPeopleNum = userInfo.peopleNum;
                 },function(err){
 
                 });
         }
         else{
             $scope.allSeats = userInfo.allSeats;
+            $scope.allPeople = userInfo.allPeople;
 
             $scope.currentSelectSeat = userInfo.seatNum;
+            $scope.currentSelectPeopleNum = userInfo.peopleNum;
         }
 
         $scope.addFoodClick = function(foodName, volume, price){
@@ -37,6 +41,10 @@ ctrlModule
 
         $scope.selectSeatNum = function(seatNum){
             userInfo.seatNum = seatNum;
+        };
+
+        $scope.selectPeopleNum = function(peopleNum){
+            userInfo.peopleNum = peopleNum;
         };
     }]);
 

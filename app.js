@@ -52,10 +52,6 @@ app.get('/app', function(req, res) {
                         accessToken = ret.data.access_token;
                         callback(null, ret.data.openid);
                 }
-
-
-
-
             });
         },
         function(err,openId){

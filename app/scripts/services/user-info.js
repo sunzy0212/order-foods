@@ -7,8 +7,9 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
     //数据成员
     this.openId = null;
     this.allSeats = null;
-    this.maxNumPerOrder = null;
+    this.allPeople = null;
     this.seatNum = null;
+    this.peopleNum = null;
 
     //方法成员
     this.requestRestaurantInfo = function(){
@@ -19,7 +20,8 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
             .success(function(data){
                 that.allSeats = constructSeatSelectData(data.seats);
                 that.seatNum = that.allSeats[0];
-                that.maxNumPerOrder = data.maxNumPerOrder;
+                that.allPeople = constructPeopleSelectData(data.maxNumPerOrder);
+                that.peopleNum = that.allPeople[0];
                 deferred.resolve(data);
             })
             .error(function(err){
@@ -40,4 +42,14 @@ function constructSeatSelectData(data){
         }
     }
     return seatSelectData;
+}
+
+function constructPeopleSelectData(data){
+    var peopleSelectData = new Array();
+
+    for(var i = 0; i < data; i++){
+        peopleSelectData.push(i+1+' 人');
+    }
+
+    return peopleSelectData;
 }
