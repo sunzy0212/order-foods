@@ -6,27 +6,37 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
 
     //数据成员
     this.openId = null;
-    this.allSeats = null;
-    this.allPeople = null;
-    this.seatNum = null;
-    this.peopleNum = null;
+    this.restaurantInfo = null;
+    this.userInfo = null;
 
     //方法成员
-    this.requestRestaurantInfo = function(){
+    this.getRestaurantInfo = function(){
         var deferred = $q.defer();
         var promise = deferred.promise;
 
-        $http.get('/restaurantInfo/GetRestaurantInfo')
-            .success(function(data){
-                that.allSeats = constructSeatSelectData(data.seats);
-                that.seatNum = that.allSeats[0];
-                that.allPeople = constructPeopleSelectData(data.maxNumPerOrder);
-                that.peopleNum = that.allPeople[0];
-                deferred.resolve(data);
-            })
-            .error(function(err){
-                deferred.reject(err);
-            });
+        if(null == that.restaurantInfo){
+            $http.get('/restaurantInfo/GetRestaurantInfo')
+                .success(function(data){
+                    that.restaurantInfo = {
+                        allSeats    :   constructSeatSelectData(data.seats),
+                        allPeople   :   constructPeopleSelectData(data.maxNumPerOrder)
+                    };
+
+                    that.userInfo = {
+                        seatNum     :   that.restaurantInfo.allSeats[0],
+                        peopleNum   :   that.restaurantInfo.allPeople[0]
+                    };
+
+                    deferred.resolve(that.restaurantInfo);
+                })
+                .error(function(err){
+                    deferred.reject(err);
+                });
+        }
+        else{
+            deferred.resolve(that.restaurantInfo);
+        }
+
         return promise;
     };
 

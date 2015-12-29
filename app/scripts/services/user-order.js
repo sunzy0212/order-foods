@@ -10,33 +10,41 @@ serviceModule.service('userOrder', function(){
     this.totalNum = 0;
     this.time = new Date().now;
 
-    this.getFoodNum = function(foodName, volume){
-        var foodNameKey = foodName + '(' + volume + ')';
+    this.getFoodNum = function(foodName, volumeName){
+        var foodNameKey = foodName + '(' + volumeName + ')';
         if(this.foods[foodNameKey] == undefined){
             return 0;
         }
         return this.foods[foodNameKey].foodNum;
     };
 
-    this.addFood = function(foodName, volume, price){
+    this.addFood = function(foodVolumeSelectedArray, foodName){
         this.totalNum += 1;
 
-        var foodNameKey = foodName + '(' + volume + ')';
+        var volumeName = foodVolumeSelectedArray[foodName].name;
+        var price = foodVolumeSelectedArray[foodName].price;
+
+        var foodNameKey = foodName + '(' + volumeName + ')';
         if(this.foods[foodNameKey] == undefined){
-            this.foods[foodNameKey] = new Foods(foodName, 1, volume, price);
+            this.foods[foodNameKey] = new Foods(foodName, 1, volumeName, price);
         }
         else{
             this.foods[foodNameKey].foodNum += 1;
         }
 
-        if(this.foodVolumeSelectedArray[foodName].name == volume){
-            this.foodVolumeSelectedArray[foodName].num += 1;
-        }
+        foodVolumeSelectedArray[foodName].num += 1;
 
         this.totalMoney += price;
     };
 
-    this.minusFood = function(foodName, volume, price){
+    //该方法被重载过：可以接受2个参数和4个参数
+    this.minusFood = function(foodVolumeSelectedArray, foodName, volumeName, price){
+        //用于实现方法的重载：只接受2个参数时
+        if(2 == arguments.length){
+            volumeName = foodVolumeSelectedArray[foodName].name;
+            price = foodVolumeSelectedArray[foodName].price;
+        }
+
         if(this.totolNum < 1){
             throw new Error("购物车里已经没有购物纪录了。");
         }
@@ -44,7 +52,7 @@ serviceModule.service('userOrder', function(){
             this.totalNum -= 1;
         }
 
-        var foodNameKey = foodName + '(' + volume + ')';
+        var foodNameKey = foodName + '(' + volumeName + ')';
         if(this.foods[foodNameKey] != undefined && this.foods[foodNameKey].foodNum > 0){
             this.foods[foodNameKey].foodNum -= 1;
 
@@ -57,8 +65,8 @@ serviceModule.service('userOrder', function(){
             throw new Error("购物车没有对应的点菜纪录。");
         }
 
-        if(this.foodVolumeSelectedArray[foodName].name == volume){
-            this.foodVolumeSelectedArray[foodName].num -= 1;
+        if(foodVolumeSelectedArray[foodName].name == volumeName){
+            foodVolumeSelectedArray[foodName].num -= 1;
         }
 
         this.totalMoney -= price;

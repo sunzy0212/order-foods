@@ -8,14 +8,9 @@ ctrlModule
     .controller('mineCtrl',['$scope', '$timeout', '$q', 'userInfo',function($scope, $timeout, $q, userInfo){
 
         //如果餐厅信息未被加载，则加载餐厅信息
-        if(null == userInfo.allSeats){
-            userInfo.requestRestaurantInfo()
-                .then(function(data){
-
-                },function(err){
-
-                });
-        }
+        userInfo.getRestaurantInfo()
+            .then(function(restaurantInfo){
+            });
 
         <!-- lang: js -->
         var deferred = $q.defer();

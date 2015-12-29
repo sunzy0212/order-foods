@@ -27,9 +27,9 @@
                         <option>3</option>
                     </select>-->
                     <select
-                            ng-init="peopleNum = currentSelectPeopleNum"
+                            ng-init="peopleNum = userInfo.peopleNum"
                             ng-model="peopleNum"
-                            ng-options="item as item for item in allPeople track by item"
+                            ng-options="item as item for item in restaurantInfo.allPeople track by item"
                             ng-change="selectPeopleNum(peopleNum)"
                             >
                     </select>
@@ -37,9 +37,9 @@
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">我的桌号：</span>
                     <select
-                            ng-init="seatNum = currentSelectSeat"
+                            ng-init="seatNum = userInfo.seatNum"
                             ng-model="seatNum"
-                            ng-options="item as item.name for item in allSeats track by item.name"
+                            ng-options="item as item.name for item in restaurantInfo.allSeats track by item.name"
                             ng-change="selectSeatNum(seatNum)"
                             >
                     </select>

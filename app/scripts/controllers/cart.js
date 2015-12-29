@@ -2,49 +2,46 @@
  * Created by ZhiyuanSun on 15/12/19.
  */
 ctrlModule
-    .controller('cartCtrl',['$scope', '$rootScope', '$q', 'userOrder', 'userInfo',function($scope, $rootScope, $q, userOrder, userInfo){
+    .controller('cartCtrl',['$scope', '$rootScope', '$q', 'userOrder', 'userInfo','foodMenu',function($scope, $rootScope, $q, userOrder, userInfo, foodMenu){
         $scope.foods = userOrder.foods;
 
-        if(null == userInfo.allSeats){
-            userInfo.requestRestaurantInfo()
-                .then(function(data){
-                    $scope.allSeats = userInfo.allSeats;
-                    $scope.allPeople = userInfo.allPeople;
+        userInfo.getRestaurantInfo()
+            .then(function(restaurantInfo){
+                $scope.restaurantInfo = userInfo.restaurantInfo;
+                $scope.userInfo = userInfo.userInfo;
+            });
 
-                    $scope.currentSelectSeat = userInfo.seatNum;
-                    $scope.currentSelectPeopleNum = userInfo.peopleNum;
-                },function(err){
+        $scope.restaurantInfo = userInfo.restaurantInfo;
+        $scope.userInfo = userInfo.userInfo;
 
+        $scope.addFoodClick = function(foodName, volumeName, price){
+            foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
+                .then(function(typeFoods){
+                    userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName, volumeName, price);
+                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+
+                    $scope.totalMoney = userOrder.totalMoney;
+                    $rootScope.totalNum = userOrder.totalNum;
                 });
-        }
-        else{
-            $scope.allSeats = userInfo.allSeats;
-            $scope.allPeople = userInfo.allPeople;
-
-            $scope.currentSelectSeat = userInfo.seatNum;
-            $scope.currentSelectPeopleNum = userInfo.peopleNum;
-        }
-
-        $scope.addFoodClick = function(foodName, volume, price){
-            userOrder.addFood(foodName, volume, price);
-
-            $scope.totalMoney = userOrder.totalMoney;
-            $rootScope.totalNum = userOrder.totalNum;
         };
 
-        $scope.minusFoodClick = function(foodName, volume, price){
-            userOrder.minusFood(foodName, volume, price);
+        $scope.minusFoodClick = function(foodName, volumeName, price){
+            foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
+                .then(function(typeFoods){
+                    userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName, volumeName, price);
+                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
 
-            $scope.totalMoney = userOrder.totalMoney;
-            $rootScope.totalNum = userOrder.totalNum;
+                    $scope.totalMoney = userOrder.totalMoney;
+                    $rootScope.totalNum = userOrder.totalNum;
+                });
         };
 
         $scope.selectSeatNum = function(seatNum){
-            userInfo.seatNum = seatNum;
+            userInfo.userInfo.seatNum = seatNum;
         };
 
         $scope.selectPeopleNum = function(peopleNum){
-            userInfo.peopleNum = peopleNum;
+            userInfo.userInfo.peopleNum = peopleNum;
         };
     }]);
 

@@ -4,10 +4,17 @@
 serviceModule.service('foodMenu',['$http','$q', function($http,$q){
     var that = this;
     //数据成员变量
+
+    //结构类型
+    //menuItems             -- 所有的菜的类型    -- 数组
+    //currentSideItemName   -- 当前选中的菜型    -- String
     this.menuSideBar = null;
+
+    //字典类型变量
+    //Key   -- 菜的类型
+    //Value -- selectedFoods : 该菜型的所有菜  -- [Object]
+    //      -- foodVolumeSelectedArray : 该菜型的所有菜，当前的分量选择情况  -- [FoodVolumeModel]
     this.foods = {};
-    this.selectedFoods = null;
-    this.foodVolumeSelectedArray = null;
 
     this.setFoodVolumeSelectedArray = function(foodName, volume){
         this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray[foodName] = volume;
