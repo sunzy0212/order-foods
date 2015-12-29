@@ -17,15 +17,6 @@
             <div class="list">
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">就餐人数：</span>
-                    <!--<select
-                            ng-model=""
-                            ng-init=""
-                            ng-options="item as item.name for item in food.price track by item.name"
-                            >
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>-->
                     <select
                             ng-init="peopleNum = userInfo.peopleNum"
                             ng-model="peopleNum"
@@ -44,6 +35,33 @@
                             >
                     </select>
                 </label>
+                <div class="item">
+                    <div class="item-toggle cart-list vertical-content-middle">
+                        是否需要发票
+                        <label class="toggle toggle-balanced">
+                            <input type="checkbox"
+                                   ng-init="isInvoiceNeed = userInfo.isInvoiceNeed"
+                                   ng-model="isInvoiceNeed"
+                                   ng-change="selectInvoiceNeed(isInvoiceNeed)">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div
+                            class="item-input invoice-input-container cart-list vertical-content-middle"
+                            ng-show="userInfo.isInvoiceNeed">
+                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人">
+                    </div>
+                </div>
+                <!--<ion-toggle
+                        class="cart-list vertical-content-middle"
+                        toggle-class="toggle-balanced"
+                        ng-init="isInvoiceNeed = userInfo.isInvoiceNeed"
+                        ng-model="isInvoiceNeed"
+                        ng-change="selectInvoiceNeed(isInvoiceNeed)">
+                    是否需要发票
+                </ion-toggle>-->
                 <div class="item item-divider food-item-divider">
                 </div>
                 <!--所点的菜的详细列表-->

@@ -72,36 +72,3 @@ ctrlModule
                 });
         };
     }]);
-
-function InitGetFoodsByType(foodMenu, userOrder, $scope){
-    if(foodMenu.selectedFoods == null){
-        if(foodMenu.menuSideBar != null && foodMenu.menuSideBar[0] != null){
-            foodMenu.GetFoodsByType(foodMenu.menuSideBar[0], $scope, function(err, ret){
-                if(err){    //异常处理
-
-                }
-                else{
-                    $scope.foods = ret;
-
-                    if(userOrder.foodVolumeSelectedArray == null){
-                        userOrder.initFoodVolumeSelectedArray($scope.foods);
-                    }
-                    //该数组表示每一种菜当前select控件的选择情况
-                    $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
-
-                    $scope.$apply();
-                }
-            });
-        }
-        else{
-
-        }
-
-    }
-    else{
-        $scope.foods = foodMenu.selectedFoods;
-
-        //该数组表示每一种菜当前select控件的选择情况
-        $scope.foodSelectedArray = userOrder.foodVolumeSelectedArray;
-    }
-}

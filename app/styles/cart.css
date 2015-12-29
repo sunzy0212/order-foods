@@ -16,3 +16,18 @@
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
+.item-toggle .toggle{
+    top: 4px;
+}
+.invoice-input-container{
+    padding: 0px;
+}
+.invoice-input{
+    padding: 0px 16px 0px 16px !important;
+    border-radius: 3px 3px 3px 3px !important;
+    -moz-border-radius: 3px 3px 3px 3px !important;
+    -webkit-border-radius: 3px 3px 3px 3px !important;
+    background-color: #eeeeee !important;
+    opacity: 0.5 !important;
+}

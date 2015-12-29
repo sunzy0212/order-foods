@@ -43,5 +43,9 @@ ctrlModule
         $scope.selectPeopleNum = function(peopleNum){
             userInfo.userInfo.peopleNum = peopleNum;
         };
+
+        $scope.selectInvoiceNeed = function(isInvoiceNeed){
+            userInfo.userInfo.isInvoiceNeed = isInvoiceNeed;
+        }
     }]);
 

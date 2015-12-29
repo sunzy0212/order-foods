@@ -24,7 +24,8 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
 
                     that.userInfo = {
                         seatNum     :   that.restaurantInfo.allSeats[0],
-                        peopleNum   :   that.restaurantInfo.allPeople[0]
+                        peopleNum   :   that.restaurantInfo.allPeople[0],
+                        isInvoiceNeed   :   false
                     };
 
                     deferred.resolve(that.restaurantInfo);
