@@ -18,11 +18,14 @@ serviceModule.service('userOrder', function(){
         return this.foods[foodNameKey].foodNum;
     };
 
-    this.addFood = function(foodVolumeSelectedArray, foodName){
+    //该方法被重载过：可以接受2个参数和4个参数
+    this.addFood = function(foodVolumeSelectedArray, foodName, volumeName, price){
+        //用于实现方法的重载：只接受2个参数时
+        if(2 == arguments.length){
+            volumeName = foodVolumeSelectedArray[foodName].name;
+            price = foodVolumeSelectedArray[foodName].price;
+        }
         this.totalNum += 1;
-
-        var volumeName = foodVolumeSelectedArray[foodName].name;
-        var price = foodVolumeSelectedArray[foodName].price;
 
         var foodNameKey = foodName + '(' + volumeName + ')';
         if(this.foods[foodNameKey] == undefined){

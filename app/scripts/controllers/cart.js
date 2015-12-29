@@ -5,11 +5,11 @@ ctrlModule
     .controller('cartCtrl',['$scope', '$rootScope', '$q', 'userOrder', 'userInfo','foodMenu',function($scope, $rootScope, $q, userOrder, userInfo, foodMenu){
         $scope.foods = userOrder.foods;
 
-        userInfo.getRestaurantInfo()
+        /*userInfo.getRestaurantInfo()
             .then(function(restaurantInfo){
                 $scope.restaurantInfo = userInfo.restaurantInfo;
                 $scope.userInfo = userInfo.userInfo;
-            });
+            });*/
 
         $scope.restaurantInfo = userInfo.restaurantInfo;
         $scope.userInfo = userInfo.userInfo;
