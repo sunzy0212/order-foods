@@ -19,11 +19,15 @@ serviceModule.service('userOrder', function(){
     };
 
     //该方法被重载过：可以接受2个参数和4个参数
+    //2个参数的方法：用于order-foods页面调用
+    //4个参数的方法：用于cart页面调用
     this.addFood = function(foodVolumeSelectedArray, foodName, volumeName, price){
         //用于实现方法的重载：只接受2个参数时
         if(2 == arguments.length){
             volumeName = foodVolumeSelectedArray[foodName].name;
             price = foodVolumeSelectedArray[foodName].price;
+
+            foodVolumeSelectedArray[foodName].num += 1;
         }
         this.totalNum += 1;
 
@@ -35,12 +39,13 @@ serviceModule.service('userOrder', function(){
             this.foods[foodNameKey].foodNum += 1;
         }
 
-        foodVolumeSelectedArray[foodName].num += 1;
 
         this.totalMoney += price;
     };
 
     //该方法被重载过：可以接受2个参数和4个参数
+    //2个参数的方法：用于order-foods页面调用
+    //4个参数的方法：用于cart页面调用
     this.minusFood = function(foodVolumeSelectedArray, foodName, volumeName, price){
         //用于实现方法的重载：只接受2个参数时
         if(2 == arguments.length){
@@ -68,10 +73,11 @@ serviceModule.service('userOrder', function(){
             throw new Error("购物车没有对应的点菜纪录。");
         }
 
-        if(foodVolumeSelectedArray[foodName].name == volumeName){
-            foodVolumeSelectedArray[foodName].num -= 1;
+        if(2 == arguments.length){
+            if(foodVolumeSelectedArray[foodName].name == volumeName){
+                foodVolumeSelectedArray[foodName].num -= 1;
+            }
         }
-
         this.totalMoney -= price;
     };
 
