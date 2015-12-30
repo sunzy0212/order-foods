@@ -22,7 +22,7 @@
     min-height: 20px;
 }
 
-.item{
+.item-no-vertical-padding{
     padding-top: 0px;
     padding-bottom: 0px;
 }
