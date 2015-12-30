@@ -43,8 +43,8 @@
                                 <h2 ng-bind="food.name"></h2>
                             </div>
                             <div class="col col-33">
-                                <span class="food-characteristic-font food-state-font" ng-hide="food.state">已售罄</span>
-                                <span class="food-characteristic-font food-state-font" ng-show="food.state">供应中</span>
+                                <span class="food-characteristic-font food-state-font" ng-hide="food.state" ng-cloak>已售罄</span>
+                                <span class="food-characteristic-font food-state-font" ng-show="food.state" ng-cloak>供应中</span>
                             </div>
                         </div>
                         <span ng-repeat="chara in food.characteristic">
@@ -70,12 +70,16 @@
                                         class="icon ion-ios-minus select-food-icon"
                                         ng-click="minusFoodClick(food.name)"
                                         style="position: absolute;left: 0px;"
-                                        ng-show="foodSelectedArray[food.name].num > 0">
+                                        ng-show="foodSelectedArray[food.name].num > 0"
+                                        ng-cloak
+                                        >
                                 </i>
                                 <span
                                         ng-bind="foodSelectedArray[food.name].num"
                                         style="position: absolute; left: 40%;top: 20%;"
-                                        ng-show="foodSelectedArray[food.name].num > 0">
+                                        ng-show="foodSelectedArray[food.name].num > 0"
+                                        ng-cloak
+                                        >
                                 </span>
                                 <i class="icon ion-ios-plus select-food-icon" ng-click="addFoodClick(food.name)" style="position: absolute;right: 10%;"></i>
                             </div>

@@ -50,7 +50,8 @@
                     </div>
                     <div
                             class="item-input invoice-input-container cart-list vertical-content-middle"
-                            ng-show="userInfo.isInvoiceNeed">
+                            ng-show="userInfo.isInvoiceNeed"
+                            ng-cloak>
                         <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人">
                     </div>
                 </div>
@@ -78,13 +79,15 @@
                             <i
                                     class="icon ion-ios-minus select-food-icon"
                                     ng-click="minusFoodClick(foodEntity.foodName, foodEntity.volume, foodEntity.price)"
-                                    ng-show="foodEntity.foodNum > 0">
+                                    ng-show="foodEntity.foodNum > 0"
+                                    ng-cloak>
                             </i>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <span
                                     ng-bind="foodEntity.foodNum"
-                                    ng-show="foodEntity.foodNum > 0">
+                                    ng-show="foodEntity.foodNum > 0"
+                                    ng-cloak>
                             </span>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
