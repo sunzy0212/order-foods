@@ -29,7 +29,7 @@ serviceModule.service('userOrder', function(){
 
         }
 
-        if(volumeName == foodVolumeSelectedArray[foodName].name){
+        if(foodVolumeSelectedArray[foodName] && volumeName == foodVolumeSelectedArray[foodName].name){
             foodVolumeSelectedArray[foodName].num += 1;
         }
         this.totalNum += 1;
@@ -76,7 +76,7 @@ serviceModule.service('userOrder', function(){
             throw new Error("购物车没有对应的点菜纪录。");
         }
 
-        if(foodVolumeSelectedArray[foodName].name == volumeName){
+        if(foodVolumeSelectedArray[foodName] && volumeName == foodVolumeSelectedArray[foodName].name){
             foodVolumeSelectedArray[foodName].num -= 1;
         }
 

@@ -15,7 +15,7 @@ var menuSchema=new Schema({
         required: true
     },    //菜的图片的url
     type: {
-        type: String
+        type: [String]
     },   //菜的类型
     description: String, //菜的描述
     characteristic: [String], //菜的特征

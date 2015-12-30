@@ -3,6 +3,7 @@
  */
 var foodTypeModel=require('../db/food-type-model');
 var OrderException=require('./order-exception');
+var async = require('async');
 
 function FoodType(){
 
@@ -35,7 +36,24 @@ FoodType.prototype.getAllFoodType=function(callback){
     });
 };
 
-FoodType.prototype.addFoodType=function(foodType,callback){
+FoodType.prototype.addFoodType=function(foodTypes, callback){
+    var length = foodTypes.length;
+    var count = 0;
+    async.whilst(
+        function(){
+            return count < length;
+        },
+        function(callback){
+            addOneFoodType(foodTypes[count], callback);
+            count++;
+        },
+        function(err){
+            callback(err);
+        }
+    )
+};
+
+function addOneFoodType(foodType, callback){
     foodTypeModel.findOne({'name':foodType},function(err,doc){
         if(err){
             callback(err);
@@ -46,7 +64,7 @@ FoodType.prototype.addFoodType=function(foodType,callback){
             });
         }
         else{
-            callback(err);
+            callback(null);
         }
     });
-};
+}

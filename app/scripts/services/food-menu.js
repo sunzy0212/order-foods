@@ -1,7 +1,7 @@
 /**
  * Created by zhiyuans on 12/23/2015.
  */
-serviceModule.service('foodMenu',['$http','$q', function($http,$q){
+serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q, userOrder){
     var that = this;
     //数据成员变量
 
@@ -21,7 +21,11 @@ serviceModule.service('foodMenu',['$http','$q', function($http,$q){
     };
 
     this.getFoodVolumeSelectedArray = function(){
-        return this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray;
+        var dic = this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray;
+        for(var key in dic){
+            dic[key].num = userOrder.getFoodNum(key, dic[key].name);
+        }
+        return dic;
     };
 
     //方法成员
@@ -132,7 +136,7 @@ function InitFoodSelectedArray(typeFoods){
     typeFoods.foodVolumeSelectedArray = new Array();
 
     typeFoods.selectedFoods.forEach(function(item){
-        typeFoods.foodVolumeSelectedArray[item.name] = new FoodVolumeModel(item.price[0].name, item.price[0].num, item.price[0].price);
+        typeFoods.foodVolumeSelectedArray[item.name] = new FoodVolumeModel(item.price[0].name, item.price[0].price);
     });
 }
 
@@ -144,7 +148,7 @@ function ConstructFoodPrice(that, foodTypeName, foods){
         for(var key in foodPrice){
             if(foodPrice[key] != -1){
                 foodPriceRet.push(
-                    new FoodVolumeModel(GetFoodWeightDisplayName(key), 0, foodPrice[key])
+                    new FoodVolumeModel(GetFoodWeightDisplayName(key), foodPrice[key])
                 );
             }
         }
@@ -190,8 +194,8 @@ function ConstructSideBar(foodsArray){
     return ret;
 }
 
-function FoodVolumeModel(name, num, price){
+function FoodVolumeModel(name, price){
     this.name = name;
-    this.num = num;
     this.price = price;
+    this.num = 0;
 }

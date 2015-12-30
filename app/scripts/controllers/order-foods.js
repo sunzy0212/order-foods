@@ -13,7 +13,7 @@ ctrlModule
             })
             .then(function(typeFoods){
                 $scope.foods = typeFoods.selectedFoods;
-                $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+                $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
             });
 
         //如果餐厅信息未被加载，则加载餐厅信息
@@ -46,8 +46,6 @@ ctrlModule
 
         $scope.SelectVolume = function(foodName, selectVolume){
 
-            selectVolume.num = userOrder.getFoodNum(foodName, selectVolume.name);
-
             foodMenu.setFoodVolumeSelectedArray(foodName, selectVolume);
 
             //该数组表示每一种菜当前select控件的选择情况
@@ -68,7 +66,7 @@ ctrlModule
             foodMenu.GetFoodsByType(foodTypeName)
                 .then(function(typeFoods){
                     $scope.foods = typeFoods.selectedFoods;
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+                    $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
                 });
         };
     }]);
