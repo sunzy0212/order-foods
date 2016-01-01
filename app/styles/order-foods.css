@@ -1,24 +1,33 @@
-.order-food-layout-header{
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 9%;
+@media  screen and (max-height: 568px) {
+    .order-food-layout-header{
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 9%;
+    }
+
+    .order-food-layout-content{
+        position: absolute;
+        top: 9%;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 82%;
+    }
+
+    .order-food-layout-footer{
+        height: 10%;
+    }
+
+    .tabs{
+        height: 9% !important;
+    }
+    
 }
 
-.order-food-layout-content{
-    position: absolute;
-    top: 9%;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 80%;
-}
 
-.order-food-layout-footer{
-    height: 10%;
-}
 
 .order-food-layout-side-bar{
     position: absolute;

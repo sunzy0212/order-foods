@@ -4,6 +4,7 @@
 ctrlModule
     .controller('cartCtrl',['$scope', '$rootScope', '$q', 'userOrder', 'userInfo','foodMenu',function($scope, $rootScope, $q, userOrder, userInfo, foodMenu){
         $scope.foods = userOrder.foods;
+        $scope.totalMoney = userOrder.totalMoney;
 
         /*userInfo.getRestaurantInfo()
             .then(function(restaurantInfo){
