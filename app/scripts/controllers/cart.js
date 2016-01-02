@@ -59,5 +59,6 @@ ctrlModule
         $scope.selectInvoiceNeed = function(isInvoiceNeed){
             userInfo.userInfo.isInvoiceNeed = isInvoiceNeed;
         }
+
     }]);
 

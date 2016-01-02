@@ -1,8 +1,14 @@
-<div class="item cart-list vertical-content-middle">
-    <i class="ion-ios-arrow-back absolute-padding-left-16 arrow-style"></i>
-    <i class="icon ion-ios-compose-outline cart-operation-button-icon absolute-padding-left-48"></i>
-    <span class="absolute-padding-left-72">加菜</span>
+<div class="row row-no-padding item cart-list vertical-content-middle">
+    <div class="col col-50" ng-click="gotoOrderFoods()">
+        <i class="ion-ios-arrow-back absolute-padding-left-16 arrow-style"></i>
+        <i class="icon ion-ios-compose-outline cart-operation-button-icon absolute-padding-left-48"></i>
+        <span class="absolute-padding-left-72">加菜</span>
+    </div>
+
     <div class="vertical-line-100-percent absolute-padding-left-50-percent"></div>
-    <span class="absolute-padding-right-32">清空</span>
-    <i class="ion-ios-trash-outline absolute-padding-right-16 cart-operation-button-icon"></i>
+
+    <span class="absolute-padding-right-36">清空</span>
+    <i
+            class="ion-ios-trash-outline absolute-padding-right-16 cart-operation-button-icon"
+            ng-click="clearCart()"></i>
 </div>

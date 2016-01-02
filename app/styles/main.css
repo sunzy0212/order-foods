@@ -61,6 +61,11 @@
     right: 32px;
 }
 
+.absolute-padding-right-36{
+    position: absolute;
+    right: 36px;
+}
+
 .absolute-padding-left-50-percent{
     position: absolute;
     left: 50%;

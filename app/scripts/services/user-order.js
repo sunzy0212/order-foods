@@ -83,6 +83,12 @@ serviceModule.service('userOrder', function(){
         this.totalMoney -= price;
     };
 
+    this.clearCart = function(){
+        this.foods = {};
+        this.totalMoney = 0;
+        this.totalNum = 0;
+    };
+
     function Foods(foodName, foodNum, volume, price){
         if(foodNum == undefined){
             this.foodNum = 1;
