@@ -17,12 +17,25 @@
         height: 82%;
     }
 
+    .order-food-layout-content-73{
+        position: absolute;
+        top: 9%;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 73%;
+    }
+
     .order-food-layout-footer{
-        height: 10%;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        height: 9%;
+        bottom: 9%;
     }
 
     .tabs{
-        height: 9% !important;
+        height: 10% !important;
     }
     
 }
@@ -119,10 +132,6 @@
 
 .food-price-select {
     font-size: 8px;
-}
-
-.order-food-cart-header{
-    background-color: #eeeeee;
 }
 
 .order-food-cart-header-cart{

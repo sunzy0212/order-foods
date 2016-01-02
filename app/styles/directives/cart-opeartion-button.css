@@ -1,0 +1,25 @@
+.cart-operation-button-table{
+    width: 100%;
+    height: 100%;
+}
+
+.cart-operation-button-left-part{
+    width: 49%;
+    vertical-align: middle;
+    text-align: center;
+    /*background-color: #4cae4c;*/
+    /*color: #ffffff;*/
+}
+
+.cart-operation-button-right-part{
+    width: 49%;
+    vertical-align: middle;
+    text-align: center;
+    /*background-color: #4cae4c;*/
+    /*color: #ffffff;*/
+}
+
+.cart-operation-button-middle-part{
+    width: 2%;
+    background-color: #ffffff;
+}

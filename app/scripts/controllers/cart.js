@@ -2,7 +2,7 @@
  * Created by ZhiyuanSun on 15/12/19.
  */
 ctrlModule
-    .controller('cartCtrl',['$scope', '$rootScope', '$q', 'userOrder', 'userInfo','foodMenu',function($scope, $rootScope, $q, userOrder, userInfo, foodMenu){
+    .controller('cartCtrl',['$scope', '$rootScope', '$q', '$ionicModal', 'userOrder', 'userInfo','foodMenu',function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu){
         $scope.foods = userOrder.foods;
         $scope.totalMoney = userOrder.totalMoney;
 
@@ -14,6 +14,17 @@ ctrlModule
 
         $scope.restaurantInfo = userInfo.restaurantInfo;
         $scope.userInfo = userInfo.userInfo;
+
+        $ionicModal.fromTemplateUrl('views/coupon.html',{
+            scope       :   $scope,
+            animation   :   'slide-left-right'
+        }).then(function(modal){
+            $scope.modal = modal;
+        });
+
+        $scope.$on('$destroy',function(){
+            $scope.modal.remove();
+        });
 
         $scope.addFoodClick = function(foodName, volumeName, price){
             foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)

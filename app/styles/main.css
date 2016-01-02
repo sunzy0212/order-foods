@@ -19,7 +19,11 @@
 }
 
 .food-item-divider{
-    min-height: 20px;
+    min-height: 10px;
+}
+
+.item-divider{
+    padding: 0px !important;
 }
 
 .item-no-vertical-padding{
@@ -30,4 +34,23 @@
 .padding-right-16{
     text-align: right;
     padding-right: 16px;
+}
+
+.absolute-padding-left-16{
+    position: absolute;
+    left: 16px;
+}
+
+.absolute-padding-right-16{
+    position: absolute;
+    right: 16px;
+}
+
+.absolute-padding-right-32{
+    position: absolute;
+    right: 32px;
+}
+
+.arrow-style{
+    font-size: 150%;
 }

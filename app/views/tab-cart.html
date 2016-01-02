@@ -1,7 +1,7 @@
 <ion-view view-title="购物车" hide-nav-bar="true">
-    <div class="order-food-layout-header order-food-cart-header" style="vertical-align: middle;">
+    <div class="order-food-layout-header" style="vertical-align: middle;">
         <!--<div class="button button-small button-balanced" style="height: 30px;width: 70px; position: absolute; left: 10%;">选好了</div>-->
-        <table style="height: 100%;width: 100%;" class="order-food-cart-header">
+        <!--<table style="height: 100%;width: 100%;" class="order-food-cart-header">
             <tr>
                 <td style="width: 50%; vertical-align: middle; text-align: left;">
                     <div class="button button-small button-balanced" style="height: 30px;width: 70px;margin-left: 10%;">加菜</div>
@@ -10,11 +10,13 @@
                     清空<i class="ion-ios-trash" style="font-size: 30px;color: #4cae4c; padding-right: 10%;"></i>
                 </td>
             </tr>
-        </table>
+        </table>-->
+        <conform-order-button></conform-order-button>
     </div>
     <div class="order-food-layout-content">
         <ion-scroll zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
             <div class="list">
+                <div class="item item-divider food-item-divider"></div>
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">就餐人数：</span>
                     <select
@@ -55,15 +57,9 @@
                         <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人">
                     </div>
                 </div>
-                <!--<ion-toggle
-                        class="cart-list vertical-content-middle"
-                        toggle-class="toggle-balanced"
-                        ng-init="isInvoiceNeed = userInfo.isInvoiceNeed"
-                        ng-model="isInvoiceNeed"
-                        ng-change="selectInvoiceNeed(isInvoiceNeed)">
-                    是否需要发票
-                </ion-toggle>-->
-                <div class="item item-divider food-item-divider">
+                <div class="item item-divider food-item-divider"></div>
+                <div style="height: 40px;">
+                    <cart-operation-button></cart-operation-button>
                 </div>
                 <!--所点的菜的详细列表-->
                 <div class="item cart-list" ng-repeat="(foodName,foodEntity) in foods">
@@ -101,6 +97,21 @@
                 <!--收银信息-->
                 <div class="item cart-list vertical-content-middle padding-right-16">
                     <span>订单金额</span>
+                    <span>
+                        <span>¥</span>
+                        <span ng-bind="totalMoney"></span>
+                    </span>
+                </div>
+                <div class="item cart-list vertical-content-middle" ng-click="modal.show()">
+                    <span class="absolute-padding-left-16">选择优惠券</span>
+                    <span class="absolute-padding-right-32">
+                        <span ng-bind=""></span>
+                        <span>张可用</span>
+                    </span>
+                    <i class="ion-ios-arrow-forward absolute-padding-right-16 arrow-style"></i>
+                </div>
+                <div class="item cart-list vertical-content-middle padding-right-16">
+                    <span>实付金额</span>
                     <span>
                         <span>¥</span>
                         <span ng-bind="totalMoney"></span>

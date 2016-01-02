@@ -1,0 +1,28 @@
+.conform-order-button-left-part{
+    height: 100%;
+    width: 70%;
+    line-height: 100%;
+    color: #4cae4c;
+    margin: 0;
+    padding: 0;
+    border-top: 1px #ddd solid;
+    border-bottom: 1px #ddd solid;
+
+}
+.conform-order-button-right-part{
+    height: 100%;
+    width: 30%;
+    line-height: 100%;
+    color: #ffffff;
+    background-color: #4cae4c;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    border: 1px #4cae4c solid;
+}
+
+.conform-order-button-table{
+    width: 100%;
+    height: 100%;
+}
