@@ -15,6 +15,7 @@ ctrlModule
         $scope.restaurantInfo = userInfo.restaurantInfo;
         $scope.userInfo = userInfo.userInfo;
 
+        //        使用优惠券的相关操作
         $ionicModal.fromTemplateUrl('views/coupon.html',{
             scope       :   $scope,
             animation   :   'slide-left-right'
@@ -25,6 +26,14 @@ ctrlModule
         $scope.$on('$destroy',function(){
             $scope.modal.remove();
         });
+
+        $scope.selectCouponOpen = function(){
+            $scope.modal.show();
+        };
+
+        $scope.selectCouponDone = function(){
+            $scope.modal.hide();
+        };
 
         $scope.addFoodClick = function(foodName, volumeName, price){
             foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)

@@ -25,4 +25,4 @@ directiveModule.directive('cartOperationButton',['$rootScope','userOrder',functi
             };
         }
     }
-}])
+}]);
