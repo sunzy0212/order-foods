@@ -141,12 +141,7 @@
     text-align: center;
 }
 
-.vertical-line{
-    opacity: 0.3;
-    width: 1px;
-    height: 20px;
-    background: #000000;
-}
+
 .order-food-total-money{
     font-weight: bold;
     font-size: 20px;

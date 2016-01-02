@@ -41,6 +41,16 @@
     left: 16px;
 }
 
+.absolute-padding-left-48{
+    position: absolute;
+    left: 48px;
+}
+
+.absolute-padding-left-72{
+    position: absolute;
+    left: 72px;
+}
+
 .absolute-padding-right-16{
     position: absolute;
     right: 16px;
@@ -51,6 +61,25 @@
     right: 32px;
 }
 
+.absolute-padding-left-50-percent{
+    position: absolute;
+    left: 50%;
+}
+
 .arrow-style{
     font-size: 150%;
+}
+
+.vertical-line-20{
+    opacity: 0.3;
+    width: 1px;
+    height: 20px;
+    background: #000000;
+}
+
+.vertical-line-100-percent{
+    opacity: 0.3;
+    width: 1px;
+    height: 100%;
+    background: #000000;
 }
