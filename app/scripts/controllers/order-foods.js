@@ -3,7 +3,7 @@
  */
 ctrlModule
 .controller('orderFoodsCtrl',['$scope','$rootScope','$q','$http','$ionicScrollDelegate','userOrder','foodMenu', 'userInfo',function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo){
-        $scope.totalMoney  =userOrder.totalMoney
+        $scope.totalMoney  =userOrder.money.beforeDiscountMoney;
 
         //构建side bar用的数据
         foodMenu.GetAllFoodTypes()
@@ -27,7 +27,7 @@ ctrlModule
                     userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
 
-                    $scope.totalMoney = userOrder.totalMoney;
+                    $scope.totalMoney = userOrder.money.beforeDiscountMoney;
                     $rootScope.totalNum = userOrder.totalNum;
                 });
 
@@ -39,7 +39,7 @@ ctrlModule
                     userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
 
-                    $scope.totalMoney = userOrder.totalMoney;
+                    $scope.totalMoney = userOrder.money.beforeDiscountMoney;
                     $rootScope.totalNum = userOrder.totalNum;
                 });
         };

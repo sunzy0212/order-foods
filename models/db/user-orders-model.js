@@ -5,10 +5,10 @@ var mongodb = require('./mongodb');
 
 var Schema = mongodb.mongoose.Schema;
 
-var FoodsSchema = new Schema ({
+var FoodValueSchema = new Schema({
     foodName : {    //菜名
         type : String,
-        required : Number
+        required : true
     },
     foodNum : {     //份数
         type : Number,
@@ -22,6 +22,34 @@ var FoodsSchema = new Schema ({
     }
 });
 
+var FoodsSchema = new Schema ({
+    name    :  {
+        type        :   String,
+        required    :   true
+    },
+    value   :   {
+        type        :   FoodValueSchema,
+        required    : true
+    }
+});
+
+var MoneySchema = new Schema({
+    beforeDiscountMoney :   Number,
+    discountMoney       :   Number,
+    afterDiscountMoney  :   Number
+});
+
+// 支付方式说明
+//      0   -- 现金支付
+//      1   -- 支付宝支付
+//      2   -- 微信支付
+var UserInfoSchema = new Schema({
+    seatNum     :   String,
+    peopleNum   :   Number,
+    invoice     :   String,
+    paymentMethod   :   Number
+});
+
 // Status状态说明：
 //      0   --  "Created",
 //      1   --  "Conformed",
@@ -33,15 +61,18 @@ var OrderSchema = new Schema ({
         enum : [0,1,2]
     },
     money : {
-        type : Number,
+        type : MoneySchema,
         required : true
-    }
-    /*time : {
+    },
+    time : {
         type : Date,
         required : true,
         default : new Date().now
-    }*/
-
+    },
+    userInfo : {
+        type : UserInfoSchema,
+        require : true
+    }
 });
 
 var UserOrdersSchema = new Schema ({

@@ -6,6 +6,20 @@
             "B" :   20,
             "C" :   10
         },
-        "maxNumPerOrder"    :   30
+        "maxNumPerOrder"    :   30,
+        "paymentMethods"    :   [
+            {
+                "name"      :   "现金支付",
+                "id"        :   0
+            },
+            {
+                "name"      :   "支付宝支付",
+                "id"        :   1
+            },
+            {
+                "name"      :   "微信支付",
+                "id"        :   2
+            }
+        ]
     }
 ]

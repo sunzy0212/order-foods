@@ -1,18 +1,28 @@
 <ion-view view-title="购物车" hide-nav-bar="true">
+
+    <!--确认下单-->
     <div class="order-food-layout-header" style="vertical-align: middle;">
-        <!--<div class="button button-small button-balanced" style="height: 30px;width: 70px; position: absolute; left: 10%;">选好了</div>-->
-        <!--<table style="height: 100%;width: 100%;" class="order-food-cart-header">
+        <table class="conform-order-button-table">
+            <tbody>
             <tr>
-                <td style="width: 50%; vertical-align: middle; text-align: left;">
-                    <div class="button button-small button-balanced" style="height: 30px;width: 70px;margin-left: 10%;">加菜</div>
+                <td class="conform-order-button-left-part">
+                <span>
+                    实付
+                    <span ng-bind="money.afterDiscountMoney"></span>
+                    元
+                </span>
+                <span class="conform-order-button-discount">
+                    已优惠
+                    <span ng-bind="money.discountMoney"></span>
+                    元
+                </span>
                 </td>
-                <td style="width: 50%; text-align: right; vertical-align: middle">
-                    清空<i class="ion-ios-trash" style="font-size: 30px;color: #4cae4c; padding-right: 10%;"></i>
-                </td>
+                <td class="conform-order-button-right-part" ng-click="conformUserOrderClick()">确认订单</td>
             </tr>
-        </table>-->
-        <conform-order-button></conform-order-button>
+            </tbody>
+        </table>
     </div>
+
     <div class="order-food-layout-content">
         <ion-scroll zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
             <div class="list">
@@ -32,7 +42,7 @@
                     <select
                             ng-init="seatNum = userInfo.seatNum"
                             ng-model="seatNum"
-                            ng-options="item as item.name for item in restaurantInfo.allSeats track by item.name"
+                            ng-options="item as item for item in restaurantInfo.allSeats track by item"
                             ng-change="selectSeatNum(seatNum)"
                             >
                     </select>
@@ -54,12 +64,25 @@
                             class="item-input invoice-input-container cart-list vertical-content-middle"
                             ng-show="userInfo.isInvoiceNeed"
                             ng-cloak>
-                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人">
+                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人" ng-model="userInfo.invoice" ng-blur="saveInvoice(userInfo.invoice)">
                     </div>
                 </div>
+
+                <!--支付方式-->
+                <label class="item item-input item-select cart-list vertical-content-middle">
+                    <span class="input-label">支付方式：</span>
+                    <select
+                            ng-init="paymentMethod = userInfo.paymentMehtod"
+                            ng-model="paymentMethod"
+                            ng-options="item as item.name for item in restaurantInfo.allPaymentMethods track by item.id"
+                            ng-change="selectPaymentMethod(paymentMethod)"
+                            >
+                    </select>
+                </label>
+
                 <div class="item item-divider food-item-divider"></div>
                 <div style="height: 40px;">
-                    <cart-operation-button total-money="totalMoney" foods="foods"></cart-operation-button>
+                    <cart-operation-button total-money="money.beforeDiscountMoney" foods="foods"></cart-operation-button>
                 </div>
                 <!--所点的菜的详细列表-->
                 <div class="item cart-list" ng-repeat="(foodName,foodEntity) in foods">
@@ -99,7 +122,7 @@
                     <span>订单金额</span>
                     <span>
                         <span>¥</span>
-                        <span ng-bind="totalMoney"></span>
+                        <span ng-bind="money.beforeDiscountMoney"></span>
                     </span>
                 </div>
 
@@ -118,7 +141,7 @@
                     <span>实付金额</span>
                     <span>
                         <span>¥</span>
-                        <span ng-bind="totalMoney"></span>
+                        <span ng-bind="money.afterDiscountMoney"></span>
                     </span>
                 </div>
             </div>

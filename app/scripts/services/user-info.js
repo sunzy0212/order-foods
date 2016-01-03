@@ -19,13 +19,18 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
                 .success(function(data){
                     that.restaurantInfo = {
                         allSeats    :   constructSeatSelectData(data.seats),
-                        allPeople   :   constructPeopleSelectData(data.maxNumPerOrder)
+                        allPeople   :   constructPeopleSelectData(data.maxNumPerOrder),
+                        allPaymentMethods   :   data.paymentMethods
                     };
 
                     that.userInfo = {
                         seatNum     :   that.restaurantInfo.allSeats[0],
                         peopleNum   :   that.restaurantInfo.allPeople[0],
-                        isInvoiceNeed   :   false
+                        isInvoiceNeed   :   false,
+                        paymentMehtod   :   {
+                            name    :   that.restaurantInfo.allPaymentMethods[0].name,
+                            id      :   that.restaurantInfo.allPaymentMethods[0].id
+                        }
                     };
 
                     deferred.resolve(that.restaurantInfo);
@@ -49,7 +54,7 @@ function constructSeatSelectData(data){
 
     for(var key in data){
         for(var i = 0; i < data[key]; i++){
-            seatSelectData.push({name : key + i});
+            seatSelectData.push( key + i);
         }
     }
     return seatSelectData;
@@ -59,7 +64,7 @@ function constructPeopleSelectData(data){
     var peopleSelectData = new Array();
 
     for(var i = 0; i < data; i++){
-        peopleSelectData.push(i+1+' 人');
+        peopleSelectData.push(i+1);
     }
 
     return peopleSelectData;

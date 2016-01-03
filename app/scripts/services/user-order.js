@@ -1,14 +1,49 @@
 /**
  * Created by ZhiyuanSun on 15/12/19.
  */
-serviceModule.service('userOrder', function(){
+serviceModule.service('userOrder', [
+    '$q', '$http', 'userInfo',
+    function($q, $http, userInfo){
     var that = this;
 
     this.foods = {};
     this.status = 0;
-    this.totalMoney = 0;
+    this.money = {
+        beforeDiscountMoney     :   0,
+        discountMoney           :   0,
+        afterDiscountMoney      :   0
+    };
     this.totalNum = 0;
-    this.time = new Date().now;
+    this.userOrderId = 0;
+
+    this.conformUserOrder = function(){
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+        var url = '/userOrder/conformUserOrder';
+        var postData = {
+            openId  :   userInfo.openId,
+            foods   :   that.foods,
+            status  :   that.status,
+            money   :   that.money,
+            totalNum    :   that.totalNum,
+            userInfo    :   {
+                seatNum         :   userInfo.userInfo.seatNum,
+                peopleNum       :   userInfo.userInfo.peopleNum,
+                invoice         :   userInfo.userInfo.invoice,
+                paymentMethod   :   userInfo.userInfo.paymentMehtod.id
+            }
+        };
+        $http.post(url, postData)
+            .success(function(retData){
+                deferred.resolve(retData);
+            })
+            .error(function(err){
+                deferred.reject(err);
+            });
+
+        return promise;
+    };
 
     this.getFoodNum = function(foodName, volumeName){
         var foodNameKey = foodName + '(' + volumeName + ')';
@@ -43,7 +78,7 @@ serviceModule.service('userOrder', function(){
         }
 
 
-        this.totalMoney += price;
+        this.money.beforeDiscountMoney += price;
     };
 
     //该方法被重载过：可以接受2个参数和4个参数
@@ -80,45 +115,59 @@ serviceModule.service('userOrder', function(){
             foodVolumeSelectedArray[foodName].num -= 1;
         }
 
-        this.totalMoney -= price;
+        this.money.beforeDiscountMoney -= price;
     };
 
     this.clearCart = function(){
         this.foods = {};
-        this.totalMoney = 0;
+        this.money.beforeDiscountMoney = 0;
         this.totalNum = 0;
     };
 
-    function Foods(foodName, foodNum, volume, price){
-        if(foodNum == undefined){
-            this.foodNum = 1;
-        }
-        else{
-            this.foodNum = foodNum;
-        }
+    //打折或使用优惠券操作
+    this.discount = function(){
+        //计算折扣
+        this.money.discountMoney = 0;
+        //计算实际需要付款值
+        this.money.afterDiscountMoney = this.money.beforeDiscountMoney - this.money.discountMoney;
 
-        if(price == undefined){
-            this.price = 0;
-        }
-        else{
-            this.price = price;
-        }
+        return this.money;
+    };
 
-        if(volume == undefined){
-            this.volume = "普通份";
-        }
-        else{
-            this.volume = volume;
-        }
-
-        if(foodName == undefined){
-            foodName = '';
-        }
-//        this.foodName = foodName + '(' + volume + ')';
-        this.foodName = foodName;
-    }
+    this.getMoney = function(){
+        this.money.afterDiscountMoney = this.money.beforeDiscountMoney - this.money.discountMoney;
+        return this.money;
+    };
 
     return this;
 
-});
+}]);
 
+function Foods(foodName, foodNum, volume, price){
+    if(foodNum == undefined){
+        this.foodNum = 1;
+    }
+    else{
+        this.foodNum = foodNum;
+    }
+
+    if(price == undefined){
+        this.price = 0;
+    }
+    else{
+        this.price = price;
+    }
+
+    if(volume == undefined){
+        this.volume = "普通份";
+    }
+    else{
+        this.volume = volume;
+    }
+
+    if(foodName == undefined){
+        foodName = '';
+    }
+//        this.foodName = foodName + '(' + volume + ')';
+    this.foodName = foodName;
+};
