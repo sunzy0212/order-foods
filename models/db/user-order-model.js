@@ -22,21 +22,9 @@ var FoodValueSchema = new Schema({
     }
 });
 
-var FoodsSchema = new Schema ({
-    name    :  {
-        type        :   String,
-        required    :   true
-    },
-    value   :   {
-        type        :   FoodValueSchema,
-        required    : true
-    }
-});
-
 var MoneySchema = new Schema({
     beforeDiscountMoney :   Number,
-    discountMoney       :   Number,
-    afterDiscountMoney  :   Number
+    discountMoney       :   Number
 });
 
 // 支付方式说明
@@ -54,8 +42,18 @@ var UserInfoSchema = new Schema({
 //      0   --  "Created",
 //      1   --  "Conformed",
 //      2   --  "Paid"
-var OrderSchema = new Schema ({
-    foods : [FoodsSchema],
+var UserOrderSchema = new Schema ({
+    userOrderId : {
+//        type : Schema.Types.ObjectId,
+        type : String,
+        required : true,
+        unique : true
+    },
+    openId : {
+        type : String,
+        required : true
+    },
+    foods : [FoodValueSchema],
     status : {
         type : Number,
         enum : [0,1,2]
@@ -75,17 +73,6 @@ var OrderSchema = new Schema ({
     }
 });
 
-var UserOrdersSchema = new Schema ({
-    openId : {
-        type : String,
-        required : true,
-        unique : true
-    },
-    orders : {
-        type : [OrderSchema]
-    }
-});
+var UserOrder=mongodb.mongoose.model('UserOrder',UserOrderSchema);
 
-var UserOrders=mongodb.mongoose.model('UserOrders',UserOrdersSchema);
-
-module.exports=UserOrders;
+module.exports=UserOrder;

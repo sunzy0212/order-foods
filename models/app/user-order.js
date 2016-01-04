@@ -1,7 +1,7 @@
 /**
  * Created by ZhiyuanSun on 15/12/12.
  */
-var userOrdersModel = require('../db/user-orders-model');
+var userOrderModel = require('../db/user-order-model');
 var fs = require('fs');
 var async=require('async');
 var CommonFun = require('../common/common-func');
@@ -42,29 +42,23 @@ UserOrders.prototype.import = function(path, callback){
     });
 };
 
-//添加新纪录，如果openId已经存在，则修改原有的记录
+//添加新纪录，如果userOrderId已经存在，则修改原有的记录
 UserOrders.prototype.addAndUpdate = function(userOrder, callback){
-    var that =this;
-    userOrdersModel.findOne({'openId' : userOrder.openId}, function(err, doc){
+    var options = {
+        upsert      : true,
+        multi       : false,
+        overwrite   : true      //update-only
+    };
+
+    userOrderModel.update({userOrderId : userOrder.userOrderId}, userOrder, options, function(err, numAffected, raw){
         if(err){
             callback(err);
         }
-        if(doc){
-            try{
-                CommonFun.copyARecordTo(userOrder, doc);
-            }
-            catch (err){
-                callback(err);
-            }
-            doc.save();
-            callback(null,userOrder);
-        }
-        else{
-            userOrdersModel.create(userOrder, function(err, ret){
-                callback(err, ret);
-            });
-        }
+        console.log('The number of updated documents was %d', numAffected);
+        console.log('The raw response from Mongo was ', raw);
+        callback(null, userOrder);
     });
+
 };
 
 //添加新记录，如果openId已经存在，则报错

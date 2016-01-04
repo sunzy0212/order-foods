@@ -1,7 +1,7 @@
 /**
  * Created by ZhiyuanSun on 15/12/12.
  */
-var UserOrders = require('../../models/app/user-orders');
+var UserOrders = require('../../models/app/user-order');
 
 var userOrder = new UserOrders();
 
