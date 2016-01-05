@@ -21,19 +21,18 @@ serviceModule.service('userOrder', [
         var promise = deferred.promise;
 
         var url = '/userOrder/conformUserOrder';
-        var postData = {
-            openId  :   userInfo.openId,
-            foods   :   that.foods,
-            status  :   that.status,
-            money   :   that.money,
-            totalNum    :   that.totalNum,
-            userInfo    :   {
-                seatNum         :   userInfo.userInfo.seatNum,
-                peopleNum       :   userInfo.userInfo.peopleNum,
-                invoice         :   userInfo.userInfo.invoice,
-                paymentMethod   :   userInfo.userInfo.paymentMehtod.id
-            }
-        };
+
+        var foodData = new Array();
+        for(var key in that.foods){
+            foodData.push(that.foods[key]);
+        }
+
+        var userInfoData = new UserInfoModel(userInfo.userInfo.seatNum, userInfo.userInfo.peopleNum, userInfo.userInfo.paymentMethod.paymentMethodId, userInfo.userInfo.invoice);
+
+        var userOrderData = new UserOrderModel(userInfo.openId,foodData,that.status,that.money.beforeDiscountMoney,that.money.discountMoney,userInfoData);
+
+        var postData = userOrderData;
+
         $http.post(url, postData)
             .success(function(retData){
                 deferred.resolve(retData);
@@ -71,7 +70,7 @@ serviceModule.service('userOrder', [
 
         var foodNameKey = foodName + '(' + volumeName + ')';
         if(this.foods[foodNameKey] == undefined){
-            this.foods[foodNameKey] = new Foods(foodName, 1, volumeName, price);
+            this.foods[foodNameKey] = new FoodModel(foodName, 1, volumeName, price);
         }
         else{
             this.foods[foodNameKey].foodNum += 1;
@@ -143,31 +142,3 @@ serviceModule.service('userOrder', [
 
 }]);
 
-function Foods(foodName, foodNum, volume, price){
-    if(foodNum == undefined){
-        this.foodNum = 1;
-    }
-    else{
-        this.foodNum = foodNum;
-    }
-
-    if(price == undefined){
-        this.price = 0;
-    }
-    else{
-        this.price = price;
-    }
-
-    if(volume == undefined){
-        this.volume = "普通份";
-    }
-    else{
-        this.volume = volume;
-    }
-
-    if(foodName == undefined){
-        foodName = '';
-    }
-//        this.foodName = foodName + '(' + volume + ')';
-    this.foodName = foodName;
-};

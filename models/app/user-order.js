@@ -4,7 +4,7 @@
 var userOrderModel = require('../db/user-order-model');
 var fs = require('fs');
 var async=require('async');
-var CommonFun = require('../common/common-func');
+var Q = require('q');
 
 function UserOrders(){
 
@@ -43,21 +43,25 @@ UserOrders.prototype.import = function(path, callback){
 };
 
 //添加新纪录，如果userOrderId已经存在，则修改原有的记录
-UserOrders.prototype.addAndUpdate = function(userOrder, callback){
+UserOrders.prototype.addAndUpdate = function(userOrder){
     var options = {
         upsert      : true,
         multi       : false,
         overwrite   : true      //update-only
     };
 
+    var deferred = Q.defer();
+
     userOrderModel.update({userOrderId : userOrder.userOrderId}, userOrder, options, function(err, raw){
         if(err){
-            callback(err);
+            deferred.reject(new Error(err));
         }
-        console.log('The raw response from Mongo was ', raw);
-        callback(null, userOrder);
+        else{
+            deferred.resolve(raw);
+        }
     });
 
+    return deferred.promise;
 };
 
 //添加新记录，如果openId已经存在，则报错

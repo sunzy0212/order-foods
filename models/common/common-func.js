@@ -50,6 +50,9 @@ module.exports = {
                 randString = randNum.toString();
             }
 
-            return timeString + randString;
+            return {
+                userOrderId : timeString + randString,
+                time : timeNow
+            };
         }
 };

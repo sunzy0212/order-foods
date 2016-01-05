@@ -27,9 +27,9 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
                         seatNum     :   that.restaurantInfo.allSeats[0],
                         peopleNum   :   that.restaurantInfo.allPeople[0],
                         isInvoiceNeed   :   false,
-                        paymentMehtod   :   {
-                            name    :   that.restaurantInfo.allPaymentMethods[0].name,
-                            id      :   that.restaurantInfo.allPaymentMethods[0].id
+                        paymentMethod   :   {
+                            paymentMethodName    :   that.restaurantInfo.allPaymentMethods[0].paymentMethodName,
+                            paymentMethodId      :   that.restaurantInfo.allPaymentMethods[0].paymentMethodId
                         }
                     };
 

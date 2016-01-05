@@ -72,9 +72,9 @@
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">支付方式：</span>
                     <select
-                            ng-init="paymentMethod = userInfo.paymentMehtod"
+                            ng-init="paymentMethod = userInfo.paymentMethod"
                             ng-model="paymentMethod"
-                            ng-options="item as item.name for item in restaurantInfo.allPaymentMethods track by item.id"
+                            ng-options="item as item.paymentMethodName for item in restaurantInfo.allPaymentMethods track by item.paymentMethodId"
                             ng-change="selectPaymentMethod(paymentMethod)"
                             >
                     </select>

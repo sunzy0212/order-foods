@@ -11,12 +11,12 @@ var SeatSchema = new Schema({
 });
 
 var paymentMethodSchema = new Schema({
-    name    :   {
+    paymentMethodName    :   {
         type        :   String,
         required    :   true,
         enum        :   ["现金支付","支付宝支付","微信支付"]
     },
-    id      :   {
+    paymentMethodId      :   {
         type        :   Number,
         required    :   true,
         enum        :   [0,1,2]

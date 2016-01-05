@@ -72,6 +72,9 @@ var UserOrderSchema = new Schema ({
         require : true
     }
 });
+//设置索引
+UserOrderSchema.set('autoIndex',false);
+UserOrderSchema.index({openId: 1, time: -1});
 
 var UserOrder=mongodb.mongoose.model('UserOrder',UserOrderSchema);
 

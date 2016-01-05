@@ -73,7 +73,7 @@ ctrlModule
         };
 
         $scope.selectPaymentMethod = function(paymentMethod){
-            userInfo.userInfo.paymentMehtod = paymentMethod;
+            userInfo.userInfo.paymentMethod = paymentMethod;
         };
 
         $scope.conformUserOrderClick = function(){

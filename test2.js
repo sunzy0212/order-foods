@@ -3,7 +3,6 @@
  */
 var UserOrder = require('./models/app/user-order');
 
-
 var userOrderData = {
     userOrderId : "1234",
     openId : "zhiyuanId",
@@ -11,7 +10,7 @@ var userOrderData = {
         foodNum: 1,
         price: 20,
         volume: '小份',
-        foodName: '宫爆鸡丁'
+        foodName: '水煮牛蛙'
     },
     status : 0,
     money : {
@@ -26,12 +25,8 @@ var userOrderData = {
         paymentMethod: 0
     }
 };
+
 var userOrder = new UserOrder();
-userOrder.addAndUpdate(userOrderData, function(err, doc){
-    if(err){
-        console.log(err);
-    }
-    else{
-        console.log(doc);
-    }
+userOrder.addAndUpdate(userOrderData).done(function(lastError){
+    console.log(lastError);
 });
