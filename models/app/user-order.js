@@ -50,11 +50,10 @@ UserOrders.prototype.addAndUpdate = function(userOrder, callback){
         overwrite   : true      //update-only
     };
 
-    userOrderModel.update({userOrderId : userOrder.userOrderId}, userOrder, options, function(err, numAffected, raw){
+    userOrderModel.update({userOrderId : userOrder.userOrderId}, userOrder, options, function(err, raw){
         if(err){
             callback(err);
         }
-        console.log('The number of updated documents was %d', numAffected);
         console.log('The raw response from Mongo was ', raw);
         callback(null, userOrder);
     });
