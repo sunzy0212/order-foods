@@ -41,7 +41,8 @@ app.get('/app', function(req, res) {
 
     var maxTime = 3;
     var count = 0;
-    var accessToken = null;
+    var accessToken = null
+    var openId = null;
     async.whilst(
         function(){
             return (accessToken == null) && count<maxTime;
@@ -52,12 +53,12 @@ app.get('/app', function(req, res) {
                 count++;
                 if(ret.data !=undefined && ret.data.access_token !=undefined){
                         accessToken = ret.data.access_token;
-                        callback(null, ret.data.openid);
+                        openId = ret.data.openid;
                 }
             });
         },
-        function(err,openId){
-            if(count >= maxTime){
+        function(err){
+            if(err || count >= maxTime){
                 res.render('404.html');
             }
             //获取微信用户的其它个人信息

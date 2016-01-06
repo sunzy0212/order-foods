@@ -6,6 +6,15 @@ var router = express.Router();
 var CommonFun = require('../../models/common/common-func');
 var UserOrder = require('../../models/app/user-order');
 
+/*
+ @params:    {
+                 openId     :   ***
+                 foods      :   ***
+                 status     :   ***
+                 money      :   ***
+                 userInfo   :   ***
+             }
+ */
 router.post('/conformUserOrder',function(req, res, next){
     var userOrderIdObj = CommonFun.createUserOrderID();
 
@@ -36,6 +45,12 @@ router.post('/conformUserOrder',function(req, res, next){
 
 });
 
+/*
+ @params:    {
+                 userOrderId  :   ***
+                 status :   ***
+             }
+ */
 router.post('/setUserOrderStatus',function(req, res, next){
 
     UserOrder.setUserOrderStatus(req.body.userOrderId, req.body.status)
@@ -51,6 +66,13 @@ router.post('/setUserOrderStatus',function(req, res, next){
         });
 });
 
+/*
+@params:    {
+                openId  :   ***
+                skipNum :   ***
+                limitNum:   ***
+            }
+*/
 router.post('/getUserOrderByOpenId', function(req, res, next){
 
     UserOrder.getUserOrderByOpenId(req.body.openId, req.body.skipNum, req.body.limitNum)
