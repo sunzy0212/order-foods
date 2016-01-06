@@ -52,8 +52,9 @@ app.get('/app', function(req, res) {
             oauth.getAccessToken(code, function(err, ret){
                 count++;
                 if(ret.data !=undefined && ret.data.access_token !=undefined){
-                        accessToken = ret.data.access_token;
-                        openId = ret.data.openid;
+                    accessToken = ret.data.access_token;
+                    openId = ret.data.openid;
+                    callback(null, openId);
                 }
             });
         },
