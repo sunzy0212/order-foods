@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var CommonFun = require('../../models/common/common-func');
 var UserOrder = require('../../models/app/user-order');
+var mongoose=require('mongoose');
 
 var userUser = new UserOrder();
 
@@ -12,9 +13,10 @@ router.post('/conformUserOrder',function(req, res, next){
     var userOrderIdObj = CommonFun.createUserOrderID();
 
     var userOrderData = req.body;
-    userOrderData.userOrderId = userOrderIdObj.userOrderId;
+    userOrderData._id = new mongoose.Types.ObjectId(userOrderIdObj.userOrderId);
     userOrderData.time = userOrderIdObj.time;
 
+    console.log(userOrderIdObj.userOrderId);
     userUser.addAndUpdate(userOrderData)
         .then(function(ret){
             console.log(ret);

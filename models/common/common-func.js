@@ -51,7 +51,7 @@ module.exports = {
             }
 
             return {
-                userOrderId : timeString + randString,
+                userOrderId : timeString + randString + "000000",
                 time : timeNow
             };
         }
