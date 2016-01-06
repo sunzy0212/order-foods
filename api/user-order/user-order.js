@@ -5,29 +5,65 @@ var express = require('express');
 var router = express.Router();
 var CommonFun = require('../../models/common/common-func');
 var UserOrder = require('../../models/app/user-order');
-var mongoose=require('mongoose');
-
-var userUser = new UserOrder();
 
 router.post('/conformUserOrder',function(req, res, next){
     var userOrderIdObj = CommonFun.createUserOrderID();
 
     var userOrderData = req.body;
-    userOrderData._id = new mongoose.Types.ObjectId(userOrderIdObj.userOrderId);
+
+    //设置userOrderId和time
+    userOrderData.userOrderId = userOrderIdObj.userOrderId;
     userOrderData.time = userOrderIdObj.time;
 
-    console.log(userOrderIdObj.userOrderId);
-    userUser.addAndUpdate(userOrderData)
+    //修改status为1: Conformed
+    userOrderData.status = 1;
+
+    UserOrder.addAndUpdate(userOrderData)
         .then(function(ret){
+
             console.log(ret);
+
+            res.status(200).send("OK");
         })
         .catch(function(err){
+
             console.log('catched the error: ',err);
+
+            res.status(500).send("OK");
         });
 
     console.log(userOrderData);
 
-    res.status(200).send("OK");
+});
+
+router.post('/setUserOrderStatus',function(req, res, next){
+
+    UserOrder.setUserOrderStatus(req.body.userOrderId, req.body.status)
+        .then(function(ret){
+            console.log(ret);
+
+            res.status(200).send("OK");
+        })
+        .catch(function(err){
+            console.log('catched the error: ',err);
+
+            res.status(500).send("OK");
+        });
+});
+
+router.post('/getUserOrderByOpenId', function(req, res, next){
+
+    UserOrder.getUserOrderByOpenId(req.body.openId, req.body.skipNum, req.body.limitNum)
+        .then(function(ret){
+            console.log(ret);
+
+            res.status(200).send(ret);
+        })
+        .catch(function(err){
+            console.log('catched the error: ',err);
+
+            res.status(500).send("Failed");
+        });
 });
 
 module.exports = router;

@@ -6,29 +6,29 @@ var fs = require('fs');
 var async=require('async');
 var Q = require('q');
 
-function UserOrders(){
+function UserOrder(){
 
 };
 
-module.exports = UserOrders;
+module.exports = UserOrder;
 
 //从json文件中导入用户的订单记录到数据库
-UserOrders.prototype.import = function(path, callback){
+UserOrder.prototype.import = function(path, callback){
     var that = this;
     fs.readFile(path,'utf8',function(err, data){
         if(err){
             callback(err);
         }
-        var userOrdersData = JSON.parse(data);
+        var UserOrderData = JSON.parse(data);
 
         var count = 0;
-        var length = userOrdersData.length;
+        var length = UserOrderData.length;
         async.whilst(
             function(){
                 return count < length;
             },
             function(callback){
-                that.addAndUpdate(userOrdersData[count], callback);
+                that.addAndUpdate(UserOrderData[count], callback);
                 count++;
             },
             function(err, n){
@@ -43,7 +43,11 @@ UserOrders.prototype.import = function(path, callback){
 };
 
 //添加新纪录，如果userOrderId已经存在，则修改原有的记录
-UserOrders.prototype.addAndUpdate = function(userOrder){
+UserOrder.addAndUpdate = function(userOrder){
+    var query = {
+        userOrderId : userOrder.userOrderId
+    };
+
     var options = {
         upsert      : true,
         multi       : false,
@@ -52,7 +56,7 @@ UserOrders.prototype.addAndUpdate = function(userOrder){
 
     var deferred = Q.defer();
 
-    userOrderModel.update({userOrderId : userOrder.userOrderId}, userOrder, options, function(err, raw){
+    userOrderModel.update(query, userOrder, options, function(err, raw){
         if(err){
             deferred.reject(new Error(err));
         }
@@ -64,16 +68,60 @@ UserOrders.prototype.addAndUpdate = function(userOrder){
     return deferred.promise;
 };
 
-//添加新记录，如果openId已经存在，则报错
-UserOrders.prototype.add = function(userOrder, callback){
-    userOrdersModel.create(userOrder,function(err, ret){
-        callback(err, ret);
+UserOrder.setUserOrderStatus = function(parUserOrderId, parStatus){
+    var query = {
+        userOrderId : parUserOrderId
+    };
+
+    var options = {
+        upsert      : true,
+        multi       : false,
+        overwrite   : true      //update-only
+    };
+
+    var updates = {
+        $set : {
+            status : parStatus
+        }
+    };
+
+    var deferred = Q.defer();
+
+    userOrderModel.update(query, updates, options, function(err, raw){
+        if(err){
+            deferred.reject(new Error(err));
+        }
+        else{
+            deferred.resolve(raw);
+        }
     });
+
+    return deferred.promise;
 };
 
-//获取某用户的所有订单记录
-UserOrders.prototype.getUserOrderByOpenId = function(openId,callback){
-    userOrdersModel.findOne({'openId' : openId}, function(err, doc){
-        callback(err, doc);
+UserOrder.getUserOrderByOpenId = function(parOpenId, skipNum, limitNum){
+    var query = {
+        openId : parOpenId
+    };
+
+    var sortObj = {
+        status : -1,
+        time : -1
+    };
+
+//    var selectFeilds = '';
+
+    var deferred = Q.defer();
+
+    userOrderModel.find(query).sort(sortObj).skip(skipNum).limit(limitNum).exec(function(err, ret){
+        if(err){
+            deferred.reject(new Error(err));
+        }
+        else{
+            deferred.resolve(ret);
+        }
     });
+
+    return deferred.promise;
 };
+

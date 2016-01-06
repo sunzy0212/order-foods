@@ -43,17 +43,17 @@ var UserInfoSchema = new Schema({
 //      1   --  "Conformed",
 //      2   --  "Paid"
 var UserOrderSchema = new Schema ({
-    /*userOrderId : {
+    userOrderId : {
 //        type : Schema.Types.ObjectId,
         type : String,
         required : true,
         unique : true
-    },*/
-    _id : {
+    },
+    /*_id : {
         type : Schema.Types.ObjectId,
         required : true,
         unique : true
-    },
+    },*/
     openId : {
         type : String,
         required : true
@@ -79,8 +79,8 @@ var UserOrderSchema = new Schema ({
 });
 //设置索引
 //UserOrderSchema.set('autoIndex',false);
-UserOrderSchema.index({openId: 1, time: -1});
-//UserOrderSchema.index({userOrderId: -1});
+UserOrderSchema.index({openId: -1});
+UserOrderSchema.index({userOrderId : -1});
 
 var UserOrder=mongodb.mongoose.model('UserOrder',UserOrderSchema);
 
