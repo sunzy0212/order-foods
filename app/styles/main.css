@@ -88,3 +88,19 @@
     height: 100%;
     background: #000000;
 }
+
+.slide-left-right {
+    -webkit-transform: translate3d(100, 0, 0);
+    transform: translate3d(100%, 0, 0); }
+
+.slide-left-right.ng-enter, .slide-left-right > .ng-enter {
+    -webkit-transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+    transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms; }
+
+.slide-left-right.ng-enter-active, .slide-left-right > .ng-enter-active {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); }
+
+.slide-left-right.ng-leave, .slide-left-right > .ng-leave {
+    -webkit-transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms; }

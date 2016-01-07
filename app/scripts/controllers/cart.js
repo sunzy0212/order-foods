@@ -25,6 +25,14 @@ ctrlModule
             $scope.modal = modal;
         });
 
+        //        支付相关的操作
+        $ionicModal.fromTemplateUrl('views/tab-payment.html',{
+            scope       :   $scope,
+            animation   :   'slide-left-right'
+        }).then(function(modal){
+            $scope.paymentModal = modal;
+        });
+
         $scope.$on('$destroy',function(){
             $scope.modal.remove();
         });
@@ -79,7 +87,7 @@ ctrlModule
         $scope.conformUserOrderClick = function(){
             userOrder.conformUserOrder()
                 .then(function(retData){
-
+                    $scope.paymentModal.show();
                 });
         };
 

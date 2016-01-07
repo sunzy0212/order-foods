@@ -2,158 +2,84 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
     <title>菜鸟教程(runoob.com)</title>
     <link href="http://www.runoob.com/static/ionic/css/ionic.min.css" rel="stylesheet">
     <script src="http://www.runoob.com/static/ionic/js/ionic.bundle.min.js"></script>
-    <script type="text/javascript">
+    <style>
+        body {
+            cursor: url('http://ionicframework.com/img/finger.png'), auto;
+        }
+    </style>
+    <script>
         angular.module('ionicApp', ['ionic'])
 
-                .controller('RootCtrl', function($scope) {
-                    $scope.onControllerChanged = function(oldController, oldIndex, newController, newIndex) {
-                        console.log('Controller changed', oldController, oldIndex, newController, newIndex);
-                        console.log(arguments);
-                    };
-                })
+                .controller('AppCtrl', function($scope, $ionicModal) {
 
+                    $scope.contacts = [
+                        { name: 'Gordon Freeman' },
+                        { name: 'Barney Calhoun' },
+                        { name: 'Lamarr the Headcrab' },
+                    ];
 
-                .controller('HomeCtrl', function($scope, $timeout, $ionicModal, $ionicActionSheet) {
-                    $scope.items = [];
-
-                    $ionicModal.fromTemplateUrl('newTask.html', function(modal) {
-                        $scope.settingsModal = modal;
+                    $ionicModal.fromTemplateUrl('templates/modal.html', {
+                        scope: $scope
+                    }).then(function(modal) {
+                        $scope.modal = modal;
                     });
 
-                    var removeItem = function(item, button) {
-                        $ionicActionSheet.show({
-                            buttons: [],
-                            destructiveText: 'Delete Task',
-                            cancelText: 'Cancel',
-                            cancel: function() {
-                                return true;
-                            },
-                            destructiveButtonClicked: function() {
-                                $scope.items.splice($scope.items.indexOf(item), 1);
-                                return true;
-                            }
-                        });
-                    };
-
-                    var completeItem = function(item, button) {
-                        item.isCompleted = true;
-                    };
-
-                    $scope.onReorder = function(el, start, end) {
-                        ionic.Utils.arrayMove($scope.items, start, end);
-                    };
-
-                    $scope.onRefresh = function() {
-                        console.log('ON REFRESH');
-
-                        $timeout(function() {
-                            $scope.$broadcast('scroll.refreshComplete');
-                        }, 1000);
-                    }
-
-
-                    $scope.removeItem = function(item) {
-                        removeItem(item);
-                    };
-
-                    $scope.newTask = function() {
-                        $scope.settingsModal.show();
-                    };
-
-                    // Create the items
-                    for(var i = 0; i < 25; i++) {
-                        $scope.items.push({
-                            title: 'Task ' + (i + 1),
-                            buttons: [{
-                                text: 'Done',
-                                type: 'button-success',
-                                onButtonClicked: completeItem,
-                            }, {
-                                text: 'Delete',
-                                type: 'button-danger',
-                                onButtonClicked: removeItem,
-                            }]
-                        });
-                    }
-
-                })
-
-                .controller('TaskCtrl', function($scope) {
-                    $scope.close = function() {
+                    $scope.createContact = function(u) {
+                        $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
                         $scope.modal.hide();
-                    }
+                    };
+
                 });
     </script>
-
 </head>
-<body ng-controller="RootCtrl">
+<body ng-controller="AppCtrl">
 
-<ion-tabs class="tabs-icon-only tabs-positive">
-
-    <ion-tab title="Home"
-             icon-on="ion-ios7-filing"
-             icon-off="ion-ios7-filing-outline"
-             ng-controller="HomeCtrl">
-
-        <ion-header-bar class="bar-positive">
-            <button class="button button-clear" ng-click="newTask()">New</button>
-            <h1 class="title">Task</h1>
-        </ion-header-bar>
-
-        <ion-content has-tabs="true" on-refresh="onRefresh()">
-
-            <ion-refresher></ion-refresher>
-            <ion-list scroll="false" on-refresh="onRefresh()"
-                      s-editing="isEditingItems"
-                      animation="fade-out"
-                      delete-icon="icon ion-minus-circled">
-                <ion-item ng-repeat="item in items"
-                          item="item"
-                          buttons="item.buttons"
-                          can-delete="true"
-                          can-swipe="true"
-                          on-delete="deleteItem(item)"
-                          ng-class="{completed: item.isCompleted}">
-                    {{item.title}}
-                    <i class="{{item.icon}}"></i>
-                </ion-item>
-            </ion-list>
-        </ion-content>
-    </ion-tab>
-
-    <ion-tab title="About" icon-on="icon ion-ios7-clock" icon-off="icon ion-ios7-clock-outline">
-        <header class="bar bar-header bar-positive">
-            <h1 class="title">Deadlines</h1>
-        </header>
-        <ion-content has-header="true">
-            <h1>Deadlines</h1>
-        </ion-content>
-    </ion-tab>
-
-    <ion-tab title="Settings" icon-on="icon ion-ios7-gear" icon-off="icon ion-ios7-gear-outline">
-        <header class="bar bar-header bar-positive">
-            <h1 class="title">Settings</h1>
-        </header>
-        <ion-content has-header="true">
-            <h1>Settings</h1>
-        </ion-content>
-    </ion-tab>
-
-</ion-tabs>
-
-<script id="newTask.html" type="text/ng-template">
-    <div id="task-view" class="modal slide-in-up" ng-controller="TaskCtrl">
-        <header class="bar bar-header bar-secondary">
-            <h1 class="title">New Task</h1>
-            <button class="button button-clear button-primary" ng-click="close()">Done</button>
-        </header>
-        <ion-content class="padding has-header">
-            <input type="text" placeholder="I need to do this...">
-        </ion-content>
+<ion-header-bar class="bar-positive">
+    <h1 class="title">Contacts</h1>
+    <div class="buttons">
+        <button class="button button-icon ion-compose" ng-click="modal.show()">
+        </button>
     </div>
+</ion-header-bar>
+<ion-content>
+    <ion-list>
+        <ion-item ng-repeat="contact in contacts">
+            {{contact.name}}
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<script id="templates/modal.html" type="text/ng-template">
+    <ion-modal-view>
+        hjkl;
+    </ion-modal-view>
+    <!--<ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">New Contact</h1>
+            <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">First Name</span>
+                    <input ng-model="newUser.firstName" type="text">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Last Name</span>
+                    <input ng-model="newUser.lastName" type="text">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Email</span>
+                    <input ng-model="newUser.email" type="text">
+                </label>
+                <button class="button button-full button-positive" ng-click="createContact(newUser)">Create</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>-->
 </script>
 
 </body>
