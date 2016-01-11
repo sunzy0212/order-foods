@@ -34,8 +34,7 @@ var MoneySchema = new Schema({
 var UserInfoSchema = new Schema({
     seatNum     :   String,
     peopleNum   :   Number,
-    invoice     :   String,
-    paymentMethod   :   Number
+    invoice     :   String
 });
 
 // Status状态说明：

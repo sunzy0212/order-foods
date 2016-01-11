@@ -3,8 +3,8 @@
  */
 ctrlModule
     .controller('cartCtrl',[
-        '$scope', '$rootScope', '$q', '$ionicModal', 'userOrder', 'userInfo','foodMenu',
-        function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu){
+        '$scope', '$rootScope', '$q', '$ionicModal', 'userOrder', 'userInfo', 'foodMenu', 'paymentMethodService',
+        function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu, paymentMethodService){
         $scope.foods = userOrder.foods;
         $scope.money = userOrder.getMoney();
 
@@ -24,19 +24,6 @@ ctrlModule
         }).then(function(modal){
             $scope.modal = modal;
         });
-
-        //        支付相关的操作
-        $ionicModal.fromTemplateUrl('views/tab-payment.html',{
-            scope       :   $scope,
-            animation   :   'slide-left-right'
-        }).then(function(modal){
-            $scope.paymentModal = modal;
-        });
-
-        $scope.$on('$destroy',function(){
-            $scope.modal.remove();
-        });
-
         $scope.selectCouponOpen = function(){
             $scope.modal.show();
         };
@@ -45,6 +32,24 @@ ctrlModule
             $scope.modal.hide();
             $scope.money = userOrder.discount();
         };
+
+        //        支付相关的操作
+        $ionicModal.fromTemplateUrl('views/tab-payment.html',{
+            scope       :   $scope,
+            animation   :   'slide-left-right'
+        }).then(function(modal){
+            $scope.paymentModal = modal;
+            $scope.paymentMethods = paymentMethodService.paymentMethods;
+        });
+        $scope.selectPaymentMethod = function(id){
+            $scope.paymentMethods = paymentMethodService.setActive(id);
+        };
+
+        $scope.$on('$destroy',function(){
+            $scope.modal.remove();
+        });
+
+
 
         $scope.addFoodClick = function(foodName, volumeName, price){
             foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
@@ -78,10 +83,6 @@ ctrlModule
 
         $scope.selectInvoiceNeed = function(isInvoiceNeed){
             userInfo.userInfo.isInvoiceNeed = isInvoiceNeed;
-        };
-
-        $scope.selectPaymentMethod = function(paymentMethod){
-            userInfo.userInfo.paymentMethod = paymentMethod;
         };
 
         $scope.conformUserOrderClick = function(){

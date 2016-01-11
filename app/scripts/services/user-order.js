@@ -27,7 +27,7 @@ serviceModule.service('userOrder', [
             foodData.push(that.foods[key]);
         }
 
-        var userInfoData = new UserInfoModel(userInfo.userInfo.seatNum, userInfo.userInfo.peopleNum, userInfo.userInfo.paymentMethod.paymentMethodId, userInfo.userInfo.invoice);
+        var userInfoData = new UserInfoModel(userInfo.userInfo.seatNum, userInfo.userInfo.peopleNum, userInfo.userInfo.invoice);
 
         var userOrderData = new UserOrderModel(userInfo.openId,foodData,that.status,that.money.beforeDiscountMoney,that.money.discountMoney,userInfoData);
 

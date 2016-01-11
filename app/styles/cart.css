@@ -75,3 +75,33 @@
     font-size: 10px;
     font-family: "SimSun";
 }
+
+.select-payment-method-item{
+    min-height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 72px;
+}
+
+.select-payment-method-check-box{
+    font-size: 30px;
+}
+
+.select-payment-method-check-box-active{
+    color: #4cae4c;
+}
+
+.select-payment-method-check-box-inactive{
+    opacity: 0.5;
+}
+
+.select-payment-method-check-box-container{
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+
+.item-avatar-left > img:first-child{
+    top:5px;
+}

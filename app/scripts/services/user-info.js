@@ -19,18 +19,13 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
                 .success(function(data){
                     that.restaurantInfo = {
                         allSeats    :   constructSeatSelectData(data.seats),
-                        allPeople   :   constructPeopleSelectData(data.maxNumPerOrder),
-                        allPaymentMethods   :   data.paymentMethods
+                        allPeople   :   constructPeopleSelectData(data.maxNumPerOrder)
                     };
 
                     that.userInfo = {
                         seatNum     :   that.restaurantInfo.allSeats[0],
                         peopleNum   :   that.restaurantInfo.allPeople[0],
-                        isInvoiceNeed   :   false,
-                        paymentMethod   :   {
-                            paymentMethodName    :   that.restaurantInfo.allPaymentMethods[0].paymentMethodName,
-                            paymentMethodId      :   that.restaurantInfo.allPaymentMethods[0].paymentMethodId
-                        }
+                        isInvoiceNeed   :   false
                     };
 
                     deferred.resolve(that.restaurantInfo);

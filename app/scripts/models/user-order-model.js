@@ -31,21 +31,17 @@ function UserOrderModel(openId, foods, status, beforeDiscountMoney, discountMone
     this.userInfo = userInfo;
 }
 
-function UserInfoModel(seatNum, peopleNum, paymentMethod, invoice){
+function UserInfoModel(seatNum, peopleNum, invoice){
     if(seatNum == null){
         throw new Error('参数：seat为null');
     }
     if(peopleNum == null){
         throw new Error('参数：peopleNum为null');
     }
-    if(paymentMethod == null){
-        throw new Error('参数：paymentMethod为null');
-    }
 
     this.seatNum = seatNum;
     this.peopleNum = peopleNum;
     this.invoice = invoice;
-    this.paymentMehtod = paymentMethod;
 };
 
 
