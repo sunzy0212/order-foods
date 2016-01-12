@@ -77,10 +77,15 @@
 }
 
 .select-payment-method-item{
-    min-height: 50px;
+    min-height: 60px;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 72px;
+}
+
+.select-payment-method-text{
+    height: 50px;
+    padding-top: 5px;
 }
 
 .select-payment-method-check-box{
@@ -101,7 +106,32 @@
     line-height: 40px;
 }
 
-
 .item-avatar-left > img:first-child{
-    top:5px;
+    top:10px;
 }
+
+.conform-payment-button{
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #387ef5;
+    text-align: center;
+    color: #ffffff;
+    width: 90%;
+    margin-top: 40px;
+    margin-left: 5%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+}
+
+.cart-payment-header{
+    background-color: #4cae4c;
+    color: #fff !important;
+}
+
+h1.title{
+    color: #fff !important;
+    font-size: 18px;
+}
+

@@ -48,8 +48,9 @@ ctrlModule
         $scope.$on('$destroy',function(){
             $scope.modal.remove();
         });
-
-
+        $scope.hideConformPayment = function(){
+            $scope.paymentModal.hide();
+        };
 
         $scope.addFoodClick = function(foodName, volumeName, price){
             foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)

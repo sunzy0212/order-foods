@@ -147,6 +147,10 @@
     font-size: 20px;
 }
 
+.order-food-money{
+    font-weight: bold;
+}
+
 h2{
     margin: 0px 0px 0px 0px !important;
     padding: 0px 0px 0px 0px !important;

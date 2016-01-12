@@ -1,16 +1,16 @@
 <ion-modal-view>
-    <ion-header-bar class="bar bar-header bar-balanced">
+    <ion-header-bar class="bar bar-header cart-payment-header" ng-click="hideConformPayment()">
+        <i class="ion-ios-arrow-back" style="color: #ffffff; font-size: 32px; padding-left: 12px;"></i>
         <h1 class="title">确认支付</h1>
-        <button class="button button-clear button-primary" ng-click="selectCouponDone()">done</button>
     </ion-header-bar>
     <ion-content>
         <div class="list">
 
             <div class="item cart-list vertical-content-middle" ng-click="selectCouponOpen()">
                 <span class="absolute-padding-left-16">订单总价</span>
-                <span class="absolute-padding-right-16">
+                <span class="absolute-padding-right-32 order-food-money">
                     <span>¥</span>
-                    <span ng-bind=""></span>
+                    <span ng-bind="money.afterDiscountMoney"></span>
                 </span>
             </div>
 
@@ -27,7 +27,7 @@
                     ng-click="selectPaymentMethod(paymentMethod.id)"
                 >
                 <img ng-src={{paymentMethod.img}}>
-                <div class="row row-no-padding height-40">
+                <div class="row row-no-padding select-payment-method-text">
                     <div class="col col-75">
                         <h2 ng-bind="paymentMethod.name"></h2>
                         <p ng-bind="paymentMethod.description"></p>
@@ -38,6 +38,10 @@
                                 ng-class="{true: 'select-payment-method-check-box-active', false: 'select-payment-method-check-box-inactive'}[paymentMethod.isActive]"></i>
                     </div>
                 </div>
+            </div>
+
+            <div class="conform-payment-button">
+                确认支付
             </div>
         </div>
     </ion-content>
