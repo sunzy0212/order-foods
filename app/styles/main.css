@@ -18,6 +18,11 @@
     max-width: 30%;
 }
 
+.layout-header-fixed{
+    height: 45px;
+    line-height: 45px;
+}
+
 .food-item-divider{
     min-height: 10px;
 }
