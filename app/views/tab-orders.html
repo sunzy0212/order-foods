@@ -9,8 +9,10 @@
                 >
         </div>
     </div>
-    <div class="list" ng-init="orderLoaded = false" ng-show="orderLoaded" ng-cloak="ng-cloak">
-        <order-abstract-item ng-repeat="orderAbstractItem in orderAbstracts" order-abstract-item="orderAbstractItem"></order-abstract-item>
-    </div>
+    <ion-scroll zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
+        <div class="list" ng-show="orderLoaded" ng-cloak="ng-cloak">
+            <order-abstract-item ng-repeat="orderAbstractItem in orderAbstracts" order-abstract-item="orderAbstractItem"></order-abstract-item>
+        </div>
+    </ion-scroll>
     <ion-spinner ng-hide="orderLoaded" icon="bubbles" class="spinner-balanced order-abstract-loading"  ng-cloak></ion-spinner>
 </ion-view>

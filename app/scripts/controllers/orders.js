@@ -3,6 +3,8 @@
  */
 ctrlModule
     .controller('ordersCtrl',['$scope', '$q', '$http', 'userInfo', function($scope, $q, $http, userInfo){
+//        userInfo.openId = 'wechat_openId';
+
         var ORDER_PROCESS_TYPE = {
             ALL             :   0,
             UNFINISHED      :   1,
@@ -26,7 +28,7 @@ ctrlModule
                 }
             });
 
-            getUserOrderByOpenIdAndStatus('wechat_openId',processType,0,10)
+            getUserOrderByOpenIdAndStatus(userInfo.openId,processType,0,10)
                 .then(function(orderAbstracts){
                     $scope.orderLoaded = true;
                     $scope.orderAbstracts = orderAbstracts;
@@ -55,7 +57,7 @@ ctrlModule
                 }
             ];
 
-            getUserOrderByOpenIdAndStatus('wechat_openId',0,0,10)
+            getUserOrderByOpenIdAndStatus(userInfo.openId,0,0,10)
                 .then(function(orderAbstracts){
                     $scope.orderLoaded = true;
                     $scope.orderAbstracts = orderAbstracts;
