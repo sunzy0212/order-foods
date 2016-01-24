@@ -4,19 +4,20 @@
 ctrlModule
     .controller('ordersCtrl',['$scope', '$q', '$http', 'userInfo', function($scope, $q, $http, userInfo){
 //        userInfo.openId = 'wechat_openId';
+        setScrollHeight();
 
         var ORDER_PROCESS_TYPE = {
             ALL             :   0,
             UNFINISHED      :   1,
             NEEDEVALUATE    :   2
         };
+        init();
 
         //如果餐厅信息未被加载，则加载餐厅信息
         userInfo.getRestaurantInfo()
             .then(function(restaurantInfo){
             });
 
-        init();
 
         $scope.selectOrderProcessType = function(processType){
             $scope.orderProcessTypes.forEach(function(item){
@@ -39,6 +40,8 @@ ctrlModule
         };
 
         function init(){
+
+
             $scope.orderProcessTypes = [
                 {
                     name        :   "全部订单",
@@ -86,5 +89,13 @@ ctrlModule
                     deferred.reject(err);
                 });
             return deferred.promise;
+        }
+
+        function setScrollHeight(){
+            var headerHeight = 45;
+            var footerHeight = 49;
+            var orderAbstractScrollHeight = window.screen.height - headerHeight - footerHeight;
+            orderAbstractScrollHeight += 'px';
+            angular.element("#orderAbstractScroll").css("height",orderAbstractScrollHeight);
         }
     }]);

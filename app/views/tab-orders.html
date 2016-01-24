@@ -9,7 +9,7 @@
                 >
         </div>
     </div>
-    <ion-scroll zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
+    <ion-scroll id="orderAbstractScroll" zooming="false" direction="y" paging="false" scrollbar-y="true" style="height: 100%;">
         <div class="list" ng-show="orderLoaded" ng-cloak="ng-cloak">
             <order-abstract-item ng-repeat="orderAbstractItem in orderAbstracts" order-abstract-item="orderAbstractItem"></order-abstract-item>
         </div>
