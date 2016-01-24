@@ -7,3 +7,8 @@
     /*color: #FF5400;*/
     color: #4cae4c;
 }
+.order-abstract-loading{
+    position: absolute;
+    top: 40%;
+    left: 45%;
+}

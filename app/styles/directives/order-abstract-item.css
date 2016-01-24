@@ -1,0 +1,53 @@
+.order-abstract-item{
+    padding: 0px 16px 0px 16px !important;
+}
+
+.order-abstract-item-header{
+    height: 35px;
+    line-height: 35px;
+    position: relative;
+}
+
+.order-abstract-item-content{
+    height: 66px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    position: relative;
+}
+
+.order-abstract-item-footer{
+    height: 35px;
+    line-height: 35px;
+}
+
+.order-abstract-item-content>img{
+    height: 50px;
+    width: 50px;
+}
+
+.order-abstract-item-content>h2{
+
+}
+
+.order-abstract-item-content>p{
+    position: absolute;
+    bottom: 5px;
+}
+
+.order-abstract-item-title{
+    color: #000000;
+    font-size: 14px;
+}
+
+.order-abstract-item-money{
+    color: #4cae4c;
+    font-size: 16px;
+    /*font-weight: bold;*/
+}
+
+.order-abstract-item-header-order-status{
+    position: absolute;
+    right: 0px;
+    font-size: 14px;
+    opacity: 0.5;
+}

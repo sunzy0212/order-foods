@@ -1,0 +1,25 @@
+<div>
+    <div class="item item-divider food-item-divider"></div>
+    <div class="item order-abstract-item">
+        <div class="order-abstract-item-header">
+            <span class="order-abstract-item-title">订单号:</span>
+            <span class="order-abstract-item-title" ng-bind="orderAbstractItem.orderId"></span>
+            <span class="order-abstract-item-header-order-status" ng-bind="orderAbstractItem.status"></span>
+        </div>
+        <div class="row row-no-padding" style="border-bottom: 1px #ddd solid;border-top: 1px #ddd solid;">
+            <div class="col col-20 order-abstract-item-content">
+                <img ng-src="{{orderAbstractItem.displayFoodImg}}">
+            </div>
+            <div class="col col-80 order-abstract-item-content">
+                <h3>点了 {{orderAbstractItem.displayFoodName}} 等{{orderAbstractItem.totalNum}}样菜品</h3>
+                <p>下单时间 {{orderAbstractItem.orderTime}}</p>
+            </div>
+        </div>
+        <div class="order-abstract-item-footer">
+            <span class="order-abstract-item-title">订单总金额:</span>
+            &nbsp
+            <span class="order-abstract-item-money" ng-bind="orderAbstractItem.totalMoney"></span>
+            <span class="order-abstract-item-money">元</span>
+        </div>
+    </div>
+</div>

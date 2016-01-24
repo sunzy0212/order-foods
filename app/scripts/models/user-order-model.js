@@ -1,12 +1,15 @@
 /**
  * Created by ZhiyuanSun on 16/1/5.
  */
-function UserOrderModel(openId, foods, status, beforeDiscountMoney, discountMoney, userInfo){
+function UserOrderModel(openId, foods, totalNum, status, beforeDiscountMoney, discountMoney, userInfo){
     if(openId == null){
         throw new Error('参数：openId为null');
     }
     if(foods == null){
         throw new Error('参数：foods为null');
+    }
+    if(totalNum == null){
+        throw new Error('参数：totalNum为null');
     }
     if(status == null){
         throw new Error('参数：status为null');
@@ -21,8 +24,10 @@ function UserOrderModel(openId, foods, status, beforeDiscountMoney, discountMone
         throw new Error('参数：userInfo为null');
     }
 
+
     this.openId = openId;
     this.foods = foods;
+    this.totalNum = totalNum;
     this.status = status;
     this.money = {
         beforeDiscountMoney : beforeDiscountMoney,

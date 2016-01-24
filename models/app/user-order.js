@@ -2,9 +2,12 @@
  * Created by ZhiyuanSun on 15/12/12.
  */
 var userOrderModel = require('../db/user-order-model');
+var CommonFun = require('../common/common-func');
+var Menu = require('./menu');
 var fs = require('fs');
 var async=require('async');
 var Q = require('q');
+var EventProxy = require('eventproxy');
 
 function UserOrder(){
 
@@ -99,10 +102,13 @@ UserOrder.setUserOrderStatus = function(parUserOrderId, parStatus){
     return deferred.promise;
 };
 
-UserOrder.getUserOrderByOpenId = function(parOpenId, skipNum, limitNum){
+UserOrder.getUserOrderByOpenIdAndStatus = function(parOpenId, status, skipNum, limitNum){
     var query = {
         openId : parOpenId
     };
+    if(status !== 0){
+        query.status = status
+    }
 
     var sortObj = {
         status : -1,
@@ -125,3 +131,38 @@ UserOrder.getUserOrderByOpenId = function(parOpenId, skipNum, limitNum){
     return deferred.promise;
 };
 
+UserOrder.prototype.createUserOrderAbstract = function(userOrders){
+    var ret = [];
+    var ep = new EventProxy();
+    var deferred = Q.defer();
+    ep.after('construct_abstract_item', userOrders.length, function(list){
+        console.log(list);
+        deferred.resolve(list);
+    });
+    userOrders.forEach(function(item){
+        Menu.prototype.getFood(item.foods[0].foodName)
+            .then(function(food){
+                var ORDER_PROCESS_TYPE = [
+                    "未确认",
+                    "未付款",
+                    "待评价",
+                    "交易完成"
+                ];
+
+                var orderAbstractItem = {
+                    orderId : item.userOrderId,
+                    status : ORDER_PROCESS_TYPE[item.status],
+                    orderTime : CommonFun.dateToString(item.time),
+                    totalMoney : item.money.beforeDiscountMoney - item.money.discountMoney,
+                    totalNum : item.totalNum,
+                    displayFoodName : food.name,
+                    displayFoodImg : food.img
+                };
+                ret.push(orderAbstractItem);
+                ep.emit('construct_abstract_item', orderAbstractItem);
+            },function(err){
+                deferred.reject(err);
+            });
+    });
+    return deferred.promise;
+};

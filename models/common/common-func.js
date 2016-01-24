@@ -16,6 +16,24 @@ module.exports = {
                 }
             }
         },
+    dateToString :
+        function(time){
+            var year = time.getFullYear();
+            var month = time.getMonth()+1;
+            var day = time.getDate();
+            var hour = time.getHours();
+            var minute = time.getMinutes();
+            var second = time.getSeconds();
+
+            var timeString = year.toString();
+            timeString += '-' + month.toString();
+            timeString += '-' + day.toString();
+            timeString += ' ' + hour.toString();
+            timeString += ':' + minute.toString();
+            timeString += ':' + second.toString();
+
+            return timeString;
+        },
     createUserOrderID:
         function(){
             //            构建时间字符串

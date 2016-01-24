@@ -73,17 +73,16 @@ router.post('/setUserOrderStatus',function(req, res, next){
                 limitNum:   ***
             }
 */
-router.post('/getUserOrderByOpenId', function(req, res, next){
-
-    UserOrder.getUserOrderByOpenId(req.body.openId, req.body.skipNum, req.body.limitNum)
+router.post('/getUserOrderByOpenIdAndStatus', function(req, res, next){
+    UserOrder.getUserOrderByOpenIdAndStatus(req.body.openId, req.body.status, req.body.skipNum, req.body.limitNum)
         .then(function(ret){
-            console.log(ret);
-
+            return UserOrder.prototype.createUserOrderAbstract(ret);
+        })
+        .then(function(ret){
             res.status(200).send(ret);
         })
         .catch(function(err){
             console.log('catched the error: ',err);
-
             res.status(500).send("Failed");
         });
 });

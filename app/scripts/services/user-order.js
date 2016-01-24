@@ -29,7 +29,7 @@ serviceModule.service('userOrder', [
 
         var userInfoData = new UserInfoModel(userInfo.userInfo.seatNum, userInfo.userInfo.peopleNum, userInfo.userInfo.invoice);
 
-        var userOrderData = new UserOrderModel(userInfo.openId,foodData,that.status,that.money.beforeDiscountMoney,that.money.discountMoney,userInfoData);
+        var userOrderData = new UserOrderModel(userInfo.openId,foodData, that.totalNum, that.status, that.money.beforeDiscountMoney, that.money.discountMoney,userInfoData);
 
         var postData = userOrderData;
 

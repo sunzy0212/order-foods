@@ -58,6 +58,10 @@ var UserOrderSchema = new Schema ({
         required : true
     },
     foods : [FoodValueSchema],
+    totalNum : {
+        type : Number,
+        required : true
+    },
     status : {
         type : Number,
         enum : [0,1,2]

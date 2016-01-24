@@ -8,6 +8,8 @@ var fs=require('fs');
 var EventProxy=require('eventproxy');
 var FoodType=require('./food-type');
 var async=require('async');
+var Q = require('q');
+
 function Menu(){
 
 };
@@ -29,6 +31,19 @@ Menu.prototype.getAllFoods=function(callback){
 //获取n个项
 Menu.prototype.getNFoods=function(n){
 
+};
+
+Menu.prototype.getFood = function(foodName){
+    var deferred = Q.defer();
+    menuModel.findOne({'name':foodName},function(err, ret){
+        if(err){
+            deferred.reject(new Error(err));
+        }
+        else{
+            deferred.resolve(ret);
+        }
+    });
+    return deferred.promise;
 };
 
 Menu.prototype.importMenu=function(menufile,callback){
