@@ -94,7 +94,8 @@ ctrlModule
         function setScrollHeight(){
             var headerHeight = 45;
             var footerHeight = 49;
-            var orderAbstractScrollHeight = window.screen.height - headerHeight - footerHeight;
+            var orderAbstractScrollHeight = document.body.scrollHeight - headerHeight - footerHeight;
+
             orderAbstractScrollHeight += 'px';
             angular.element("#orderAbstractScroll").css("height",orderAbstractScrollHeight);
         }
