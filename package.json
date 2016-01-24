@@ -11,6 +11,7 @@
     "eventproxy": "^0.3.4",
     "express": "~4.13.1",
     "express-session": ">=1.11.3",
+    "form-data": "^0.2.0",
     "mongodb": ">= 0.9.9",
     "mongoose": "^4.2.5",
     "mongoose-session": "0.0.4",

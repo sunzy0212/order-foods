@@ -65,16 +65,6 @@ angular
                     }
                 }
             })
-            .state('tab.orders.all',{
-                url:'/all',
-                cache: false,
-                views:{
-                    'tab-orders-all':{
-                        templateUrl:'views/tab-orders-all.html',
-                        controller:'ordersAllCtrl'
-                    }
-                }
-            })
             .state('tab.mine',{
                 url:'/mine',
                 cache: false,
@@ -85,7 +75,7 @@ angular
                     }
                 }
             });
-        $urlRouterProvider.otherwise('/tab/orders/all');
+        $urlRouterProvider.otherwise('/tab/orders');
     })
     .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder',function($scope,$rootScope,userOrder){
         $rootScope.totalNum = userOrder.totalNum;

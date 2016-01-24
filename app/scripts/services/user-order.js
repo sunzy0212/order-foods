@@ -14,7 +14,7 @@ serviceModule.service('userOrder', [
         afterDiscountMoney      :   0
     };
     this.totalNum = 0;
-    this.userOrderId = 0;
+    this.userOrderId = null;
 
     this.conformUserOrder = function(){
         var deferred = $q.defer();
@@ -43,6 +43,28 @@ serviceModule.service('userOrder', [
 
         return promise;
     };
+
+
+    this.conformPayment = function(userOrderId, paymentMethod){
+        var deferred = $q.defer();
+        var url = '/userOrder/conformPayment';
+        var postData = {
+            userOrderId     :   userOrderId,
+            paymentMethod   :   paymentMethod,
+        };
+
+        $http.post(url, postData)
+            .success(function(retData){
+                deferred.resolve(retData);
+            })
+            .error(function(err){
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+    };
+
+
 
     this.getFoodNum = function(foodName, volumeName){
         var foodNameKey = foodName + '(' + volumeName + ')';

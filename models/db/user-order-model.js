@@ -70,6 +70,17 @@ var UserOrderSchema = new Schema ({
         type : MoneySchema,
         required : true
     },
+    /*
+        -1  :   未定义
+        0   :   现金支付
+        1   :   支付宝支付
+        2   :   微信支付
+    */
+    paymentMethod : {
+        type : Number,
+        enum : [-1,0,1,2],
+        default : -1
+    },
     time : {
         type : Date,
         required : true,

@@ -51,12 +51,19 @@
     width: 30%;
     line-height: 100%;
     color: #ffffff;
-    background-color: #4cae4c;
     vertical-align: middle;
     text-align: center;
     margin: 0;
     padding: 0;
+}
+
+.conform-order-button-right-part-active{
+    background-color: #4cae4c;
     border: 1px #4cae4c solid;
+}
+.conform-order-button-right-part-disactive{
+    background-color: gray;
+    border: 1px gray solid;
 }
 
 .conform-order-button-table{

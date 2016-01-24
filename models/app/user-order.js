@@ -64,7 +64,32 @@ UserOrder.addAndUpdate = function(userOrder){
             deferred.reject(new Error(err));
         }
         else{
-            deferred.resolve(raw);
+            deferred.resolve(userOrder.userOrderId);
+        }
+    });
+
+    return deferred.promise;
+};
+
+UserOrder.update = function(userOrderId, newProperties){
+    var query = {
+        userOrderId     :   userOrderId
+    };
+
+    var options = {
+        upsert      : true,
+        multi       : false,
+        overwrite   : true      //update-only
+    };
+
+    var deferred = Q.defer();
+
+    userOrderModel.update(query, {$set: newProperties}, options, function(err, raw){
+        if(err){
+            deferred.reject(new Error(err));
+        }
+        else{
+            deferred.resolve(userOrderId);
         }
     });
 
@@ -140,6 +165,10 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
         deferred.resolve(list);
     });
     userOrders.forEach(function(item){
+        if(item.foods.length == 0){
+            deferred.reject(new Error('空订单'));
+        }
+
         Menu.prototype.getFood(item.foods[0].foodName)
             .then(function(food){
                 var ORDER_PROCESS_TYPE = [
@@ -158,6 +187,7 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
                     displayFoodName : food.name,
                     displayFoodImg : food.img
                 };
+
                 ret.push(orderAbstractItem);
                 ep.emit('construct_abstract_item', orderAbstractItem);
             },function(err){

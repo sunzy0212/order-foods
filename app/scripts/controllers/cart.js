@@ -7,6 +7,7 @@ ctrlModule
         function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu, paymentMethodService){
         $scope.foods = userOrder.foods;
         $scope.money = userOrder.getMoney();
+        $scope.userOrderId = null;
 
         /*userInfo.getRestaurantInfo()
             .then(function(restaurantInfo){
@@ -87,14 +88,36 @@ ctrlModule
         };
 
         $scope.conformUserOrderClick = function(){
+            if($scope.money.beforeDiscountMoney <= 0 ){
+                return ;
+            }
+            $scope.orderConforming = true;
             userOrder.conformUserOrder()
                 .then(function(retData){
+                    $scope.orderConforming = false;
                     $scope.paymentModal.show();
+                    $scope.userOrderId = retData;
+
+                    userOrder.clearCart();
+                    $scope.foods={};
+                    $scope.totalMoney = 0;
+                    $rootScope.totalNum = 0;
                 });
         };
 
         $scope.saveInvoice = function(invoice){
             userInfo.userInfo.invoice = invoice;
+        };
+
+        $scope.conformPayment = function(){
+            userOrder.conformPayment($scope.userOrderId, paymentMethodService.activePaymentId)
+                .then(function(ret){
+                    window.location.href = '#/tab/orders';
+                    $scope.paymentModal.hide();
+                })
+                .catch(function(err){
+
+                });
         };
 
     }]);

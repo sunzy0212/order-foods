@@ -17,7 +17,14 @@
                         元
                     </span>
                 </td>
-                <td class="conform-order-button-right-part" ng-click="conformUserOrderClick()">确认订单</td>
+                <td
+                        ng-init="orderConforming = false;"
+                        class="conform-order-button-right-part"
+                        ng-class="{true: 'conform-order-button-right-part-active', false: 'conform-order-button-right-part-disactive'}[money.beforeDiscountMoney > 0]"
+                        ng-click="conformUserOrderClick()">
+                    <span ng-hide="orderConforming">确认订单</span>
+                    <ion-spinner ng-show="orderConforming" icon="spiral" class="spinner-light"  ng-cloak></ion-spinner>
+                </td>
             </tr>
             </tbody>
         </table>
