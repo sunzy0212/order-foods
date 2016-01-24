@@ -75,7 +75,7 @@ angular
                     }
                 }
             });
-        $urlRouterProvider.otherwise('/tab/orders');
+        $urlRouterProvider.otherwise('/tab/order-foods');
     })
     .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder',function($scope,$rootScope,userOrder){
         $rootScope.totalNum = userOrder.totalNum;
