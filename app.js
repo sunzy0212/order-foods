@@ -73,7 +73,6 @@ app.get('/app', function(req, res) {
              });
              }
              });*/
-
             res.render('index.html',{
                 openId:openId
             });
@@ -84,7 +83,7 @@ app.get('/app', function(req, res) {
 
 //浏览器访问
 app.get('/bowser', function(req, res) {
-    var openId='wechat_openId';
+    var openId='os1N1v1asWV4hAzEqANL-e2c4E5E';
     res.render('index.html',{
         openId:openId
     });

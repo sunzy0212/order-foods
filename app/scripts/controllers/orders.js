@@ -2,7 +2,7 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-    .controller('ordersCtrl',['$scope', '$q', '$http', 'userInfo', function($scope, $q, $http, userInfo){
+    .controller('ordersCtrl',['$scope', '$q', '$http','$ionicScrollDelegate', 'userInfo', function($scope, $q, $http, $ionicScrollDelegate, userInfo){
 //        userInfo.openId = 'wechat_openId';
         setScrollHeight();
 
@@ -33,6 +33,7 @@ ctrlModule
                 .then(function(orderAbstracts){
                     $scope.orderLoaded = true;
                     $scope.orderAbstracts = orderAbstracts;
+                    $ionicScrollDelegate.$getByHandle('orderAbstractScroll').scrollTop();
                 })
                 .catch(function(err){
                     $scope.orderLoaded = true;
