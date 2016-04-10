@@ -6,10 +6,10 @@ ctrlModule
         $scope.totalMoney  =userOrder.money.beforeDiscountMoney;
 
         //构建side bar用的数据
-        foodMenu.GetAllFoodTypes()
-            .then(function(menuSideBar){
-                $scope.foodTypes = menuSideBar.menuItems;
-                return foodMenu.GetFoodsByType(menuSideBar.currentSideItemName);
+        foodMenu.getAllFoodTypes()
+            .then(function(foodTypes){
+                $scope.foodTypes = foodTypes;
+                return foodMenu.getFoodsByType(foodTypes.items[foodTypes.activeIndex]);
             })
             .then(function(typeFoods){
                 $scope.foods = typeFoods.selectedFoods;
@@ -22,7 +22,7 @@ ctrlModule
             });
 
         $scope.addFoodClick = function(foodName){
-            foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
+            foodMenu.getFoodsByType(currentSelectedFoodType())
                 .then(function(typeFoods){
                     userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
@@ -34,7 +34,7 @@ ctrlModule
         };
 
         $scope.minusFoodClick = function(foodName){
-            foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
+            foodMenu.getFoodsByType(currentSelectedFoodType())
                 .then(function(typeFoods){
                     userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
@@ -56,17 +56,20 @@ ctrlModule
             window.location.href = "#/tab/cart";
         };
 
-        $scope.GetFoodsByTypeClick = function(foodTypeName){
+        $scope.changeFoodType = function(foodTypeName){
             //设置content scroll到顶部
             $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
 
             //设置当前选择的菜的种类
-            foodMenu.menuSideBar.currentSideItemName = foodTypeName;
-
-            foodMenu.GetFoodsByType(foodTypeName)
+            foodMenu.getFoodsByType(foodTypeName)
                 .then(function(typeFoods){
                     $scope.foods = typeFoods.selectedFoods;
                     $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
                 });
         };
+
+        function currentSelectedFoodType(){
+          return $scope.foodTypes.items[$scope.foodTypes.activeIndex];
+        }
+
     }]);

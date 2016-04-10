@@ -17,11 +17,11 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
     this.foods = {};
 
     this.setFoodVolumeSelectedArray = function(foodName, volume){
-        this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray[foodName] = volume;
+        this.foods[currentSelectedFoodType()].foodVolumeSelectedArray[foodName] = volume;
     };
 
     this.getFoodVolumeSelectedArray = function(){
-        var dic = this.foods[this.menuSideBar.currentSideItemName].foodVolumeSelectedArray;
+        var dic = this.foods[currentSelectedFoodType()].foodVolumeSelectedArray;
         for(var key in dic){
             dic[key].num = userOrder.getFoodNum(key, dic[key].name);
         }
@@ -29,7 +29,7 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
     };
 
     //方法成员
-    this.GetAllFoodTypes = function(){
+    this.getAllFoodTypes = function(){
         var deferred = $q.defer();
         var promise = deferred.promise;
 
@@ -42,17 +42,9 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
             }).success(function(data){
                 //构建side bar用的数据：包含菜的名字和当前被选中项
                 that.menuSideBar = {
-                    menuItems    :   ConstructSideBar(data),
-                    currentSideItemName :   null
+                  items: data,
+                  activeIndex: 0
                 };
-
-                //初始设第一项为选中项
-                if(that.menuSideBar.menuItems.length > 0){
-                    that.menuSideBar.menuItems[0].isActive = true;
-                }
-
-                that.menuSideBar.currentSideItemName = that.menuSideBar.menuItems[0].name;
-
                 deferred.resolve(that.menuSideBar);
             }).error(function(XMLHttpRequest, textStatus, errorThrown){
                 deferred.reject(XMLHttpRequest);
@@ -65,12 +57,12 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
         return promise;
     };
 
-    this.GetFoodsByType = function(sideItemName){
+    this.getFoodsByType = function(sideItemName){
         var deferred = $q.defer();
         var promise = deferred.promise;
 
         //设置选中的side bar项
-        SideBarItemSelect(that, sideItemName);
+//        SideBarItemSelect(that, sideItemName);
 
         if(null == that.foods[sideItemName]){
             //请求该菜型所对应的所有菜
@@ -107,27 +99,15 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
         return promise;
     };
 
+    function currentSelectedFoodType(){
+      return that.menuSideBar.items[that.menuSideBar.activeIndex];
+    }
+
    /* GetAllFoodTypes(this);
     GetFoodsByType(this, this.menuSideBar[0]);*/
 
     return this;
 }]);
-
-
-
-
-
-//设置选中的side bar项
-function SideBarItemSelect(that, sideItemName){
-    for(var i=0; i < that.menuSideBar.menuItems.length; i++){
-        if(that.menuSideBar.menuItems[i].name == sideItemName){
-            that.menuSideBar.menuItems[i].isActive = true;
-        }
-        else{
-            that.menuSideBar.menuItems[i].isActive = false;
-        }
-    }
-}
 
 //初始化 service的foodVolumeSelectedArray成员
 //该数组表示每一种菜当前select控件的选择情况
@@ -179,18 +159,6 @@ function GetFoodWeightDisplayName(str){
             break;
     }
 
-    return ret;
-}
-
-//构建side bar用的数据：包含菜的名字和当前被选中项
-function ConstructSideBar(foodsArray){
-    var ret = new Array();
-    for(var i=0; i<foodsArray.length; i++){
-        ret.push({
-            name: foodsArray[i],
-            isActive: false
-        })
-    }
     return ret;
 }
 

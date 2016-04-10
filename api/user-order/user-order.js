@@ -30,10 +30,6 @@ router.post('/conformUserOrder',function(req, res, next){
 
     UserOrder.addAndUpdate(userOrderData)
         .then(function(userOrderId){
-            console.log('*************************');
-            console.log('*************************');
-            console.log('*************************');
-            console.log(userOrderId);
             res.status(200).send(userOrderId);
         })
         .catch(function(err){
@@ -63,7 +59,6 @@ router.post('/conformPayment',function(req, res, next){
             res.status(200).send(userOrderId);
         })
         .catch(function(err){
-            console.log('catched the error: ',err);
             res.status(500).send(err);
         });
 });
