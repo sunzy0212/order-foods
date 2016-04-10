@@ -34,59 +34,59 @@ app.use('/userOrder', userOrder);
 
 //微信访问
 app.get('/app', function(req, res) {
-    var code=req.query.code;
-    if(code == undefined){
+  var code=req.query.code;
+  if(code == undefined){
+    res.render('404.html');
+  }
+
+  var maxTime = 3;
+  var count = 0;
+  var accessToken = null
+  var openId = null;
+  async.whilst(
+    function(){
+      return (accessToken == null) && count<maxTime;
+    },
+    function(callback){
+      //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
+      oauth.getAccessToken(code, function(err, ret){
+        count++;
+        if(ret.data !=undefined && ret.data.access_token !=undefined){
+          accessToken = ret.data.access_token;
+          openId = ret.data.openid;
+          callback(null, openId);
+        }
+      });
+    },
+    function(err){
+      if(err || count >= maxTime){
         res.render('404.html');
-    }
+      }
+      //获取微信用户的其它个人信息
+      /*oauth.getUser(openId, function (err,ret) {
+       if(err){
 
-    var maxTime = 3;
-    var count = 0;
-    var accessToken = null
-    var openId = null;
-    async.whilst(
-        function(){
-            return (accessToken == null) && count<maxTime;
-        },
-        function(callback){
-            //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
-            oauth.getAccessToken(code, function(err, ret){
-                count++;
-                if(ret.data !=undefined && ret.data.access_token !=undefined){
-                    accessToken = ret.data.access_token;
-                    openId = ret.data.openid;
-                    callback(null, openId);
-                }
-            });
-        },
-        function(err){
-            if(err || count >= maxTime){
-                res.render('404.html');
-            }
-            //获取微信用户的其它个人信息
-            /*oauth.getUser(openId, function (err,ret) {
-             if(err){
-
-             }
-             else{
-             res.render('index.html',{
-             openId:openId
-             });
-             }
-             });*/
-            res.render('index.html',{
-                openId:openId
-            });
-        });
+       }
+       else{
+       res.render('index.html',{
+       openId:openId
+       });
+       }
+       });*/
+      res.render('index.html',{
+        openId:openId
+      });
+    });
 
 
 });
 
 //浏览器访问
 app.get('/dist', function(req, res) {
-    var openId='os1N1v1asWV4hAzEqANL-e2c4E5E';
-    res.render('index.html',{
-        openId:openId
-    });
+  var openId='os1N1v1asWV4hAzEqANL-e2c4E5E';
+  res.render('index.html',{
+    openId:openId
+  });
 
 });
 
@@ -101,8 +101,8 @@ app.get('/app', function(req, res) {
 
 
 app.use('/wechat1', wechat(globalValue.wechatConfig,function(req,res,next){
-    // 微信输入信息都在req.weixin上
-    var message=req.weixin;
+  // 微信输入信息都在req.weixin上
+  var message=req.weixin;
 
 }));
 

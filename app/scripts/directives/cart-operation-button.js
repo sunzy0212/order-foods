@@ -11,7 +11,7 @@ directiveModule.directive('cartOperationButton',['$rootScope','userOrder',functi
             foods: '=',
             totalMoney: '='
         },
-        templateUrl:'../../views/directives/cart-operation-button.html',
+        templateUrl:'views/directives/cart-operation-button.html',
         link: function(scope, element, attrs){
             scope.gotoOrderFoods = function(){
                 window.location.href='#/tab/order-foods';
