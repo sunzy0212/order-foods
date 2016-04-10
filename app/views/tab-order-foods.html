@@ -24,14 +24,6 @@
     <div class="row row-no-padding responsive-break order-food-layout-content">
         <div class="col col-20 order-food-layout-side-bar">
             <ion-scroll delegate-handle="sideBarScroll" zooming="false" direction="y" paging="false" scrollbar-y="false" style="height: 100%;">
-                <!--<div ng-repeat="type in foodTypes">
-                    <div class="tab-item side-bar-item" ng-click="GetFoodsByTypeClick(type.name)" ng-class="{true: 'side-bar-item-active',false:'side-bar-item-disactive'}[type.isActive]">
-                        <i class="icon ion-android-home" ng-class="{true:'side-bar-item-icon-active',false:'side-bar-item-icon-disactive'}[type.isActive]"></i>
-                        <p ng-bind="type.name" ng-class="{true:'side-bar-item-text-active',false:'side-bar-item-text-disactive'}[type.isActive]"></p>
-                    </div>
-                    <hr class="side-bar-hr">
-                </div>-->
-
               <side-bar list="foodTypes" change-item="changeFoodType(foodTypes.items[foodTypes.activeIndex])"></side-bar>
             </ion-scroll>
         </div>

@@ -6,16 +6,23 @@ directiveModule.directive('sideBar',['$ionicModal',function($ionicModal){
     restrict: 'E',
     scope:{
       list: '=',
-      changeItem: '&'
+      changeItem: '&?'
     },
     templateUrl:'views/directives/side-bar.html',
-    link: function(scope, element, attrs){
-      setTimeout((function(element){
-        return function(){
-          var itemDOMs = element[0].getElementsByClassName("tab-item");
-          $(itemDOMs[scope.list.activeIndex]).addClass("side-bar-item-active");
-        }
-      })(element),0);
+    link: function(scope, element){ 
+
+      //防止全局作用域命名污染，全局变量使用完要及时回收
+      window.sideBarGlobal = {
+        activeIndex: 0,
+        // activeIndex: scope.list.activeIndex,
+        ele: element
+      } 
+
+      setTimeout(function(){
+        var itemDOMs = window.sideBarGlobal.ele[0].getElementsByClassName("tab-item");
+        $(itemDOMs[window.sideBarGlobal.activeIndex]).addClass("side-bar-item-active");
+        window.sideBarGlobal = null;  //回收全局资源
+      },0)
 
       scope.getItems = function(ev){
         var selectedDOMItem = $(ev.target).parents("div.side-bar-item-null");
@@ -31,3 +38,4 @@ directiveModule.directive('sideBar',['$ionicModal',function($ionicModal){
     }
   }
 }]);
+

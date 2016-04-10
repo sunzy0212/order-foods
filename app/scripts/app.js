@@ -43,7 +43,7 @@ angular
       })
       .state('tab.order-foods',{
         url:'/order-foods',
-        cache: false,
+        cache: true,
         views:{
           'tab-order-foods':{
             templateUrl:'views/tab-order-foods.html',
