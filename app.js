@@ -20,8 +20,8 @@ var globalValue=require('./models/common/global-values');
 var app = express();
 
 // Configuration
-app.use(express.static(path.join(__dirname, 'app')));
-app.set('views', __dirname + '/app');
+app.use(express.static(path.join(__dirname, 'dist')));
+app.set('views', __dirname + '/dist');
 app.engine('html', require('ejs').renderFile);
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -33,7 +33,7 @@ app.use('/restaurantInfo', getRestaurantInfo);
 app.use('/userOrder', userOrder);
 
 //微信访问
-app.get('/wechat', function(req, res) {
+app.get('/app', function(req, res) {
     var code=req.query.code;
     if(code == undefined){
         res.render('404.html');
