@@ -8,7 +8,7 @@ directiveModule.directive('sideBar',['$ionicModal',function($ionicModal){
       list: '=',
       changeItem: '&'
     },
-    templateUrl:'../../views/directives/side-bar.html',
+    templateUrl:'views/directives/side-bar.html',
     link: function(scope, element, attrs){
       setTimeout((function(element){
         return function(){

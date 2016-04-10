@@ -7,7 +7,7 @@ directiveModule.directive('foodRate',function(){
         scope:{
             level: '='
         },
-        templateUrl:'../../views/directives/food-rate.html',
+        templateUrl:'views/directives/food-rate.html',
         link: function(scope, element, attrs){
             scope.isActive = new Array(false,false,false,false,false);
 

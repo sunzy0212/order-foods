@@ -7,7 +7,7 @@ directiveModule.directive('orderAbstractItem', function(){
         scope:{
             orderAbstractItem: '='
         },
-        templateUrl:'../../views/directives/order-abstract-item.html',
+        templateUrl:'views/directives/order-abstract-item.html',
         link: function(scope, element, attrs){
 
         }

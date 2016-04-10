@@ -10,7 +10,7 @@ directiveModule.directive('useCoupon',['$ionicModal',function($ionicModal){
             discountMoney: '=',
             afterDiscountMoney: '='
         },
-        templateUrl:'../../views/directives/use-coupon.html',
+        templateUrl:'views/directives/use-coupon.html',
         link: function(scope, element, attrs){
             $ionicModal.fromTemplateUrl('views/coupon.html',{
                 ionicScope       :   scope,
