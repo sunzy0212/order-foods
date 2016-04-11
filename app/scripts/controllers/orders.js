@@ -40,6 +40,10 @@ ctrlModule
                 });
         };
 
+        $scope.continueOrder = function(ev){
+            var orderAbstractItem = ev.target.getAttribute("order-abstract-item");
+        };
+
         function init(){
 
 

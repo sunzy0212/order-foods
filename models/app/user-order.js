@@ -161,7 +161,6 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
     var ep = new EventProxy();
     var deferred = Q.defer();
     ep.after('construct_abstract_item', userOrders.length, function(list){
-        console.log(list);
         deferred.resolve(list);
     });
     userOrders.forEach(function(item){
@@ -171,16 +170,10 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
 
         Menu.prototype.getFood(item.foods[0].foodName)
             .then(function(food){
-                var ORDER_PROCESS_TYPE = [
-                    "未确认",
-                    "未付款",
-                    "待评价",
-                    "交易完成"
-                ];
-
                 var orderAbstractItem = {
                     orderId : item.userOrderId,
-                    status : ORDER_PROCESS_TYPE[item.status],
+                    // status : ORDER_PROCESS_TYPE[item.status],
+                    status : item.status,
                     orderTime : CommonFun.dateToString(item.time),
                     totalMoney : item.money.beforeDiscountMoney - item.money.discountMoney,
                     totalNum : item.totalNum,

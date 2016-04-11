@@ -1,0 +1,48 @@
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+		        <div class="list">
+		            <div class="item cart-list vertical-content-middle" ng-click="selectCouponOpen()">
+		                <span class="absolute-padding-left-16">订单总价</span>
+		                <span class="absolute-padding-right-32 order-food-money">
+		                    <span>¥</span>
+		                    <span ng-bind="paymentInfo.totalMoney"></span>
+		                </span>
+		            </div>
+
+		            <div class="item item-divider food-item-divider"></div>
+
+		            <!--选择支付方式-->
+		            <div class="item cart-list vertical-content-middle">
+		                <span class="absolute-padding-left-16">请选择支付方式</span>
+		            </div>
+
+		            <div
+		                    class="item item-avatar-left select-payment-method-item"
+		                    ng-repeat="paymentMethod in paymentMethods"
+		                    ng-click="selectPaymentMethod(paymentMethod.id)"
+		                >
+		                <img ng-src={{paymentMethod.img}}>
+		                <div class="row row-no-padding select-payment-method-text">
+		                    <div class="col col-75">
+		                        <h2 ng-bind="paymentMethod.name"></h2>
+		                        <p ng-bind="paymentMethod.description"></p>
+		                    </div>
+		                    <div class="col col-25 select-payment-method-check-box-container">
+		                        <i
+		                                class="ion-checkmark-circled select-payment-method-check-box"
+		                                ng-class="{true: 'select-payment-method-check-box-active', false: 'select-payment-method-check-box-inactive'}[paymentMethod.isActive]"></i>
+		                    </div>
+		                </div>
+		            </div>
+
+		            <div class="conform-payment-button" ng-click="conformPayment()">
+		                确认支付
+		            </div>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>
+

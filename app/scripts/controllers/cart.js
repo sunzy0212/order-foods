@@ -9,6 +9,7 @@ ctrlModule
         $scope.money = userOrder.getMoney();
         $scope.userOrderId = null;
 
+        $scope.isPaymentMethodModalShow = false;
         /*userInfo.getRestaurantInfo()
             .then(function(restaurantInfo){
                 $scope.restaurantInfo = userInfo.restaurantInfo;
@@ -91,17 +92,26 @@ ctrlModule
             if($scope.money.beforeDiscountMoney <= 0 ){
                 return ;
             }
+
             $scope.orderConforming = true;
             userOrder.conformUserOrder()
                 .then(function(retData){
                     $scope.orderConforming = false;
-                    $scope.paymentModal.show();
+                    // $scope.paymentModal.show();
                     $scope.userOrderId = retData;
 
                     userOrder.clearCart();
                     $scope.foods={};
                     $scope.totalMoney = 0;
                     $rootScope.totalNum = 0;
+
+                    $scope.isPaymentMethodModalShow = true;
+
+                    $scope.paymentInfo = {
+                        userOrderId: retData,
+                        totalMoney: userOrder.money.afterDiscountMoney,
+                        status: 1
+                    }
                 });
         };
 
