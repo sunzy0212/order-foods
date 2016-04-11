@@ -20,8 +20,8 @@ var globalValue=require('./models/common/global-values');
 var app = express();
 
 // Configuration
-app.use(express.static(path.join(__dirname, 'dist')));
-app.set('views', __dirname + '/dist');
+app.use(express.static(path.join(__dirname, 'app')));
+app.set('views', __dirname + '/app');
 app.engine('html', require('ejs').renderFile);
 app.use(logger('dev'));
 app.use(bodyParser.json());

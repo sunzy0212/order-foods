@@ -2,7 +2,7 @@
 
 directiveModule.directive('paymentMethodModal', [function () {
   return {
-    templateUrl: '../../views/directives/payment-method-modal.html',
+    templateUrl: 'views/directives/payment-method-modal.html',
     restrict: 'E',
     transclude: true,
     replace:true,
@@ -12,12 +12,15 @@ directiveModule.directive('paymentMethodModal', [function () {
     },
     link: function (scope, element, attrs) {
         var $ele = $(element);
+
+        $ele.odModal('hide');
+
         scope.$watch('isPaymentMethodModalShow',function(newValue){
             if(newValue){
-                $ele.modal('show');            
+                $ele.odModal('show');
             }
             else{
-                $ele.modal('hide');
+                $ele.odModal('hide');
             }
         })
     }
