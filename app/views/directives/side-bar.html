@@ -1,7 +1,16 @@
-<div class="side-bar-item-null" ng-repeat="item in list.items track by $index" data-food-type="{{$index}}" ng-click="getItems($event)">
-  <div class="tab-item side-bar-item">
-    <i class="icon ion-android-home"></i>
-    <p ng-bind="item"></p>
-  </div>
-  <hr class="side-bar-hr">
+<div ng-click="getItems($event)">
+	<div class="side-bar-item-null" data-food-type="0" >
+	  <div class="tab-item side-bar-item side-bar-item-active">
+	    <i class="icon ion-android-home"></i>
+	    <p ng-bind="list.items[0]"></p>
+	  </div>
+	  <hr class="side-bar-hr">
+	</div>
+	<div class="side-bar-item-null" ng-repeat="item in list.items.slice(1) track by $index" data-food-type="{{$index+1}}">
+	  <div class="tab-item side-bar-item">
+	    <i class="icon ion-android-home"></i>
+	    <p ng-bind="item"></p>
+	  </div>
+	  <hr class="side-bar-hr">
+	</div>
 </div>
