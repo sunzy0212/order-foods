@@ -35,27 +35,8 @@ ctrlModule
             $scope.money = userOrder.discount();
         };
 
-        //        支付相关的操作
-        $ionicModal.fromTemplateUrl('views/tab-payment.html',{
-            scope       :   $scope,
-            animation   :   'slide-left-right'
-        }).then(function(modal){
-            $scope.paymentModal = modal;
-            $scope.paymentMethods = paymentMethodService.paymentMethods;
-        });
-        $scope.selectPaymentMethod = function(id){
-            $scope.paymentMethods = paymentMethodService.setActive(id);
-        };
-
-        $scope.$on('$destroy',function(){
-            $scope.modal.remove();
-        });
-        $scope.hideConformPayment = function(){
-            $scope.paymentModal.hide();
-        };
-
         $scope.addFoodClick = function(foodName, volumeName, price){
-            foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
+            foodMenu.getFoodsByType()
                 .then(function(typeFoods){
                     userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName, volumeName, price);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
@@ -66,7 +47,7 @@ ctrlModule
         };
 
         $scope.minusFoodClick = function(foodName, volumeName, price){
-            foodMenu.GetFoodsByType(foodMenu.menuSideBar.currentSideItemName)
+            foodMenu.getFoodsByType()
                 .then(function(typeFoods){
                     userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName, volumeName, price);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
@@ -105,6 +86,8 @@ ctrlModule
                     $scope.totalMoney = 0;
                     $rootScope.totalNum = 0;
 
+
+
                     $scope.isPaymentMethodModalShow = true;
 
                     $scope.paymentInfo = {
@@ -119,17 +102,5 @@ ctrlModule
         $scope.saveInvoice = function(invoice){
             userInfo.userInfo.invoice = invoice;
         };
-
-        $scope.conformPayment = function(){
-            userOrder.conformPayment($scope.userOrderId, paymentMethodService.activePaymentId)
-                .then(function(ret){
-                    window.location.href = '#/tab/orders';
-                    $scope.paymentModal.hide();
-                })
-                .catch(function(err){
-
-                });
-        };
-
     }]);
 

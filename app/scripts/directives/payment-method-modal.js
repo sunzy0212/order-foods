@@ -29,8 +29,7 @@ directiveModule.directive('paymentMethodModal', ['paymentMethodService',function
                 $ele.odModal('hide');
                 tabNavDOM.css("z-index","5");
             }
-        })
-
+        });
     }
   };
 }]);

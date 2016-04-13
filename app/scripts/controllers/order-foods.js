@@ -22,7 +22,7 @@ ctrlModule
             });
 
         $scope.addFoodClick = function(foodName){
-            foodMenu.getFoodsByType(currentSelectedFoodType())
+            foodMenu.getFoodsByType()
                 .then(function(typeFoods){
                     userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
@@ -30,11 +30,10 @@ ctrlModule
                     $scope.totalMoney = userOrder.money.beforeDiscountMoney;
                     $rootScope.totalNum = userOrder.totalNum;
                 });
-
         };
 
         $scope.minusFoodClick = function(foodName){
-            foodMenu.getFoodsByType(currentSelectedFoodType())
+            foodMenu.getFoodsByType()
                 .then(function(typeFoods){
                     userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName);
                     $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;

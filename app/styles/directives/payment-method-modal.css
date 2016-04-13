@@ -1,9 +1,26 @@
 .payment-method-modal {
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 .payment-method-modal .list {
   position: fixed;
   bottom: 0;
   width: 100%;
   z-index: 5;
+  font-family: "楷体";
+}
+.payment-method-modal .list .payment-method-modal-title {
+  text-align: center;
+  height: 34px;
+  line-height: 34px;
+}
+.payment-method-modal .list .payment-method-modal-title .close-button {
+  font-size: 30px;
+  float: left;
+  color: #387ef5;
+}
+.payment-method-modal .list .payment-method-modal-title span {
+  font-weight: bold;
+  font-family: "宋体";
 }
