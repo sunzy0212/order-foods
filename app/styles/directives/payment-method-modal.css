@@ -1,0 +1,9 @@
+.payment-method-modal {
+  height: 100%;
+}
+.payment-method-modal .list {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 5;
+}

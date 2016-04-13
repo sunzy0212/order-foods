@@ -110,7 +110,8 @@ ctrlModule
                     $scope.paymentInfo = {
                         userOrderId: retData,
                         totalMoney: userOrder.money.afterDiscountMoney,
-                        status: 1
+                        status: 1,
+                        paymentMethods: paymentMethodService.paymentMethods
                     }
                 });
         };

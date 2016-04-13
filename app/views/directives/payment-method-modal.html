@@ -1,4 +1,4 @@
-<div class="od-modal">
+<div class="od-modal payment-method-modal">
   <div class="list">
       <div class="item cart-list vertical-content-middle" ng-click="selectCouponOpen()">
           <span class="absolute-padding-left-16">订单总价</span>
@@ -17,7 +17,7 @@
 
       <div
               class="item item-avatar-left select-payment-method-item"
-              ng-repeat="paymentMethod in paymentMethods"
+              ng-repeat="paymentMethod in paymentInfo.paymentMethods"
               ng-click="selectPaymentMethod(paymentMethod.id)"
           >
           <img ng-src={{paymentMethod.img}}>
