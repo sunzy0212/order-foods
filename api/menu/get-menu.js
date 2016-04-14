@@ -8,7 +8,7 @@ var FoodType = require('../../models/app/food-type');
 
 var app = require('../../app');
 
-router.post('/GetMenu',function(req,res){
+router.get('/GetMenu',function(req,res){
     var menu=new Menu();
     menu.getAllFoods(function(err,doc){
         if(err){
@@ -28,9 +28,9 @@ router.get('/GetFoodType',function(req,res){
     });
 });
 
-router.post('/GetFoodsByType',function(req,res){
+router.get('/GetFoodsByType',function(req,res){
     var menu = new Menu();
-    menu.getFoodsByType(req.body.foodType,function(err,doc){
+    menu.getFoodsByType(req.query.foodType,function(err,doc){
         if(err){
             res.status(500).send(err);
         }

@@ -2,18 +2,44 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-.controller('orderFoodsCtrl',['$scope','$rootScope','$q','$http','$ionicScrollDelegate','userOrder','foodMenu', 'userInfo',function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo){
+.controller('orderFoodsCtrl',[
+    '$scope',
+    '$rootScope',
+    '$q',
+    '$http',
+    '$ionicScrollDelegate',
+    'userOrder',
+    'foodMenu',
+    'userInfo',
+    'orderFoodsCache',
+    'menu',
+    function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo,orderFoodsCache,menu){
         $scope.totalMoney  =userOrder.money.beforeDiscountMoney;
 
         //构建side bar用的数据
-        foodMenu.getAllFoodTypes()
+        // foodMenu.getAllFoodTypes()
+        //     .then(function(foodTypes){
+        //         $scope.foodTypes = foodTypes;
+        //         return foodMenu.getFoodsByType(foodTypes.items[foodTypes.activeIndex]);
+        //     })
+        //     .then(function(typeFoods){
+        //         $scope.foods = typeFoods.selectedFoods;
+        //         $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
+        //     });
+
+        var foodType = null;
+        orderFoodsCache.getFoodTypes()
             .then(function(foodTypes){
                 $scope.foodTypes = foodTypes;
-                return foodMenu.getFoodsByType(foodTypes.items[foodTypes.activeIndex]);
+                return menu.getFoodsByType(foodTypes[0] && (foodType = foodTypes[0].name));
             })
-            .then(function(typeFoods){
-                $scope.foods = typeFoods.selectedFoods;
-                $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
+            .then(function(foods){
+                $scope.foods = foods;
+                return orderFoodsCache.getFoodsSelectedStatusByType(foodType);
+            })
+            .then(function(foodsSelectedStatus){
+                $scope.foodsSelectedStatus = foodsSelectedStatus;
+                foodType = null;
             });
 
         //如果餐厅信息未被加载，则加载餐厅信息
