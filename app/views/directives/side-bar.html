@@ -1,5 +1,5 @@
 <div ng-click="getItems($event)">
-	<div class="side-bar-item-null" ng-repeat="item in items track by $index" data-food-type="{{$index}}">
+	<div class="side-bar-item-null" ng-repeat="item in list.items track by $index" data-food-type="{{$index}}">
 	  <div class="tab-item side-bar-item" ng-class="{'side-bar-item-active':item.isSelected}">
 	    <i class="icon ion-android-home"></i>
 	    <p ng-bind="item.name"></p>

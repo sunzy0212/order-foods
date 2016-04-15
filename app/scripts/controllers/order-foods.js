@@ -31,7 +31,7 @@ ctrlModule
         orderFoodsCache.getFoodTypes()
             .then(function(foodTypes){
                 $scope.foodTypes = foodTypes;
-                return menu.getFoodsByType(foodTypes[0] && (foodType = foodTypes[0].name));
+                return menu.getFoodsByType(foodTypes && foodTypes.items && foodTypes.items[foodTypes.activeIndex] && (foodType = foodTypes.items[foodTypes.activeIndex].name));
             })
             .then(function(foods){
                 $scope.foods = foods;
@@ -69,28 +69,30 @@ ctrlModule
                 });
         };
 
-        $scope.SelectVolume = function(foodName, selectVolume){
-
-            foodMenu.setFoodVolumeSelectedArray(foodName, selectVolume);
-
-            //该数组表示每一种菜当前select控件的选择情况
-            $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
+        $scope.SelectVolume = function(foodName, volume){
+          orderFoodsCache.getSelectedType()
+            .then(function(foodType){
+              orderFoodsCache.setFoodsSelectedStatus(foodType,foodName,volume);
+            });
         };
 
         $scope.gotoCart = function(){
             window.location.href = "#/tab/cart";
         };
 
-        $scope.changeFoodType = function(foodTypeName){
+        $scope.changeFoodType = function(type){
             //设置content scroll到顶部
             $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
 
             //设置当前选择的菜的种类
-            foodMenu.getFoodsByType(foodTypeName)
-                .then(function(typeFoods){
-                    $scope.foods = typeFoods.selectedFoods;
-                    $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
-                });
+            menu.getFoodsByType(type)
+              .then(function(foods){
+                 $scope.foods = foods;
+                 return orderFoodsCache.getFoodsSelectedStatusByType(type);
+              })
+              .then(function(foodsSelectedStatus){
+                $scope.foodsSelectedStatus = foodsSelectedStatus;
+              });
         };
 
         function currentSelectedFoodType(){

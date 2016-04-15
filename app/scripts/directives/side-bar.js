@@ -5,7 +5,7 @@ directiveModule.directive('sideBar',['$ionicModal',function($ionicModal){
   return {
     restrict: 'E',
     scope:{
-      items: '=',
+      list: '=',
       changeItem: '&?'
     },
     templateUrl:'views/directives/side-bar.html',
@@ -13,18 +13,14 @@ directiveModule.directive('sideBar',['$ionicModal',function($ionicModal){
       scope.getItems = function(ev){
         var selectedDOMItem = $(ev.target).parents("div.side-bar-item-null");
         var selectedIndex = selectedDOMItem.data("food-type");
-        clearSelected(scope.items);
-        scope.items[selectedIndex].isSelected = true;
 
-        scope.changeItem(selectedIndex);
+        if(scope.list.activeIndex != selectedIndex){
+          scope.list.items[scope.list.activeIndex].isSelected = false;
+          scope.list.items[selectedIndex].isSelected = true;
+          scope.list.activeIndex = selectedIndex;
+          scope.changeItem(selectedIndex);
+        }
       };
-
-      // 将items数组的每个元素的isSelected属性设为false
-      function clearSelected(items){
-        items.forEach(function(item){
-          item.isSelected = false;
-        })
-      }
     }
   }
 }]);

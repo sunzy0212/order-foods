@@ -34,6 +34,24 @@ serviceModule.service('orderFoodsCache',[
 			return deferred.promise;			
 		};
 
+    this.setFoodsSelectedStatus = function(type, foodName, volume){
+      this.foodsSelectedStatus[type][foodName].volume = volume;
+    };
+
+    this.getSelectedType = function(){
+      var deferred = $q.defer();
+      if(this.foodTypes != null){
+        deferred.resolve(this.foodTypes.items[this.foodTypes.activeIndex].name);
+      }
+      else{
+        this.getFoodTypes()
+          .then(function(foodTypes){
+            deferred.resolve(foodTypes.items[foodTypes.activeIndex].name);
+          })
+      }
+      return deferred.promise;
+    };
+
 
 		
 		// 将字符数组转化为结构数组
@@ -42,16 +60,19 @@ serviceModule.service('orderFoodsCache',[
 		// 	isSelected: bool
 		// }]
 		function constructFoodTypes(arr){
-			var foodTypes = [];
+			var foodTypes = {
+        items: [],
+        activeIndex: 0
+      };
 			for(var i=0; i<arr.length; i++){
 				if(i === 0){
-					foodTypes.push({
+					foodTypes.items.push({
 						name: arr[i],
 						isSelected: true
-					})
+					});
 				}
 				else{
-					foodTypes.push({
+					foodTypes.items.push({
 						name: arr[i],
 						isSelected: false
 					})

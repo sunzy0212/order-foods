@@ -24,7 +24,7 @@
     <div class="row row-no-padding responsive-break order-food-layout-content">
         <div class="col col-20 order-food-layout-side-bar">
             <ion-scroll delegate-handle="sideBarScroll" zooming="false" direction="y" paging="false" scrollbar-y="false" style="height: 100%;">
-              <side-bar items="foodTypes" change-item="changeFoodType(foodTypes.items[foodTypes.activeIndex])"></side-bar>
+              <side-bar list="foodTypes" change-item="changeFoodType(foodTypes.items[foodTypes.activeIndex].name)"></side-bar>
             </ion-scroll>
         </div>
         <div class="col col-80 order-food-layout-food-content">
