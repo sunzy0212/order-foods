@@ -54,7 +54,7 @@
                             <!--<span ng-bind="food.state"></span>-->
                         <div>
                             <span ng-repeat="price in food.price">
-                                <span class="food-description-font" ng-bind="price.name"></span>
+                                <span class="food-description-font" ng-bind="price.displayName"></span>
                                 <span ng-bind="price.price"></span>
                             </span>
                         </div>
@@ -64,14 +64,14 @@
                                         class="icon ion-ios-minus select-food-icon"
                                         ng-click="minusFoodClick(food.name)"
                                         style="position: absolute;left: 0px;"
-                                        ng-show="foodSelectedArray[food.name].num > 0"
+                                        ng-show="foodsSelectedStatus[food.name].num > 0"
                                         ng-cloak
                                         >
                                 </i>
                                 <span
-                                        ng-bind="foodSelectedArray[food.name].num"
+                                        ng-bind="foodsSelectedStatus[food.name].num"
                                         style="position: absolute; left: 40%;top: 20%;"
-                                        ng-show="foodSelectedArray[food.name].num > 0"
+                                        ng-show="foodsSelectedStatus[food.name].num > 0"
                                         ng-cloak
                                         >
                                 </span>
@@ -79,9 +79,9 @@
                             </div>
                             <div class="col col-33">
                                 <select class="food-price-select"
-                                        ng-init="selectVolume=foodSelectedArray[food.name]"
+                                        ng-init="selectVolume=foodsSelectedStatus[food.name].volume"
                                         ng-model="selectVolume"
-                                        ng-options="item as item.name for item in food.price track by item.name"
+                                        ng-options="item as item.displayName for item in food.price track by item.name"
                                         ng-change="SelectVolume(food.name,selectVolume)"
                                         >
                                 </select>

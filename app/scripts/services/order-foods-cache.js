@@ -32,7 +32,7 @@ serviceModule.service('orderFoodsCache',[
 				deferred.resolve(that.foodsSelectedStatus[type]);
 			}
 			return deferred.promise;			
-		}
+		};
 
 
 		
@@ -69,10 +69,11 @@ serviceModule.service('orderFoodsCache',[
 			var foodsSelectedStatus = [];
 			arr.forEach(function(item){
 				foodsSelectedStatus[item.name] = {
-					volume: getFirstExistingVolume(item.price),
+					volume: item.price[0],
 					num: 0
 				}
 			});
+      return foodsSelectedStatus;
 		}
 
 		// 初始化份量列表
@@ -82,11 +83,11 @@ serviceModule.service('orderFoodsCache',[
 		// 	"middle": 30,    --> middle
 		// 	"large": 50
 		// }  
-		function getFirstExistingVolume(volumeObj){
+		/*function getFirstExistingVolume(volumeObj){
 			for(var i in volumeObj){
 				if(volumeObj[i] != -1){
 					return i;
 				}
 			}
-		}
+		}*/
 }]);

@@ -97,4 +97,6 @@ ctrlModule
           return $scope.foodTypes.items[$scope.foodTypes.activeIndex];
         }
 
+
+
     }]);
