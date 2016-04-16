@@ -13,19 +13,10 @@ ctrlModule
     'userInfo',
     'orderFoodsCache',
     'menu',
-    function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo,orderFoodsCache,menu){
-        $scope.totalMoney  =userOrder.money.beforeDiscountMoney;
-
-        //构建side bar用的数据
-        // foodMenu.getAllFoodTypes()
-        //     .then(function(foodTypes){
-        //         $scope.foodTypes = foodTypes;
-        //         return foodMenu.getFoodsByType(foodTypes.items[foodTypes.activeIndex]);
-        //     })
-        //     .then(function(typeFoods){
-        //         $scope.foods = typeFoods.selectedFoods;
-        //         $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
-        //     });
+    'cart',
+    function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo,orderFoodsCache,menu,cart){
+        $scope.totalMoney  =cart.money.beforeDiscount;
+        $rootScope.totalNum = cart.totalNum;
 
         var foodType = null;
         orderFoodsCache.getFoodTypes()
@@ -48,14 +39,10 @@ ctrlModule
             });
 
         $scope.addFoodClick = function(foodName){
-            foodMenu.getFoodsByType()
-                .then(function(typeFoods){
-                    userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName);
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
-
-                    $scope.totalMoney = userOrder.money.beforeDiscountMoney;
-                    $rootScope.totalNum = userOrder.totalNum;
-                });
+          var currentVolumeObj = $scope.foodsSelectedStatus[foodName].volume;
+          var ret= cart.addFood(foodName, currentVolumeObj);
+          $scope.foodsSelectedStatus[foodName].num = ret.num;
+          $scope.totalMoney = ret.money;
         };
 
         $scope.minusFoodClick = function(foodName){
@@ -84,7 +71,7 @@ ctrlModule
             //设置content scroll到顶部
             $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
 
-            //设置当前选择的菜的种类
+            //获取当前选择的菜的种类
             menu.getFoodsByType(type)
               .then(function(foods){
                  $scope.foods = foods;
@@ -93,6 +80,10 @@ ctrlModule
               .then(function(foodsSelectedStatus){
                 $scope.foodsSelectedStatus = foodsSelectedStatus;
               });
+        };
+
+        $scope.getFoodNum = function(foodName, volume){
+          return cart.getFoodNum(foodName,volume);
         };
 
         function currentSelectedFoodType(){

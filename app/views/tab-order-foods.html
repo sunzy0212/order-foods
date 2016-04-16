@@ -4,7 +4,7 @@
             <tr>
                 <td style="width: 20%;text-align: center;" >
                     <div class="tab-item has-badge" style="margin-top: 3%;">
-                        <i class="badge badge-assertive" ng-bind="totalNum"></i>
+                        <i class="badge badge-assertive" ng-bind="totalNum.value"></i>
                         <i class="ion ion-ios-cart" style="font-size: 35px;color: #4cae4c;"></i>
                     </div>
                 </td>
@@ -79,10 +79,10 @@
                             </div>
                             <div class="col col-33">
                                 <select class="food-price-select"
-                                        ng-init="selectVolume=foodsSelectedStatus[food.name].volume"
-                                        ng-model="selectVolume"
+                                        ng-init="initVolume=foodsSelectedStatus[food.name].volume"
+                                        ng-model="initVolume"
                                         ng-options="item as item.displayName for item in food.price track by item.name"
-                                        ng-change="SelectVolume(food.name,selectVolume)"
+                                        ng-change="SelectVolume(food.name,initVolume)"
                                         >
                                 </select>
                             </div>

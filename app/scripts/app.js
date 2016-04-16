@@ -83,8 +83,8 @@ angular
       });
     $urlRouterProvider.otherwise('/tab/order-foods');
   }])
-  .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder',function($scope,$rootScope,userOrder){
-    $rootScope.totalNum = userOrder.totalNum;
+  .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder', 'menu',function($scope,$rootScope,userOrder,menu){
+    $rootScope.totalNum = menu.totalNum;
   }]);
 
 var ctrlModule = angular.module('orderFoodsApp.controllers',['orderFoodsApp.services']);

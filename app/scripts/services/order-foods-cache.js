@@ -1,7 +1,8 @@
 serviceModule.service('orderFoodsCache',[
 	'$q',
 	'menu',
-	function($q,menu){
+  'cart',
+	function($q,menu,cart){
 		var that = this;
 		this.foodTypes = null;
 		this.foodsSelectedStatus = {};
@@ -35,7 +36,7 @@ serviceModule.service('orderFoodsCache',[
 		};
 
     this.setFoodsSelectedStatus = function(type, foodName, volume){
-      this.foodsSelectedStatus[type][foodName].volume = volume;
+      return this.foodsSelectedStatus[type][foodName].volume = volume;
     };
 
     this.getSelectedType = function(){
@@ -91,7 +92,7 @@ serviceModule.service('orderFoodsCache',[
 			arr.forEach(function(item){
 				foodsSelectedStatus[item.name] = {
 					volume: item.price[0],
-					num: 0
+					num: cart.getFoodNum(item.name, item.price[0].name)
 				}
 			});
       return foodsSelectedStatus;
