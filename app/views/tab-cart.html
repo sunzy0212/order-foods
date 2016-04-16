@@ -8,12 +8,12 @@
                 <td class="conform-order-button-left-part">
                     <span>
                         实付
-                        <span ng-bind="money.afterDiscountMoney"></span>
+                        <span ng-bind="money.afterDiscount"></span>
                         元
                     </span>
                     <span class="conform-order-button-discount">
                         已优惠
-                        <span ng-bind="money.discountMoney"></span>
+                        <span ng-bind="money.discount"></span>
                         元
                     </span>
                 </td>
@@ -99,27 +99,27 @@
                         </div>
                         <div class="col col-20 vertical-content-middle">
                             <span class="order-food-total-money" style="padding-left: 10%">¥</span>
-                            <span class="order-food-total-money" ng-bind="foodEntity.price"></span>
+                            <span class="order-food-total-money" ng-bind="foodEntity.volume.price"></span>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <i
                                     class="icon ion-ios-minus select-food-icon"
-                                    ng-click="minusFoodClick(foodEntity.foodName, foodEntity.volume, foodEntity.price)"
-                                    ng-show="foodEntity.foodNum > 0"
+                                    ng-click="minusFoodClick(foodEntity.foodName, foodEntity.volume)"
+                                    ng-show="foodEntity.num > 0"
                                     ng-cloak>
                             </i>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <span
-                                    ng-bind="foodEntity.foodNum"
-                                    ng-show="foodEntity.foodNum > 0"
+                                    ng-bind="foodEntity.num"
+                                    ng-show="foodEntity.num > 0"
                                     ng-cloak>
                             </span>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <i
                                     class="icon ion-ios-plus select-food-icon"
-                                    ng-click="addFoodClick(foodEntity.foodName, foodEntity.volume, foodEntity.price)">
+                                    ng-click="addFoodClick(foodEntity.foodName, foodEntity.volume)">
                             </i>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                     <span>订单金额</span>
                     <span>
                         <span>¥</span>
-                        <span ng-bind="money.beforeDiscountMoney"></span>
+                        <span ng-bind="money.beforeDiscount"></span>
                     </span>
                 </div>
 
@@ -148,7 +148,7 @@
                     <span>实付金额</span>
                     <span>
                         <span>¥</span>
-                        <span ng-bind="money.afterDiscountMoney"></span>
+                        <span ng-bind="money.afterDiscount"></span>
                     </span>
                 </div>
             </div>

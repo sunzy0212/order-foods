@@ -29,6 +29,7 @@ ctrlModule
                 return orderFoodsCache.getFoodsSelectedStatusByType(foodType);
             })
             .then(function(foodsSelectedStatus){
+              console.log(foodsSelectedStatus);
                 $scope.foodsSelectedStatus = foodsSelectedStatus;
                 foodType = null;
             });
@@ -55,7 +56,8 @@ ctrlModule
         $scope.SelectVolume = function(foodName, volume){
           orderFoodsCache.getSelectedType()
             .then(function(foodType){
-              orderFoodsCache.setFoodsSelectedStatus(foodType,foodName,volume);
+              orderFoodsCache.setFoodsSelectedVolumeStatus(foodType,foodName,volume);
+              $scope.foodsSelectedStatus[foodName].num = cart.getFoodNum(foodName,volume.displayName)
             });
         };
 
@@ -81,11 +83,4 @@ ctrlModule
         $scope.getFoodNum = function(foodName, volume){
           return cart.getFoodNum(foodName,volume);
         };
-
-        function currentSelectedFoodType(){
-          return $scope.foodTypes.items[$scope.foodTypes.activeIndex];
-        }
-
-
-
     }]);

@@ -27,16 +27,22 @@ serviceModule.service('orderFoodsCache',[
 				menu.getFoodsByType(type)
 					.then(function(foods){
 						deferred.resolve(that.foodsSelectedStatus[type] = constructFoodsSelectedStatus(foods));
-					})
+					});
 			}
 			else{
+//				deferred.resolve(updateFoodsSelectedNumStatus(that.foodsSelectedStatus[type]));
+        updateFoodsSelectedNumStatus(that.foodsSelectedStatus[type]);
 				deferred.resolve(that.foodsSelectedStatus[type]);
 			}
 			return deferred.promise;			
 		};
 
-    this.setFoodsSelectedStatus = function(type, foodName, volume){
+    this.setFoodsSelectedVolumeStatus = function(type, foodName, volume){
       return this.foodsSelectedStatus[type][foodName].volume = volume;
+    };
+
+    this.setFoodsSelectedNumStatus = function(type, foodName, num){
+      return this.foodsSelectedStatus[type][foodName].num = num;
     };
 
     this.getSelectedType = function(){
@@ -52,6 +58,13 @@ serviceModule.service('orderFoodsCache',[
       }
       return deferred.promise;
     };
+
+    function updateFoodsSelectedNumStatus(obj){
+      for(var key in obj){
+        obj[key].num = cart.getFoodNum(key, obj[key].volume.displayName);
+      }
+      return obj;
+    }
 
 
 		
