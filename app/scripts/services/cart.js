@@ -32,8 +32,20 @@ serviceModule.service('cart',[
       };
 		};
 
-		this.minFood = function(){
-
+		this.minFood = function(foodName, volumeObj){
+      var foodNameKey = foodName + '(' + volumeObj.displayName + ')';
+      if(this.foods[foodNameKey] && this.foods[foodNameKey].num > 0){
+        this.foods[foodNameKey].num--;
+        this.totalNum.value--;
+        this.money.beforeDiscount -= volumeObj.price;
+        if(this.foods[foodNameKey].num == 0){
+          delete this.foods[foodNameKey];
+        }
+      }
+      return {
+        num: this.foods[foodNameKey]? this.foods[foodNameKey].num : 0,
+        money: this.money.beforeDiscount
+      };
 		};
 
     this.getFoodNum = function(foodName, volume){

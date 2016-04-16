@@ -46,14 +46,10 @@ ctrlModule
         };
 
         $scope.minusFoodClick = function(foodName){
-            foodMenu.getFoodsByType()
-                .then(function(typeFoods){
-                    userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName);
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
-
-                    $scope.totalMoney = userOrder.money.beforeDiscountMoney;
-                    $rootScope.totalNum = userOrder.totalNum;
-                });
+          var currentVolumeObj = $scope.foodsSelectedStatus[foodName].volume;
+          var ret = cart.minFood(foodName,currentVolumeObj);
+          $scope.foodsSelectedStatus[foodName].num = ret.num;
+          $scope.totalMoney = ret.money;
         };
 
         $scope.SelectVolume = function(foodName, volume){
