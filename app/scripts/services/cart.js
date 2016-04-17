@@ -58,4 +58,14 @@ serviceModule.service('cart',[
       }
     };
 
+    this.clearCart = function(){
+      for(var i in this.money){
+        this.money[i] = 0;
+      }
+      this.totalNum.value = 0;
+      for(var i in this.foods){
+        delete this.foods[i];
+      }
+    }
+
 }]);

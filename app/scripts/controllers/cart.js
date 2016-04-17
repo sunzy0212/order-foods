@@ -41,19 +41,10 @@ ctrlModule
 
           $scope.addFoodClick = function(foodName, volumeObj){
             var ret = cart.addFood(foodName,volumeObj);
-            orderFoodsCache.getSelectedType()
-              .then(function(type){
-//                orderFoodsCache.setFoodsSelectedNumStatus(type,foodName, ret.num);
-              });
-
           };
 
           $scope.minusFoodClick = function(foodName, volumeObj){
             var ret = cart.minFood(foodName,volumeObj);
-            orderFoodsCache.getSelectedType()
-              .then(function(type){
-//                orderFoodsCache.setFoodsSelectedNumStatus(type,foodName, ret.num);
-              });
           };
 
           $scope.selectSeatNum = function(seatNum){

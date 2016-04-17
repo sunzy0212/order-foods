@@ -4,24 +4,25 @@
 /**
  * Created by ZhiyuanSun on 16/1/1.
  */
-directiveModule.directive('cartOperationButton',['$rootScope','userOrder',function($rootScope,userOrder){
+directiveModule.directive('cartOperationButton',[
+  '$rootScope',
+  'cart',
+  '$state',
+  function($rootScope,cart,$state){
     return {
-        restrict: 'E',
+        restrict: 'AE',
         scope:{
             foods: '=',
             totalMoney: '='
         },
         templateUrl:'views/directives/cart-operation-button.html',
-        link: function(scope, element, attrs){
+        link: function(scope){
             scope.gotoOrderFoods = function(){
-                window.location.href='#/tab/order-foods';
+              $state.go('tab.order-foods');
             };
 
             scope.clearCart = function(){
-                userOrder.clearCart();
-                scope.foods={};
-                scope.totalMoney = 0;
-                $rootScope.totalNum = 0;
+                cart.clearCart();
             };
         }
     }
