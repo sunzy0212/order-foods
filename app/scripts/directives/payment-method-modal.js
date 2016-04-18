@@ -37,6 +37,8 @@ directiveModule.directive('paymentMethodModal', ['paymentMethodService','cart',f
           .then(function(){
             scope.isPaying = false;
             scope.isPaymentMethodModalShow = false;
+            $ele.odModal('hide');
+            tabNavDOM.css("z-index","5");
             scope.afterConformPayment();
           });
       };
