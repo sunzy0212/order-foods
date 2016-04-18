@@ -3,8 +3,8 @@
  */
 var express = require('express');
 var router = express.Router();
-var CommonFun = require('../../models/common/common-func');
-var UserOrder = require('../../models/app/user-order');
+var CommonFun = require('../models/common/common-func');
+var UserOrder = require('../models/app/user-order');
 
 /*
  @params:    {

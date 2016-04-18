@@ -4,9 +4,9 @@
 
 var express = require('express');
 var router = express.Router();
-var RestaurantInfo = require('../../models/app/restaurant-info');
+var RestaurantInfo = require('../models/app/restaurant-info');
 
-var app = require('../../app');
+var app = require('../app');
 
 router.get('/GetRestaurantInfo', function(req, res, next){
     var restaurantInfo = new RestaurantInfo();

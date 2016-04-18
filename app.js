@@ -5,19 +5,21 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var path = require('path');
 var wechat=require('wechat');
-var oauth=require('./models/common/global-values').oauthClient;
+var authoriztion = require('./routes/authorization');
 var async=require('async');
 
 /*var session = require('express-session');
  var MongoStore = require('connect-mongo')(session);*/
 
 //modules defined by myself
-var getMenu=require('./api/menu/get-menu');
-var getRestaurantInfo = require('./api/restaurant-info/restaurant-info');
-var userOrder = require('./api/user-order/user-order');
+var getMenu=require('./api/get-menu');
+var getRestaurantInfo = require('./api/restaurant-info');
+var userOrder = require('./api/user-order');
 var globalValue=require('./models/common/global-values');
 
 var app = express();
+var oauthClient = authoriztion.oauthClient;
+var oauthMethod = authoriztion.router;
 
 // Configuration
 app.use(express.static(path.join(__dirname, 'app')));
@@ -28,9 +30,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.query());
 /*app.use(bodyParser());*/
-app.use('/menu',getMenu);
-app.use('/restaurantInfo', getRestaurantInfo);
-app.use('/userOrder', userOrder);
+
+app.use('/api', oauthMethod);
+
+app.use('/api/menu', getMenu);
+app.use('/api/restaurantInfo', getRestaurantInfo);
+app.use('/api/userOrder', userOrder);
 
 //微信访问
 app.get('/app', function(req, res) {
@@ -49,7 +54,7 @@ app.get('/app', function(req, res) {
     },
     function(callback){
       //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
-      oauth.getAccessToken(code, function(err, ret){
+      oauthClient.getAccessToken(code, function(err, ret){
         count++;
         if(ret.data !=undefined && ret.data.access_token !=undefined){
           accessToken = ret.data.access_token;

@@ -3,10 +3,10 @@
  */
 var express = require('express');
 var router = express.Router();
-var Menu = require('../../models/app/menu');
-var FoodType = require('../../models/app/food-type');
+var Menu = require('../models/app/menu');
+var FoodType = require('../models/app/food-type');
 
-var app = require('../../app');
+var app = require('../app');
 
 router.get('/GetMenu',function(req,res){
     var menu=new Menu();
