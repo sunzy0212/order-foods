@@ -71,7 +71,7 @@ serviceModule.service('cart',[
       for(var i in this.foods){
         delete this.foods[i];
       }
-    }
+    };
 
     this.gotoCheckOut = function(){
       var deferred = $q.defer();
@@ -92,7 +92,7 @@ serviceModule.service('cart',[
             peopleNum: cartCache.cartInfo.peopleNum,
             invoice: cartCache.cartInfo.invoice,
         }
-      }
+      };
 
       $http.post(url, userOrder)
           .success(function(retData){
@@ -102,7 +102,24 @@ serviceModule.service('cart',[
               deferred.reject(err);
           });
       return promise;
-    }
+    };
+
+    this.conformPayment = function(userOrderId,paymentMethod){
+      var deferred = $q.defer();
+      var url = '/secureApi/conformPayment';
+      var body = {
+        userOrderId: userOrderId,
+        paymentMethod: paymentMethod
+      };
+      $http.post(url,body)
+        .success(function (data) {
+          deferred.resolve(data);
+        })
+        .error(function(err){
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    };
 
     function convertDicToArray(dic){
       var arr = [];

@@ -41,7 +41,8 @@
 
     <div class="conform-payment-item">
       <div class="conform-payment-button" ng-click="conformPayment()">
-        确认支付
+        <span ng-hide="isPaying" ng-cloak>确认支付</span>
+        <ion-spinner ng-show="isPaying" icon="spiral" class="spinner-light"  ng-cloak></ion-spinner>
       </div>
     </div>
   </div>

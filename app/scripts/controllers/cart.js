@@ -7,6 +7,7 @@ ctrlModule
         '$rootScope',
         '$q',
         '$ionicModal',
+        '$state',
         'userOrder',
         'userInfo',
         'foodMenu',
@@ -14,7 +15,7 @@ ctrlModule
         'menu',
         'cart',
         'cartCache',
-        function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu, paymentMethodService, menu, cart, cartCache){
+        function($scope, $rootScope, $q, $ionicModal, $state, userOrder, userInfo, foodMenu, paymentMethodService, menu, cart, cartCache){
           $scope.foods = cart.foods;
           $scope.money = cart.money;
           $scope.userOrderId = null;
@@ -90,11 +91,17 @@ ctrlModule
 
                       $scope.paymentInfo = {
                           userOrderId: retData,
-                          totalMoney: userOrder.money.afterDiscountMoney,
+                          totalMoney: cart.money.afterDiscount,
                           status: 1,
                           paymentMethods: paymentMethodService.paymentMethods
                       }
                   });
+          };
+
+          $scope.afterConformPayment = function(){
+            cart.clearCart();
+            $state.go('tab.orders');
+
           };
 
           $scope.saveInvoice = function(invoice){
