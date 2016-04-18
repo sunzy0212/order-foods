@@ -1,6 +1,6 @@
 (function(){
   var express = require('express');
-	var OAuth=require('wechat-oauth')
+	var OAuth=require('../middlewares/wechat-oauth')
 	var WechatApi=require('wechat-api');
 	var fs = require('fs');
 	var router = express.Router();
@@ -17,9 +17,14 @@
 	});
 
 	module.exports={
-	    wechatConfig:   config,
-	    oauthClient:    oauth,
-	    wechatApi:      api,
-	    router: router
+	    wechatConfig: config,
+	    oauthClient: oauth,
+	    wechatApi: api,
+	    router: router,
+	    unauthCallback: function(err, res, data){
+    		if(err){
+    			res.render('404.html');
+    		}
+	    }
 	};
 })();

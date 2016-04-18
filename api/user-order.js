@@ -15,7 +15,7 @@ var UserOrder = require('../models/app/user-order');
                  userInfo   :   ***
              }
  */
-router.post('/conformUserOrder',function(req, res, next){
+router.post('/secureApi/conformUserOrder',function(req, res, next){
     var userOrderIdObj = CommonFun.createUserOrderID();
 
     var userOrderData = req.body;
@@ -41,7 +41,7 @@ router.post('/conformUserOrder',function(req, res, next){
 
 });
 
-router.post('/conformPayment',function(req, res, next){
+router.post('/secureApi/conformPayment',function(req, res, next){
     var newProperties = {
 
     };
@@ -69,7 +69,7 @@ router.post('/conformPayment',function(req, res, next){
                  status :   ***
              }
  */
-router.post('/setUserOrderStatus',function(req, res, next){
+router.post('/secureApi/setUserOrderStatus',function(req, res, next){
 
     UserOrder.setUserOrderStatus(req.body.userOrderId, req.body.status)
         .then(function(ret){
@@ -91,7 +91,7 @@ router.post('/setUserOrderStatus',function(req, res, next){
                 limitNum:   ***
             }
 */
-router.post('/getUserOrderByOpenIdAndStatus', function(req, res, next){
+router.post('/secureApi/getUserOrderByOpenIdAndStatus', function(req, res, next){
     UserOrder.getUserOrderByOpenIdAndStatus(req.body.openId, req.body.status, req.body.skipNum, req.body.limitNum)
         .then(function(ret){
             return UserOrder.prototype.createUserOrderAbstract(ret);

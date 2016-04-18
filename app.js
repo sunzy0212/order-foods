@@ -20,6 +20,7 @@ var globalValue=require('./models/common/global-values');
 var app = express();
 var oauthClient = authoriztion.oauthClient;
 var oauthMethod = authoriztion.router;
+var unauthCallback = authoriztion.unauthCallback;
 
 // Configuration
 app.use(express.static(path.join(__dirname, 'app')));
@@ -31,11 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.query());
 /*app.use(bodyParser());*/
 
-app.use('/api', oauthMethod);
+app.use('/secureApi', oauthMethod);
 
-app.use('/api/menu', getMenu);
-app.use('/api/restaurantInfo', getRestaurantInfo);
-app.use('/api/userOrder', userOrder);
+app.use(getMenu);
+app.use(getRestaurantInfo);
+app.use(userOrder);
 
 //微信访问
 app.get('/app', function(req, res) {
@@ -44,44 +45,49 @@ app.get('/app', function(req, res) {
     res.render('404.html');
   }
 
-  var maxTime = 3;
-  var count = 0;
-  var accessToken = null
-  var openId = null;
-  async.whilst(
-    function(){
-      return (accessToken == null) && count<maxTime;
-    },
-    function(callback){
-      //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
-      oauthClient.getAccessToken(code, function(err, ret){
-        count++;
-        if(ret.data !=undefined && ret.data.access_token !=undefined){
-          accessToken = ret.data.access_token;
-          openId = ret.data.openid;
-          callback(null, openId);
-        }
-      });
-    },
-    function(err){
-      if(err || count >= maxTime){
-        res.render('404.html');
-      }
-      //获取微信用户的其它个人信息
-      /*oauth.getUser(openId, function (err,ret) {
-       if(err){
-
-       }
-       else{
-       res.render('index.html',{
-       openId:openId
-       });
-       }
-       });*/
+  oauthClient.getAccessToken(code, function(err, data){
+    if(err){
+      unauthCallback(err,res);
+    }
+    if(data && data.access_token && data.openid){
       res.render('index.html',{
-        openId:openId
-      });
-    });
+        openId: data.openid,
+        access_token: data.access_token
+      })
+    }
+    else{
+      unauthCallback('get token error',res);
+    }
+
+  })
+
+  // var maxTime = 3;
+  // var count = 0;
+  // var accessToken = null
+  // var openId = null;
+  // async.whilst(
+  //   function(){
+  //     return (accessToken == null) && count<maxTime;
+  //   },
+  //   function(callback){
+  //     //从微信获取最新的access token，并以store[openId]的形式存储在内存中，可以通过getToken(openId)的形式获取。
+  //     oauthClient.getAccessToken(code, function(err, ret){
+  //       count++;
+  //       if(ret.data !=undefined && ret.data.access_token !=undefined){
+  //         accessToken = ret.data.access_token;
+  //         openId = ret.data.openid;
+  //         callback(null, openId);
+  //       }
+  //     });
+  //   },
+  //   function(err){
+  //     if(err || count >= maxTime){
+  //       res.render('404.html');
+  //     }
+  //     res.render('index.html',{
+  //       openId:openId
+  //     });
+  //   });
 
 
 });

@@ -8,7 +8,7 @@ var RestaurantInfo = require('../models/app/restaurant-info');
 
 var app = require('../app');
 
-router.get('/GetRestaurantInfo', function(req, res, next){
+router.get('/openApi/GetRestaurantInfo', function(req, res, next){
     var restaurantInfo = new RestaurantInfo();
     restaurantInfo.getRestaurantInfo(function(err, data){
         if(err){
