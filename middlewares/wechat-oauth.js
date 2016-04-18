@@ -176,7 +176,7 @@ OAuth.prototype.getAccessToken = function (code, callback) {
     data: info,
     dataType: 'json'
   };
-  this.request(url, args, wrapper(processToken(this, callback)));
+  this.request(url, args, wrapper(callback));
 };
 
 /**
@@ -216,7 +216,7 @@ OAuth.prototype.refreshAccessToken = function (refreshToken, callback) {
     data: info,
     dataType: 'json'
   };
-  this.request(url, args, wrapper(processToken(this, callback)));
+  this.request(url, args, wrapper(callback));
 };
 
 OAuth.prototype._getUser = function (options, accessToken, callback) {
