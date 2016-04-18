@@ -1,7 +1,7 @@
 serviceModule.service('orderFoodsCache',[
 	'$q',
 	'menu',
-  'cart',
+    'cart',
 	function($q,menu,cart){
 		var that = this;
 		this.foodTypes = null;

@@ -1,7 +1,10 @@
 serviceModule.service('cart',[
 	'$http',
 	'$q',
-	function($http,$q){
+  'cartCache',
+	function($http,$q,cartCache){
+    var that = this;
+    this.openId = null;
 		this.foods = {};
 		this.money = {
 			beforeDiscount: 0,
@@ -68,6 +71,51 @@ serviceModule.service('cart',[
       for(var i in this.foods){
         delete this.foods[i];
       }
+    }
+
+    this.gotoCheckOut = function(){
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+
+      var url = '/secureApi/conformUserOrder';
+      var userOrder = {
+        openId: that.openId,
+        foods: convertDicToArray(that.foods),
+        totalNum: that.totalNum.value,
+        status: -1,
+        money: {
+            beforeDiscount: that.money.beforeDiscount,
+            discount: that.money.discount
+        },
+        cartInfo: {
+            seatNum: cartCache.cartInfo.seatNum,
+            peopleNum: cartCache.cartInfo.peopleNum,
+            invoice: cartCache.cartInfo.invoice,
+        }
+      }
+
+      $http.post(url, userOrder)
+          .success(function(retData){
+              deferred.resolve(retData);
+          })
+          .error(function(err){
+              deferred.reject(err);
+          });
+      return promise;
+    }
+
+    function convertDicToArray(dic){
+      var arr = [];
+      for(var key in dic){
+        var value = dic[key];
+        arr.push({
+          foodName: value.foodName,
+          foodNum: value.num,
+          price: value.volume.price,
+          volume: value.volume.name
+        });
+      }
+      return arr;
     }
 
 }]);

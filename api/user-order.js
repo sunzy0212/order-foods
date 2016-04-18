@@ -16,6 +16,8 @@ var UserOrder = require('../models/app/user-order');
              }
  */
 router.post('/secureApi/conformUserOrder',function(req, res, next){
+    console.log(req.body);
+    
     var userOrderIdObj = CommonFun.createUserOrderID();
 
     var userOrderData = req.body;

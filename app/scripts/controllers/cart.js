@@ -11,17 +11,25 @@ ctrlModule
         'userInfo',
         'foodMenu',
         'paymentMethodService',
+        'menu',
         'cart',
-        'orderFoodsCache',
-        function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu, paymentMethodService, cart, orderFoodsCache){
+        'cartCache',
+        function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu, paymentMethodService, menu, cart, cartCache){
           $scope.foods = cart.foods;
           $scope.money = cart.money;
           $scope.userOrderId = null;
 
           $scope.isPaymentMethodModalShow = false;
 
-          $scope.restaurantInfo = userInfo.restaurantInfo;
-          $scope.userInfo = userInfo.userInfo;
+          // $scope.restaurantInfo = 
+          menu.getRestaurantInfo()
+            .then(function(data){
+              $scope.restaurantInfo = data;
+              return cartCache.getCartInfo(); 
+            })
+            .then(function(data){
+              $scope.cartInfo = data;
+            });
 
           //        使用优惠券的相关操作
           $ionicModal.fromTemplateUrl('views/coupon.html',{
@@ -48,11 +56,11 @@ ctrlModule
           };
 
           $scope.selectSeatNum = function(seatNum){
-              userInfo.userInfo.seatNum = seatNum;
+              cartCache.cartInfo.seatNum = seatNum;
           };
 
           $scope.selectPeopleNum = function(peopleNum){
-              userInfo.userInfo.peopleNum = peopleNum;
+              cartCache.cartInfo.peopleNum = peopleNum;
           };
 
           $scope.selectInvoiceNeed = function(isInvoiceNeed){
@@ -65,7 +73,7 @@ ctrlModule
               }
 
               $scope.orderConforming = true;
-              userOrder.conformUserOrder()
+              cart.gotoCheckOut()
                   .then(function(retData){
                       $scope.orderConforming = false;
                       // $scope.paymentModal.show();

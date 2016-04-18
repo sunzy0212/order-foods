@@ -34,11 +34,6 @@ ctrlModule
                 foodType = null;
             });
 
-        //如果餐厅信息未被加载，则加载餐厅信息
-        userInfo.getRestaurantInfo()
-            .then(function(restaurantInfo){
-            });
-
         $scope.addFoodClick = function(foodName){
           var currentVolumeObj = $scope.foodsSelectedStatus[foodName].volume;
           var ret= cart.addFood(foodName, currentVolumeObj);

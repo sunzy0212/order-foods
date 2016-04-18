@@ -16,7 +16,7 @@ angular
     'orderFoodsApp.directives',
     'orderFoodsApp.templates'
   ])
-  .run(['$ionicPlatform','userInfo',function($ionicPlatform,userInfo) {
+  .run(['$ionicPlatform','cart',function($ionicPlatform,cart) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -30,7 +30,7 @@ angular
         StatusBar.styleDefault();
       }
       //设置用户信息
-      userInfo.openId=angular.element("#render_openId").text().trim();
+      cart.openId=angular.element("#render_openId").text().trim();
     });
   }])
   .config(["$stateProvider", "$urlRouterProvider", function($stateProvider,$urlRouterProvider){

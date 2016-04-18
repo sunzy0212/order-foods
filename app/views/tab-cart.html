@@ -20,7 +20,7 @@
                 <td
                         ng-init="orderConforming = false;"
                         class="conform-order-button-right-part"
-                        ng-class="{true: 'conform-order-button-right-part-active', false: 'conform-order-button-right-part-disactive'}[money.beforeDiscountMoney > 0]"
+                        ng-class="{true: 'conform-order-button-right-part-active', false: 'conform-order-button-right-part-disactive'}[money.beforeDiscount > 0]"
                         ng-click="conformUserOrderClick()">
                     <span ng-hide="orderConforming">确认订单</span>
                     <ion-spinner ng-show="orderConforming" icon="spiral" class="spinner-light"  ng-cloak></ion-spinner>
@@ -37,20 +37,16 @@
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">就餐人数：</span>
                     <select
-                            ng-init="peopleNum = userInfo.peopleNum"
-                            ng-model="peopleNum"
+                            ng-model="cartInfo.peopleNum"
                             ng-options="item as item for item in restaurantInfo.allPeople track by item"
-                            ng-change="selectPeopleNum(peopleNum)"
                             >
                     </select>
                 </label>
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">我的桌号：</span>
                     <select
-                            ng-init="seatNum = userInfo.seatNum"
-                            ng-model="seatNum"
+                            ng-model="cartInfo.seatNum"
                             ng-options="item as item for item in restaurantInfo.allSeats track by item"
-                            ng-change="selectSeatNum(seatNum)"
                             >
                     </select>
                 </label>
@@ -59,9 +55,7 @@
                         是否需要发票
                         <label class="toggle toggle-balanced">
                             <input type="checkbox"
-                                   ng-init="isInvoiceNeed = userInfo.isInvoiceNeed"
-                                   ng-model="isInvoiceNeed"
-                                   ng-change="selectInvoiceNeed(isInvoiceNeed)">
+                                   ng-model="cartInfo.isInvoiceNeed">
                             <div class="track">
                                 <div class="handle"></div>
                             </div>
@@ -69,27 +63,15 @@
                     </div>
                     <div
                             class="item-input invoice-input-container cart-list vertical-content-middle"
-                            ng-show="userInfo.isInvoiceNeed"
+                            ng-show="cartInfo.isInvoiceNeed"
                             ng-cloak>
-                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人" ng-model="userInfo.invoice" ng-blur="saveInvoice(userInfo.invoice)">
+                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人" ng-model="cartInfo.invoice" ng-blur="saveInvoice(cartInfo.invoice)">
                     </div>
                 </div>
 
-                <!--支付方式-->
-                <!--<label class="item item-input item-select cart-list vertical-content-middle">
-                    <span class="input-label">支付方式：</span>
-                    <select
-                            ng-init="paymentMethod = userInfo.paymentMethod"
-                            ng-model="paymentMethod"
-                            ng-options="item as item.paymentMethodName for item in restaurantInfo.allPaymentMethods track by item.paymentMethodId"
-                            ng-change="selectPaymentMethod(paymentMethod)"
-                            >
-                    </select>
-                </label>-->
-
                 <div class="item item-divider food-item-divider"></div>
                 <div style="height: 40px;">
-                    <cart-operation-button total-money="money.beforeDiscountMoney" foods="foods"></cart-operation-button>
+                    <cart-operation-button total-money="money.beforeDiscount" foods="foods"></cart-operation-button>
                 </div>
                 <!--所点的菜的详细列表-->
                 <div class="item cart-list" ng-repeat="(foodName,foodEntity) in foods">

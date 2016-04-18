@@ -37,7 +37,6 @@ serviceModule.service('userInfo',['$http','$q',function($http, $q){
         else{
             deferred.resolve(that.restaurantInfo);
         }
-
         return promise;
     };
 
