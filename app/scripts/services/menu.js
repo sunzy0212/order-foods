@@ -9,7 +9,7 @@ serviceModule.service('menu',[
 		this.getFoodTypes = function(){
 			var deferred = $q.defer();
 			if(this.foodTypes == null){
-				$http.get('/menu/GetFoodType')
+				$http.get('/openApi/GetFoodType')
 				.success(function(data){
 					deferred.resolve(that.foodTypes = data);
 				})
@@ -26,7 +26,7 @@ serviceModule.service('menu',[
 		this.getFoodsByType = function(type){
 			var deferred = $q.defer();
 			if(this.foods[type] == null){
-				var url = '/menu/GetFoodsByType?foodType=' + type;
+				var url = '/openApi/GetFoodsByType?foodType=' + type;
 				$http.get(url)
 				.success(function(data){
           data.forEach(function(item){

@@ -52,14 +52,14 @@ app.get('/app', function(req, res) {
     if(data && data.access_token && data.openid){
       res.render('index.html',{
         openId: data.openid,
-        access_token: data.access_token
+        accessToken: data.access_token
       })
     }
     else{
       unauthCallback('get token error',res);
     }
 
-  })
+  });
 
   // var maxTime = 3;
   // var count = 0;
@@ -94,9 +94,11 @@ app.get('/app', function(req, res) {
 
 //浏览器访问
 app.get('/dist', function(req, res) {
-  var openId='os1N1v1asWV4hAzEqANL-e2c4E5E';
+  var openId = 'os1N1v1asWV4hAzEqANL-e2c4E5E';
+  var accessToken = 'token';
   res.render('index.html',{
-    openId:openId
+    openId:openId,
+    accessToken: accessToken
   });
 
 });
