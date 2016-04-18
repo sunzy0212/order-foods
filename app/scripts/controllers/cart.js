@@ -40,11 +40,11 @@ ctrlModule
           };
 
           $scope.addFoodClick = function(foodName, volumeObj){
-            var ret = cart.addFood(foodName,volumeObj);
+            cart.addFood(foodName,volumeObj);
           };
 
           $scope.minusFoodClick = function(foodName, volumeObj){
-            var ret = cart.minFood(foodName,volumeObj);
+            cart.minFood(foodName,volumeObj);
           };
 
           $scope.selectSeatNum = function(seatNum){
@@ -60,7 +60,7 @@ ctrlModule
           };
 
           $scope.conformUserOrderClick = function(){
-              if($scope.money.beforeDiscountMoney <= 0 ){
+              if($scope.money.beforeDiscount <= 0 ){
                   return ;
               }
 

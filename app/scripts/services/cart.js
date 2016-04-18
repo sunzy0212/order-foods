@@ -26,6 +26,7 @@ serviceModule.service('cart',[
       }
       this.totalNum.value++;
       this.money.beforeDiscount += volumeObj.price;
+      this.money.afterDiscount = this.money.beforeDiscount - this.money.discount;
       return {
         num: this.foods[foodNameKey].num,
         money: this.money.beforeDiscount
@@ -38,6 +39,7 @@ serviceModule.service('cart',[
         this.foods[foodNameKey].num--;
         this.totalNum.value--;
         this.money.beforeDiscount -= volumeObj.price;
+        this.money.afterDiscount = this.money.beforeDiscount - this.money.discount;
         if(this.foods[foodNameKey].num == 0){
           delete this.foods[foodNameKey];
         }
