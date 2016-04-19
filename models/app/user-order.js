@@ -175,7 +175,7 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
                     // status : ORDER_PROCESS_TYPE[item.status],
                     status : item.status,
                     orderTime : CommonFun.dateToString(item.time),
-                    totalMoney : item.money.beforeDiscountMoney - item.money.discountMoney,
+                    totalMoney : item.money.beforeDiscount - item.money.discount,
                     totalNum : item.totalNum,
                     displayFoodName : food.name,
                     displayFoodImg : food.img
