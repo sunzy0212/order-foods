@@ -18,7 +18,7 @@ directiveModule.directive('sideBar',['$ionicModal',function($ionicModal){
           scope.list.items[scope.list.activeIndex].isSelected = false;
           scope.list.items[selectedIndex].isSelected = true;
           scope.list.activeIndex = selectedIndex;
-          scope.changeItem(selectedIndex);
+          scope.changeItem();
         }
       };
     }
