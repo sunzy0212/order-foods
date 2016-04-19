@@ -12,9 +12,31 @@
 	var api = new WechatApi(config.appid,config.appsecret);
 
 	router.all('*',function(req,res,next){
-		console.log(req.query);
-		next();
+		var authorizationHeader = req.get('Authorization');
+		var regString = "Bearer ";
+		if(!validateAuthorizationHeader(authorizationHeader)){
+			// Unauthorization
+		}
+		var headerParams = authorizationHeader.substr(regString.length).split(' ');
+		if(headerParams.length !== 2){
+			// Unauthorization
+		}
+		var accessToken = headerParams[0];
+		var openId = headerParams[1];
+		oauth.verifyToken(openId, accessToken, function(err,data,res){
+			if(err || (data && data.errcode != 0)){
+				//Unauthorization
+			}
+			else{
+				next();
+			}
+		})
 	});
+
+	function validateAuthorizationHeader(authorizationHeader){
+		var reg = /^(Bearer )/g;
+		return reg.test(authorizationHeader);
+	}
 
 	module.exports={
 	    wechatConfig: config,

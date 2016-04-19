@@ -16,10 +16,7 @@ var UserOrder = require('../models/app/user-order');
              }
  */
 router.post('/secureApi/conformUserOrder',function(req, res, next){
-    console.log(req.body);
-    
     var userOrderIdObj = CommonFun.createUserOrderID();
-
     var userOrderData = req.body;
 
     //设置userOrderId和time
@@ -38,9 +35,6 @@ router.post('/secureApi/conformUserOrder',function(req, res, next){
             console.log('catched the error: ',err);
             res.status(500).send(err);
         });
-
-    console.log(userOrderData);
-
 });
 
 router.post('/secureApi/conformPayment',function(req, res, next){
@@ -89,12 +83,13 @@ router.post('/secureApi/setUserOrderStatus',function(req, res, next){
 /*
 @params:    {
                 openId  :   ***
+                status  :   ***
                 skipNum :   ***
                 limitNum:   ***
             }
 */
-router.post('/secureApi/getUserOrderByOpenIdAndStatus', function(req, res, next){
-    UserOrder.getUserOrderByOpenIdAndStatus(req.body.openId, req.body.status, req.body.skipNum, req.body.limitNum)
+router.get('/secureApi/getUserOrderByOpenIdAndStatus', function(req, res, next){
+    UserOrder.getUserOrderByOpenIdAndStatus(req.query.openId, req.query.status, req.query.skipNum, req.query.limitNum)
         .then(function(ret){
             return UserOrder.prototype.createUserOrderAbstract(ret);
         })

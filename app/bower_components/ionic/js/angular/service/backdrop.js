@@ -18,10 +18,14 @@
  * For example, if `retain` is called three times, the backdrop will be shown until `release`
  * is called three times.
  *
+ * **Notes:**
+ * - The backdrop service will broadcast 'backdrop.shown' and 'backdrop.hidden' events from the root scope,
+ * this is useful for alerting native components not in html.
+ *
  * @usage
  *
  * ```js
- * function MyController($scope, $ionicBackdrop, $timeout) {
+ * function MyController($scope, $ionicBackdrop, $timeout, $rootScope) {
  *   //Show a backdrop for one second
  *   $scope.action = function() {
  *     $ionicBackdrop.retain();
@@ -29,13 +33,24 @@
  *       $ionicBackdrop.release();
  *     }, 1000);
  *   };
+ *
+ *   // Execute action on backdrop disappearing
+ *   $scope.$on('backdrop.hidden', function() {
+ *     // Execute action
+ *   });
+ *
+ *   // Execute action on backdrop appearing
+ *   $scope.$on('backdrop.shown', function() {
+ *     // Execute action
+ *   });
+ *
  * }
  * ```
  */
 IonicModule
 .factory('$ionicBackdrop', [
-  '$document', '$timeout',
-function($document, $timeout) {
+  '$document', '$timeout', '$$rAF', '$rootScope',
+function($document, $timeout, $$rAF, $rootScope) {
 
   var el = jqLite('<div class="backdrop">');
   var backdropHolds = 0;
@@ -64,20 +79,26 @@ function($document, $timeout) {
   };
 
   function retain() {
-    if ((++backdropHolds) === 1) {
+    backdropHolds++;
+    if (backdropHolds === 1) {
       el.addClass('visible');
-      ionic.requestAnimationFrame(function() {
-        backdropHolds && el.addClass('active');
+      $rootScope.$broadcast('backdrop.shown');
+      $$rAF(function() {
+        // If we're still at >0 backdropHolds after async...
+        if (backdropHolds >= 1) el.addClass('active');
       });
     }
   }
   function release() {
-    if ((--backdropHolds) === 0) {
+    if (backdropHolds === 1) {
       el.removeClass('active');
+      $rootScope.$broadcast('backdrop.hidden');
       $timeout(function() {
-        !backdropHolds && el.removeClass('visible');
+        // If we're still at 0 backdropHolds after async...
+        if (backdropHolds === 0) el.removeClass('visible');
       }, 400, false);
     }
+    backdropHolds = Math.max(0, backdropHolds - 1);
   }
 
   function getElement() {

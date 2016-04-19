@@ -9,7 +9,7 @@ var authoriztion = require('./routes/authorization');
 var async=require('async');
 
 /*var session = require('express-session');
- var MongoStore = require('connect-mongo')(session);*/
+var MongoStore = require('connect-mongo')(session);*/
 
 //modules defined by myself
 var getMenu=require('./api/get-menu');
@@ -50,6 +50,9 @@ app.get('/app', function(req, res) {
       unauthCallback(err,res);
     }
     if(data && data.access_token && data.openid){
+      res.cookie('openId',data.openid);
+      res.cookie('accessToken',data.access_token);
+
       res.render('index.html',{
         openId: data.openid,
         accessToken: data.access_token
@@ -96,6 +99,9 @@ app.get('/app', function(req, res) {
 app.get('/dist', function(req, res) {
   var openId = 'os1N1v1asWV4hAzEqANL-e2c4E5E';
   var accessToken = 'token';
+  
+  res.cookie('openId',openId);
+  res.cookie('accessToken',accessToken);
   res.render('index.html',{
     openId:openId,
     accessToken: accessToken

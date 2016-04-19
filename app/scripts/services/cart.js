@@ -2,7 +2,8 @@ serviceModule.service('cart',[
 	'$http',
 	'$q',
   'cartCache',
-	function($http,$q,cartCache){
+  'authorization',
+	function($http,$q,cartCache,authorization){
     var that = this;
     this.openId = null;
 		this.foods = {};
@@ -93,8 +94,14 @@ serviceModule.service('cart',[
             invoice: cartCache.cartInfo.invoice,
         }
       };
+      var config = {
+        method: 'POST',
+        url: url,
+        data: userOrder
+      };
+      config = authorization.addAuthorizationHeader(config);
 
-      $http.post(url, userOrder)
+      $http(config)
           .success(function(retData){
               deferred.resolve(retData);
           })
@@ -107,11 +114,17 @@ serviceModule.service('cart',[
     this.conformPayment = function(userOrderId,paymentMethod){
       var deferred = $q.defer();
       var url = '/secureApi/conformPayment';
-      var body = {
+      var data = {
         userOrderId: userOrderId,
         paymentMethod: paymentMethod
       };
-      $http.post(url,body)
+      var config = {
+        method: 'POST',
+        url: url,
+        data: data
+      };
+      config = authorization.addAuthorizationHeader(config);
+      $http(config)
         .success(function (data) {
           deferred.resolve(data);
         })

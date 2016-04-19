@@ -305,7 +305,7 @@ OAuth.prototype.getUser = function (options, callback) {
   // });
 };
 
-OAuth.prototype._verifyToken  = function (openid, accessToken, callback) {
+OAuth.prototype.verifyToken  = function (openid, accessToken, callback) {
   var url = 'https://api.weixin.qq.com/sns/auth';
   var info = {
     access_token: accessToken,

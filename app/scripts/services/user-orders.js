@@ -4,18 +4,26 @@
 serviceModule.service('userOrders',[
   '$q',
   '$http',
-  function($q,$http){
+  'authorization',
+  function($q,$http,authorization){
     this.getUserOrderByOpenIdAndStatus = function (openId, status, skipNum, limitNum){
       var deferred = $q.defer();
-      var postData = {
+      var queryObj = {
         openId  :   openId,
         status  :   status,
         skipNum :   skipNum,
         limitNum:   limitNum
       };
-      var url = '/secureApi/getUserOrderByOpenIdAndStatus';
+      var queryString = $.param(queryObj);
+      var url = '/secureApi/getUserOrderByOpenIdAndStatus?' + queryString;
 
-      $http.post(url,postData)
+      var config = {
+        method: 'GET',
+        url: url,
+      };
+      config = authorization.addAuthorizationHeader(config);
+
+      $http(config)
         .success(function(data){
           deferred.resolve(data);
         })
