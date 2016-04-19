@@ -97,18 +97,17 @@ router.get('/secureApi/getUserOrdersByOpenIdAndStatus', function(req, res, next)
             res.status(200).send(ret);
         })
         .catch(function(err){
-            console.log('catched the error: ',err);
             res.status(500).send("Failed");
         });
 });
 
 router.get('/secureApi/getUserOrderDetailByOrderId',function(req,res,next){
     UserOrder.getUserOrderDetailByOrderId(req.query.orderId)
-        .then(function(){
-
+        .then(function(ret){
+          res.status(200).send(ret);
         })
         .catch(function(err){
-
+          res.status(500).send(err);
         });
 });
 

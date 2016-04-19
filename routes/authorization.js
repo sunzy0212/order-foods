@@ -41,6 +41,9 @@
 		return reg.test(authorizationHeader);
 	}
 
+  function handleUnauthorization(){
+  }
+
 	module.exports={
 	    wechatConfig: config,
 	    oauthClient: oauth,

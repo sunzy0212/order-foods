@@ -1,3 +1,16 @@
-<ion-view view-title="订单" hide-nav-bar="true">
-order detail
+<ion-view view-title="订单详情" hide-nav-bar="true">
+  <div class="row row-no-padding layout-header-fixed">
+    订单详情
+  </div>
+  <ion-scroll delegate-handle="orderDetailScroll" id="orderDetailScroll" zooming="false" direction="y" paging="false" scrollbar-y="true">
+    <div class="list">
+      <div class="item" ng-repeat="food in orderDetail.foods">
+        <div class="row">
+          <div class="col col-60" ng-bind="food.foodName"></div>
+          <div class="col col-10" ng-bind="food.num"></div>
+          <div class="col col-30" ng-bind="food.price"></div>
+        </div>
+      </div>
+    </div>
+  </ion-scroll>
 </ion-view>

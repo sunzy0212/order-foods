@@ -194,7 +194,14 @@ UserOrder.getUserOrderDetailByOrderId = function(orderId){
     var query = {
         userOrderId: orderId
     };
-
-    
-
+  var deferred = Q.defer();
+  userOrderModel.findOne(query,function(err,ret){
+    if(err){
+      deferred.reject(new Error(err));
+    }
+    else{
+      deferred.resolve(ret);
+    }
+  });
+  return deferred.promise;
 };

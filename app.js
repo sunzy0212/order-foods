@@ -98,7 +98,7 @@ app.get('/app', function(req, res) {
 //浏览器访问
 app.get('/dist', function(req, res) {
   var openId = 'os1N1v1asWV4hAzEqANL-e2c4E5E';
-  var accessToken = '8caPUSJViZTv4DXh25svUr-WiSfM-Q';
+  var accessToken = 'i2gKkWE5Dx1I6-rwuKYCGN5V7EtAww';
   
   res.cookie('openId',openId);
   res.cookie('accessToken',accessToken);
