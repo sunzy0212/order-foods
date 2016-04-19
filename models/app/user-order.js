@@ -142,18 +142,18 @@ UserOrder.getUserOrderByOpenIdAndStatus = function(parOpenId, status, skipNum, l
 
 //    var selectFeilds = '';
 
-var deferred = Q.defer();
+    var deferred = Q.defer();
 
-userOrderModel.find(query).sort(sortObj).skip(skipNum).limit(limitNum).exec(function(err, ret){
-    if(err){
-        deferred.reject(new Error(err));
-    }
-    else{
-        deferred.resolve(ret);
-    }
-});
+    userOrderModel.find(query).sort(sortObj).skip(skipNum).limit(limitNum).exec(function(err, ret){
+        if(err){
+            deferred.reject(new Error(err));
+        }
+        else{
+            deferred.resolve(ret);
+        }
+    });
 
-return deferred.promise;
+    return deferred.promise;
 };
 
 UserOrder.prototype.createUserOrderAbstract = function(userOrders){
@@ -188,4 +188,13 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
             });
     });
     return deferred.promise;
+};
+
+UserOrder.getUserOrderDetailByOrderId = function(orderId){
+    var query = {
+        userOrderId: orderId
+    };
+
+    
+
 };

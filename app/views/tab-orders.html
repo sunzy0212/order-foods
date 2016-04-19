@@ -10,9 +10,9 @@
         </div>
     </div>
     <ion-scroll delegate-handle="orderAbstractScroll" id="orderAbstractScroll" zooming="false" direction="y" paging="false" scrollbar-y="true">
-        <div class="list" ng-show="orderLoaded" ng-cloak="ng-cloak" ng-click="continueOrder($event)">
+        <div class="list" ng-show="orderLoaded" ng-cloak="ng-cloak" ng-click="gotoDetail($event)">
             <div order-abstract ng-repeat="orderAbstractItem in orderAbstracts" order-abstract-item="orderAbstractItem"
-                    data-order-id="orderAbstractItem.orderId" data-order-status="orderAbstractItem.status" data-order-money="orderAbstractItem.totalMoney">
+                    data-order-id="{{orderAbstractItem.orderId}}" data-order-status="{{orderAbstractItem.status}}">
             </div>
         </div>
     </ion-scroll>

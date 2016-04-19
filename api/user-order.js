@@ -88,7 +88,7 @@ router.post('/secureApi/setUserOrderStatus',function(req, res, next){
                 limitNum:   ***
             }
 */
-router.get('/secureApi/getUserOrderByOpenIdAndStatus', function(req, res, next){
+router.get('/secureApi/getUserOrdersByOpenIdAndStatus', function(req, res, next){
     UserOrder.getUserOrderByOpenIdAndStatus(req.query.openId, req.query.status, req.query.skipNum, req.query.limitNum)
         .then(function(ret){
             return UserOrder.prototype.createUserOrderAbstract(ret);
@@ -99,6 +99,16 @@ router.get('/secureApi/getUserOrderByOpenIdAndStatus', function(req, res, next){
         .catch(function(err){
             console.log('catched the error: ',err);
             res.status(500).send("Failed");
+        });
+});
+
+router.get('/secureApi/getUserOrderDetailByOrderId',function(req,res,next){
+    UserOrder.getUserOrderDetailByOrderId(req.query.orderId)
+        .then(function(){
+
+        })
+        .catch(function(err){
+
         });
 });
 

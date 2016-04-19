@@ -15,7 +15,7 @@ serviceModule.service('userOrders',[
         limitNum:   limitNum
       };
       var queryString = $.param(queryObj);
-      var url = '/secureApi/getUserOrderByOpenIdAndStatus?' + queryString;
+      var url = '/secureApi/getUserOrdersByOpenIdAndStatus?' + queryString;
 
       var config = {
         method: 'GET',

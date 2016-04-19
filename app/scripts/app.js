@@ -83,7 +83,18 @@
             controller:'mineCtrl'
           }
         }
-      });
+      })
+      .state('tab.order-detail',{
+        url:'/order-detail/:orderId',
+        cache: false,
+        views:{
+          'tab-order-detail':{
+            templateUrl:'views/tab-order-detail.html',
+            controller:'orderDetailCtrl'
+          }
+        }
+      })
+      ;
       $urlRouterProvider.otherwise('/tab/order-foods');
     }])
  .controller('orderFoodsAppCtrl',['$scope','$rootScope','userOrder', 'menu',function($scope,$rootScope,userOrder,menu){

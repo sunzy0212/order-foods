@@ -4,10 +4,11 @@
 ctrlModule
     .controller('ordersCtrl',[
     '$scope',
+    '$state',
     '$ionicScrollDelegate',
     'userOrders',
     'cart',
-    function($scope, $ionicScrollDelegate, userOrders, cart){
+    function($scope, $state, $ionicScrollDelegate, userOrders, cart){
         setScrollHeight();
 
         var ORDER_PROCESS_TYPE = {
@@ -41,8 +42,13 @@ ctrlModule
             });
         };
 
-        $scope.continueOrder = function(ev){
-            var orderAbstractItem = ev.target.getAttribute("order-abstract-item");
+        $scope.gotoDetail = function(ev){
+            var orderAbstractDOM = $(ev.target).parents("div[order-abstract]");
+            var orderId = orderAbstractDOM.data("order-id");
+            var orderstatus = orderAbstractDOM.data("order-status");
+            $state.go('tab.order-detail',{
+              orderId: orderId
+            });
         };
 
         function init(){
