@@ -3,12 +3,12 @@
     订单详情
   </div>
   <ion-scroll delegate-handle="orderDetailScroll" id="orderDetailScroll" zooming="false" direction="y" paging="false" scrollbar-y="true">
-    <div class="list">
-      <div class="item" ng-repeat="food in orderDetail.foods">
-        <div class="row">
+    <div class="list order-detail-list">
+      <div class="order-detail-item" ng-repeat="food in orderDetail.foods">
+        <div class="row row-no-padding order-detail-item-inner">
           <div class="col col-60" ng-bind="food.foodName"></div>
           <div class="col col-10" ng-bind="food.num"></div>
-          <div class="col col-30" ng-bind="food.price"></div>
+          <div class="col col-30" ng-bind="food.price"></div>  
         </div>
       </div>
     </div>

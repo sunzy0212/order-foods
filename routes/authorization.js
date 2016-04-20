@@ -32,7 +32,9 @@
 				next();
 			}
 			//Dev Environment
-			next()
+			if(global.isDev){
+				next();
+			}
 		})
 	});
 
