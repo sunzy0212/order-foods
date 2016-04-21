@@ -102,3 +102,18 @@
 .clear-float {
   clear: both;
 }
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+.important-key {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "宋体";
+}
+.description-key {
+  font-size: 14px;
+  color: #708090;
+}

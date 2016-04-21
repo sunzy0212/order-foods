@@ -2,6 +2,6 @@
   padding: 0 15px;
 }
 .order-detail-list .order-detail-item .order-detail-item-inner {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #DDD;
   padding: 8px 0;
 }

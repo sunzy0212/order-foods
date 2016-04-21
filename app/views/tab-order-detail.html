@@ -4,13 +4,22 @@
   </div>
   <ion-scroll delegate-handle="orderDetailScroll" id="orderDetailScroll" zooming="false" direction="y" paging="false" scrollbar-y="true">
     <div class="list order-detail-list">
+      <div class="item item-divider food-item-divider"></div>
+      <div class="order-detail-item">
+        <div class="order-detail-item-inner">
+          <div class="float-left important-key">订单详情</div>
+          <div class="float-right description-key">订单号: {{orderDetail.userOrderId}}</div>
+          <div class="clear-float"></div>
+        </div>
+      </div>
       <div class="order-detail-item" ng-repeat="food in orderDetail.foods">
         <div class="row row-no-padding order-detail-item-inner">
           <div class="col col-60" ng-bind="food.foodName"></div>
-          <div class="col col-10" ng-bind="food.num"></div>
-          <div class="col col-30" ng-bind="food.price"></div>  
+          <div class="col col-20">×{{food.num}}</div>
+          <div class="col col-20">¥ {{food.price}}</div>  
         </div>
       </div>
+      <div class="item item-divider food-item-divider"></div>
     </div>
   </ion-scroll>
 </ion-view>
