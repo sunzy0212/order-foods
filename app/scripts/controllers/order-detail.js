@@ -4,15 +4,25 @@ ctrlModule
 	'$http',
 	'$q',
 	'$stateParams',
+  '$state',
   'userOrders',
-	function($scope,$http,$q,$stateParams,userOrders){
+	function($scope,$http,$q,$stateParams,$state,userOrders){
     setScrollHeight();
 		var orderId = $stateParams.orderId;
+    $scope.loaded = false;
     userOrders.getUserOrderDetailByOrderId(orderId)
       .then(function(data){
         console.log(data);
         $scope.orderDetail = dataProxy(data);
+        $scope.loaded = true;
+      })
+      .catch(function(err){
+        $scope.loaded = true;
       });
+
+    $scope.backToOrders = function(){
+      $state.go('tab.orders');
+    };
 
 
     function setScrollHeight(){

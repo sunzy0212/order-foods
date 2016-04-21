@@ -4,12 +4,16 @@
   text-align: center;
   font-size: 18px;
 }
-.order-detail-status {
+#order-detail-scroll .scroll {
+  height: 100%;
+  position: relative;
+}
+#order-detail-scroll .order-detail-status {
   height: 50px;
   background-color: #4cae4c;
   position: relative;
 }
-.order-detail-status .order-detail-status-inner {
+#order-detail-scroll .order-detail-status .order-detail-status-inner {
   font-size: 20px;
   text-align: center;
   padding-top: 10px;
@@ -27,7 +31,7 @@
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
 }
-.order-detail-status .order-detail-status-inner .order-detail-status-font {
+#order-detail-scroll .order-detail-status .order-detail-status-inner .order-detail-status-font {
   background-color: #FF6537;
   border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -35,16 +39,16 @@
   -o-border-radius: 5px;
   color: #ffffff;
 }
-.order-detail-list .order-detail-item {
+#order-detail-scroll .order-detail-list .order-detail-item {
   padding: 0 15px;
 }
-.order-detail-list .order-detail-item .order-detail-item-inner {
+#order-detail-scroll .order-detail-list .order-detail-item .order-detail-item-inner {
   border-bottom: 1px solid #DDD;
   padding: 8px 0;
 }
-.order-detail-list .order-detail-item .order-detail-item-inner .order-detail-money-column {
+#order-detail-scroll .order-detail-list .order-detail-item .order-detail-item-inner .order-detail-money-column {
   text-align: right;
 }
-.order-detail-list .order-detail-item #order-detail-money-item {
+#order-detail-scroll .order-detail-list .order-detail-item #order-detail-money-item {
   color: #FF6537;
 }
