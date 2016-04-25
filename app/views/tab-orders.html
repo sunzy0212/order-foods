@@ -9,12 +9,14 @@
                 >
         </div>
     </div>
-    <ion-scroll delegate-handle="orderAbstractScroll" id="orderAbstractScroll" zooming="false" direction="y" paging="false" scrollbar-y="true">
-        <div class="list" ng-show="orderLoaded" ng-cloak="ng-cloak" ng-click="gotoDetail($event)">
-            <div order-abstract ng-repeat="orderAbstractItem in orderAbstracts" order-abstract-item="orderAbstractItem"
-                    data-order-id="{{orderAbstractItem.orderId}}" data-order-status="{{orderAbstractItem.status}}">
+    <ion-scroll id="orderAbstractScroll" delegate-handle="orderAbstractScroll" zooming="false" direction="y" paging="false" scrollbar-y="true" class="full-screen-scroll">
+        <div class="horizontal-vertical-middle-container">
+            <div class="list" ng-show="orderLoaded" ng-cloak="ng-cloak" ng-click="gotoDetail($event)">
+                <div order-abstract ng-repeat="orderAbstractItem in orderAbstracts" order-abstract-item="orderAbstractItem"
+                        data-order-id="{{orderAbstractItem.orderId}}" data-order-status="{{orderAbstractItem.status}}">
+                </div>
             </div>
+            <ion-spinner ng-hide="orderLoaded" icon="bubbles" class="spinner-balanced horizontal-vertical-middle-spinner"  ng-cloak></ion-spinner>
         </div>
     </ion-scroll>
-    <ion-spinner ng-hide="orderLoaded" icon="bubbles" class="spinner-balanced horizontal-vertical-middle"  ng-cloak></ion-spinner>
 </ion-view>

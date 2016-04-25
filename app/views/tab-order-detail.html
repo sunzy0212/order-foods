@@ -3,8 +3,8 @@
     <div class="ion-ios-arrow-back absolute-padding-left-16 arrow-style" ng-click="backToOrders()"></div>
     <div style="margin-left: auto;margin-right: auto;">订单详情</div>
   </div>
-  <ion-scroll id="order-detail-scroll" delegate-handle="orderDetailScroll" id="orderDetailScroll" zooming="false" direction="y" paging="false" scrollbar-y="true" style="position: relative">
-    <div style="height: 100%;width: 100%;position: relative">
+  <ion-scroll class="full-screen-scroll" delegate-handle="orderDetailScroll" id="orderDetailScroll" zooming="false" direction="y" paging="false" scrollbar-y="true" style="position: relative">
+    <div class="horizontal-vertical-middle-container">
       <div ng-show="loaded">
         <div class="order-detail-status">
           <div class="order-detail-status-inner">
@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <ion-spinner ng-hide="loaded" icon="bubbles" class="spinner-balanced order-abstract-loading"  ng-cloak></ion-spinner>
+      <ion-spinner ng-hide="loaded" icon="bubbles" class="spinner-balanced horizontal-vertical-middle-spinner"  ng-cloak></ion-spinner>
     </div>
   </ion-scroll>
 </ion-view>

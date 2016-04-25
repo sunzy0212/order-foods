@@ -27,12 +27,12 @@
 			console.log(data.errcode);
 			if(err || (data && data.errcode != 0)){
 				//Unauthorization
+				//Dev Environment
+				if(global.isDev){
+					next();
+				}
 			}
 			else{
-				next();
-			}
-			//Dev Environment
-			if(global.isDev){
 				next();
 			}
 		})
