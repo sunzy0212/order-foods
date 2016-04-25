@@ -2,13 +2,14 @@
   'use strict';
   //lib modules
   var express = require("express");
-  var logger=require('morgan');
+  var logger = require('morgan');
   var cookieParser = require('cookie-parser');
   var bodyParser = require('body-parser');
   var path = require('path');
-  var wechat=require('wechat');
+  var wechat = require('wechat');
   var authoriztion = require('./routes/authorization');
-  var async=require('async');
+  var async = require('async');
+  var crypto = require('crypto');
 
   /*var session = require('express-session');
   var MongoStore = require('connect-mongo')(session);*/
@@ -23,6 +24,7 @@
   var oauthClient = authoriztion.oauthClient;
   var oauthMethod = authoriztion.router;
   var unauthCallback = authoriztion.unauthCallback;
+  var wechatConfig = authoriztion.wechatConfig;
 
   // Configuration
   app.use(express.static(path.join(__dirname, 'app')));
@@ -80,6 +82,33 @@
     });
 
   });
+
+  app.all('/inwechat', function(req, res){
+    if(req.query){
+      res.end("false");
+    }
+    var key = wechatConfig.encodingAESKey;
+    var arr = [wechatConfig.token, req.query.timestamp, req.query.nonce];
+    if(checkSigature(arr, req.query.signature, key)){
+      res.end(key);
+    }    
+    else{
+      res.end("false");
+    }
+
+  });
+
+  function checkSigature(arr, sig, key){
+    arr.sort();
+    var tmpStr = arr.join('');
+    var sha1String = crypto.createHash("sha1").update(key).digest("hex"); 
+    console.log(sha1String);
+    if(tmpStr == sha1String)
+      return true;
+    else
+      return false;
+  }
+
 
   module.exports = app;
 
