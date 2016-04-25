@@ -87,23 +87,22 @@
     if(req.query){
       res.end("false");
     }
-    var key = wechatConfig.encodingAESKey;
+    var echostr = req.query.echostr;
     var arr = [wechatConfig.token, req.query.timestamp, req.query.nonce];
-    if(checkSigature(arr, req.query.signature, key)){
-      res.end(key);
+    if(checkSigature(arr, req.query.signature)){
+      res.end(echostr);
     }    
     else{
       res.end("false");
     }
-
   });
 
-  function checkSigature(arr, sig, key){
+  function checkSigature(arr, sig){
     arr.sort();
     var tmpStr = arr.join('');
-    var sha1String = crypto.createHash("sha1").update(key).digest("hex"); 
-    console.log(sha1String);
-    if(tmpStr == sha1String)
+    var sha1Str = crypto.createHash('sha1').update(tmpStr).digest('hex'); 
+    console.log(sha1Str);
+    if(sig == sha1Str)
       return true;
     else
       return false;
