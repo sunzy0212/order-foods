@@ -81,22 +81,6 @@
 
   });
 
-  //浏览器访问
-  app.get('/app', function(req, res) {
-    var openId='os1N1v1asWV4hAzEqANL-e2c4E5E';
-    res.render('index.html',{
-      openId:openId
-    });
-
-  });
-
-
-  app.use('/wechat1', wechat(globalValue.wechatConfig,function(req,res,next){
-    // 微信输入信息都在req.weixin上
-    var message=req.weixin;
-
-  }));
-
   module.exports = app;
 
 })();
