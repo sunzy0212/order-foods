@@ -1,4 +1,3 @@
-
 /**
  * @ngdoc service
  * @name $ionicListDelegate
@@ -12,18 +11,20 @@
  * method to control specific ionList instances.
  *
  * @usage
- *
- * ````html
+ * ```html
+ * {% raw %}
  * <ion-content ng-controller="MyCtrl">
  *   <button class="button" ng-click="showDeleteButtons()"></button>
  *   <ion-list>
  *     <ion-item ng-repeat="i in items">
- *       {% raw %}Hello, {{i}}!{% endraw %}
+ *       Hello, {{i}}!
  *       <ion-delete-button class="ion-minus-circled"></ion-delete-button>
  *     </ion-item>
  *   </ion-list>
  * </ion-content>
+ * {% endraw %}
  * ```
+
  * ```js
  * function MyCtrl($scope, $ionicListDelegate) {
  *   $scope.showDeleteButtons = function() {
@@ -32,8 +33,7 @@
  * }
  * ```
  */
-IonicModule
-.service('$ionicListDelegate', ionic.DelegateService([
+IonicModule.service('$ionicListDelegate', ionic.DelegateService([
   /**
    * @ngdoc method
    * @name $ionicListDelegate#showReorder
@@ -61,7 +61,7 @@ IonicModule
    * @name $ionicListDelegate#closeOptionButtons
    * @description Closes any option buttons on the list that are swiped open.
    */
-  'closeOptionButtons',
+  'closeOptionButtons'
   /**
    * @ngdoc method
    * @name $ionicListDelegate#$getByHandle

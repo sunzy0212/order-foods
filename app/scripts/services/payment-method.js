@@ -19,7 +19,7 @@ serviceModule.service('paymentMethodService',function(){
                 item.isActive = false;
             }
         });
-        return this.paymentMethods;
+        return this.activePaymentId;
     };
 
     return this;

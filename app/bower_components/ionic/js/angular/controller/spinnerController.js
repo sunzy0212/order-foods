@@ -228,7 +228,7 @@
                 };
               },
               t: 1
-            },{
+            }, {
               fn: function() {
                 return {
                   an: 'y2',
@@ -238,7 +238,7 @@
                 };
               },
               t: 1
-            },{
+            }, {
               fn: function() {
                 return {
                   an: STROKE_OPACITY,
@@ -278,7 +278,7 @@
                 };
               },
               t: 1
-            },{
+            }, {
               fn: function() {
                 return {
                   an: STROKE_OPACITY,
@@ -330,6 +330,10 @@
   var animations = {
 
     android: function(ele) {
+      var self = this;
+
+      this.stop = false;
+
       var rIndex = 0;
       var rotateCircle = 0;
       var startTime;
@@ -337,6 +341,8 @@
       var circleEle = ele.querySelector('circle');
 
       function run() {
+        if (self.stop) return;
+
         var v = easeInOutCubic(Date.now() - startTime, 650);
         var scaleX = 1;
         var translateX = 0;
@@ -372,6 +378,7 @@
       return function() {
         startTime = Date.now();
         run();
+        return self;
       };
 
     }
@@ -390,16 +397,12 @@
   .controller('$ionicSpinner', [
     '$element',
     '$attrs',
-  function($element, $attrs) {
-    var spinnerName, spinner;
+    '$ionicConfig',
+  function($element, $attrs, $ionicConfig) {
+    var spinnerName, anim;
 
     this.init = function() {
-      spinnerName = $attrs.icon || ionic.Platform.platform();
-      spinner = spinners[spinnerName];
-      if (!spinner) {
-        spinnerName = 'ios';
-        spinner = spinners.ios;
-      }
+      spinnerName = $attrs.icon || $ionicConfig.spinner.icon();
 
       var container = document.createElement('div');
       createSvgElement('svg', {
@@ -419,7 +422,11 @@
     };
 
     this.start = function() {
-      animations[spinnerName] && animations[spinnerName]($element[0])();
+      animations[spinnerName] && (anim = animations[spinnerName]($element[0])());
+    };
+
+    this.stop = function() {
+      animations[spinnerName] && (anim.stop = true);
     };
 
   }]);

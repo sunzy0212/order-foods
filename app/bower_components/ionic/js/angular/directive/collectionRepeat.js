@@ -56,7 +56,7 @@
  *   <ion-scroll direction="x" class="available-scroller">
  *     <div class="photo" collection-repeat="photo in main.photos"
  *        item-height="250" item-width="photo.width + 30">
- *        <img ng-src="{{photo.src}}">
+ *        <img ng-src="{% raw %}{{photo.src}}{% endraw %}">
  *     </div>
  *   </ion-scroll>
  * </ion-content>
@@ -142,7 +142,7 @@ function CollectionRepeatDirective($ionicCollectionManager, $parse, $window, $$r
     initDimensions();
 
     // Dimensions are refreshed on resize or data change.
-    scrollCtrl.$element.on('scroll.resize', refreshDimensions);
+    scrollCtrl.$element.on('scroll-resize', refreshDimensions);
 
     angular.element($window).on('resize', onResize);
     var unlistenToExposeAside = $rootScope.$on('$ionicExposeAside', ionic.animationFrameThrottle(function() {
@@ -173,7 +173,7 @@ function CollectionRepeatDirective($ionicCollectionManager, $parse, $window, $$r
     scope.$on('$destroy', function() {
       angular.element($window).off('resize', onResize);
       unlistenToExposeAside();
-      scrollCtrl.$element && scrollCtrl.$element.off('scroll.resize', refreshDimensions);
+      scrollCtrl.$element && scrollCtrl.$element.off('scroll-resize', refreshDimensions);
 
       computedStyleNode && computedStyleNode.parentNode &&
         computedStyleNode.parentNode.removeChild(computedStyleNode);
@@ -323,7 +323,7 @@ function CollectionRepeatDirective($ionicCollectionManager, $parse, $window, $$r
       // Try to just parse the plain attr value
       try {
         parsedValue = $parse(attrValue);
-      } catch(e) {
+      } catch (e) {
         // If the parse fails and the value has `px` or `%` in it, surround the attr in
         // quotes, to attempt to let the user provide a simple `attr="100%"` or `attr="100px"`
         if (attrValue.trim().match(/\d+(px|%)$/)) {
@@ -338,17 +338,15 @@ function CollectionRepeatDirective($ionicCollectionManager, $parse, $window, $$r
 
       // If it's a constant, it's either a percent or just a constant pixel number.
       if (isConstant) {
-        var intValue = parseInt(parsedValue());
-
         // For percents, store the percent getter on .getValue()
         if (attrValue.indexOf('%') > -1) {
-          var decimalValue = intValue / 100;
+          var decimalValue = parseFloat(parsedValue()) / 100;
           dimensionData.getValue = dimensionData === heightData ?
             function() { return Math.floor(decimalValue * scrollView.__clientHeight); } :
             function() { return Math.floor(decimalValue * scrollView.__clientWidth); };
         } else {
           // For static constants, just store the static constant.
-          dimensionData.value = intValue;
+          dimensionData.value = parseInt(parsedValue());
         }
 
       } else {
@@ -356,14 +354,16 @@ function CollectionRepeatDirective($ionicCollectionManager, $parse, $window, $$r
         dimensionData.getValue = dimensionData === heightData ?
           function heightGetter(scope, locals) {
             var result = parsedValue(scope, locals);
-            if (result.charAt && result.charAt(result.length - 1) === '%')
-              return Math.floor(parseInt(result) / 100 * scrollView.__clientHeight);
+            if (result.charAt && result.charAt(result.length - 1) === '%') {
+              return Math.floor(parseFloat(result) / 100 * scrollView.__clientHeight);
+            }
             return parseInt(result);
           } :
           function widthGetter(scope, locals) {
             var result = parsedValue(scope, locals);
-            if (result.charAt && result.charAt(result.length - 1) === '%')
-              return Math.floor(parseInt(result) / 100 * scrollView.__clientWidth);
+            if (result.charAt && result.charAt(result.length - 1) === '%') {
+              return Math.floor(parseFloat(result) / 100 * scrollView.__clientWidth);
+            }
             return parseInt(result);
           };
       }
@@ -461,7 +461,6 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
     var itemsEntering = [];
     var itemsShownMap = {};
     var nextItemId = 0;
-    var estimatedItemsAcross;
 
     var scrollViewSetDimensions = isVertical ?
       function() { scrollView.setDimensions(null, null, null, view.getContentSize(), true); } :
@@ -484,7 +483,6 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
     scrollView.__$callback = scrollView.__callback;
     scrollView.__callback = function(transformLeft, transformTop, zoom, wasResize) {
       var scrollValue = view.getScrollValue();
-      if(window.d)dump('_-callback render', scrollValue, view.scrollPrimarySize + renderAfterBoundary);
       if (renderStartIndex === -1 ||
           scrollValue + view.scrollPrimarySize > renderAfterBoundary ||
           scrollValue < renderBeforeBoundary) {
@@ -495,9 +493,15 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
 
     var isLayoutReady = false;
     var isDataReady = false;
-    this.refreshLayout = function(itemsAfterRepeater) {
-      estimatedHeight = heightGetter(0, data[0]);
-      estimatedWidth = widthGetter(0, data[0]);
+    this.refreshLayout = function() {
+      if (data.length) {
+        estimatedHeight = heightGetter(0, data[0]);
+        estimatedWidth = widthGetter(0, data[0]);
+      } else {
+        // If we don't have any data in our array, just guess.
+        estimatedHeight = 100;
+        estimatedWidth = 100;
+      }
 
       // Get the size of every element AFTER the repeater. We have to get the margin before and
       // after the first/last element to fix a browser bug with getComputedStyle() not counting
@@ -514,10 +518,10 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
       var current = containerNode;
       do {
         repeaterBeforeSize += current[isVertical ? 'offsetTop' : 'offsetLeft'];
-      } while( ionic.DomUtil.contains(scrollView.__content, current = current.offsetParent) );
+      } while ( ionic.DomUtil.contains(scrollView.__content, current = current.offsetParent) );
 
       var containerPrevNode = containerNode.previousElementSibling;
-      var beforeStyle = containerPrevNode ?  $window.getComputedStyle(containerPrevNode) : {};
+      var beforeStyle = containerPrevNode ? $window.getComputedStyle(containerPrevNode) : {};
       var beforeMargin = parseInt(beforeStyle[isVertical ? 'marginBottom' : 'marginRight'] || 0);
 
       // Because we position the collection container with position: relative, it doesn't take
@@ -588,6 +592,7 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
     function render(forceRerender) {
       if (render.destroyed) return;
       var i;
+      var ii;
       var item;
       var dim;
       var scope;
@@ -631,7 +636,7 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
         scope.$first = (i === 0);
         scope.$last = (i === (data.length - 1));
         scope.$middle = !(scope.$first || scope.$last);
-        scope.$odd = !(scope.$even = (i&1) === 0);
+        scope.$odd = !(scope.$even = (i & 1) === 0);
 
         if (scope.$$disconnected) ionic.Utils.reconnectScope(item.scope);
 
@@ -691,14 +696,6 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
       }
     }
 
-    function getNextItem() {
-      if (itemsLeaving.length)
-        return itemsLeaving.pop();
-      else if (itemsPool.length)
-        return itemsPool.shift();
-      return new RepeatItem();
-    }
-
     function digestEnteringItems() {
       var item;
       if (digestEnteringItems.running) return;
@@ -719,7 +716,7 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
     function RepeatItem() {
       var self = this;
       this.scope = scope.$new();
-      this.id = 'item'+ (nextItemId++);
+      this.id = 'item' + (nextItemId++);
       transclude(this.scope, function(clone) {
         self.element = clone;
         self.element.data('$$collectionRepeatItem', self);
@@ -893,9 +890,11 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
       };
 
       this.onRefreshData = function() {
+        var i;
+        var ii;
         // Make sure dimensions has as many items as data.length.
         // This is to be sure we don't have to allocate objects while scrolling.
-        for (i = dimensions.length, len = data.length; i < len; i++) {
+        for (i = dimensions.length, ii = data.length; i < ii; i++) {
           dimensions.push({});
         }
         dimensionsIndex = -1;

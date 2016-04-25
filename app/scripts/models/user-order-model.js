@@ -1,7 +1,7 @@
 /**
  * Created by ZhiyuanSun on 16/1/5.
  */
-function UserOrderModel(openId, foods, totalNum, status, beforeDiscountMoney, discountMoney, userInfo){
+function UserOrderModel(openId, foods, totalNum, status, beforeDiscountMoney, discountMoney, cartInfo){
     if(openId == null){
         throw new Error('参数：openId为null');
     }
@@ -20,8 +20,8 @@ function UserOrderModel(openId, foods, totalNum, status, beforeDiscountMoney, di
     if(discountMoney == null){
         throw new Error('参数：discountMoney为null');
     }
-    if(userInfo == null){
-        throw new Error('参数：userInfo为null');
+    if(cartInfo == null){
+        throw new Error('参数：cartInfo为null');
     }
 
 
@@ -33,10 +33,10 @@ function UserOrderModel(openId, foods, totalNum, status, beforeDiscountMoney, di
         beforeDiscountMoney : beforeDiscountMoney,
         discountMoney : discountMoney
     };
-    this.userInfo = userInfo;
+    this.cartInfo = cartInfo;
 }
 
-function UserInfoModel(seatNum, peopleNum, invoice){
+function CartInfoModel(seatNum, peopleNum, invoice){
     if(seatNum == null){
         throw new Error('参数：seat为null');
     }

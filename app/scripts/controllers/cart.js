@@ -3,104 +3,109 @@
  */
 ctrlModule
     .controller('cartCtrl',[
-        '$scope', '$rootScope', '$q', '$ionicModal', 'userOrder', 'userInfo', 'foodMenu', 'paymentMethodService',
-        function($scope, $rootScope, $q, $ionicModal, userOrder, userInfo, foodMenu, paymentMethodService){
-        $scope.foods = userOrder.foods;
-        $scope.money = userOrder.getMoney();
-        $scope.userOrderId = null;
+        '$scope',
+        '$rootScope',
+        '$q',
+        '$ionicModal',
+        '$state',
+        'userOrder',
+        'userInfo',
+        'foodMenu',
+        'paymentMethodService',
+        'menu',
+        'cart',
+        'cartCache',
+        function($scope, $rootScope, $q, $ionicModal, $state, userOrder, userInfo, foodMenu, paymentMethodService, menu, cart, cartCache){
+          $scope.foods = cart.foods;
+          $scope.money = cart.money;
+          $scope.userOrderId = null;
 
-        $scope.isPaymentMethodModalShow = false;
-        /*userInfo.getRestaurantInfo()
-            .then(function(restaurantInfo){
-                $scope.restaurantInfo = userInfo.restaurantInfo;
-                $scope.userInfo = userInfo.userInfo;
-            });*/
+          $scope.isPaymentMethodModalShow = false;
 
-        $scope.restaurantInfo = userInfo.restaurantInfo;
-        $scope.userInfo = userInfo.userInfo;
+          // $scope.restaurantInfo = 
+          menu.getRestaurantInfo()
+            .then(function(data){
+              $scope.restaurantInfo = data;
+              return cartCache.getCartInfo(); 
+            })
+            .then(function(data){
+              $scope.cartInfo = data;
+            });
 
-        //        使用优惠券的相关操作
-        $ionicModal.fromTemplateUrl('views/coupon.html',{
-            scope       :   $scope,
-            animation   :   'slide-left-right'
-        }).then(function(modal){
-            $scope.modal = modal;
-        });
-        $scope.selectCouponOpen = function(){
-            $scope.modal.show();
-        };
+          //        使用优惠券的相关操作
+          $ionicModal.fromTemplateUrl('views/coupon.html',{
+              scope       :   $scope,
+              animation   :   'slide-left-right'
+          }).then(function(modal){
+              $scope.modal = modal;
+          });
+          $scope.selectCouponOpen = function(){
+              $scope.modal.show();
+          };
 
-        $scope.selectCouponDone = function(){
-            $scope.modal.hide();
-            $scope.money = userOrder.discount();
-        };
+          $scope.selectCouponDone = function(){
+              $scope.modal.hide();
+              $scope.money = userOrder.discount();
+          };
 
-        $scope.addFoodClick = function(foodName, volumeName, price){
-            foodMenu.getFoodsByType()
-                .then(function(typeFoods){
-                    userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName, volumeName, price);
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+          $scope.addFoodClick = function(foodName, volumeObj){
+            cart.addFood(foodName,volumeObj);
+          };
 
-                    $scope.money = userOrder.getMoney();
-                    $rootScope.totalNum = userOrder.totalNum;
-                });
-        };
+          $scope.minusFoodClick = function(foodName, volumeObj){
+            cart.minFood(foodName,volumeObj);
+          };
 
-        $scope.minusFoodClick = function(foodName, volumeName, price){
-            foodMenu.getFoodsByType()
-                .then(function(typeFoods){
-                    userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName, volumeName, price);
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
+          $scope.selectSeatNum = function(seatNum){
+              cartCache.cartInfo.seatNum = seatNum;
+          };
 
-                    $scope.money = userOrder.getMoney();
-                    $rootScope.totalNum = userOrder.totalNum;
-                });
-        };
+          $scope.selectPeopleNum = function(peopleNum){
+              cartCache.cartInfo.peopleNum = peopleNum;
+          };
 
-        $scope.selectSeatNum = function(seatNum){
-            userInfo.userInfo.seatNum = seatNum;
-        };
+          $scope.selectInvoiceNeed = function(isInvoiceNeed){
+              userInfo.userInfo.isInvoiceNeed = isInvoiceNeed;
+          };
 
-        $scope.selectPeopleNum = function(peopleNum){
-            userInfo.userInfo.peopleNum = peopleNum;
-        };
+          $scope.conformUserOrderClick = function(){
+              if($scope.money.beforeDiscount <= 0 ){
+                  return ;
+              }
 
-        $scope.selectInvoiceNeed = function(isInvoiceNeed){
-            userInfo.userInfo.isInvoiceNeed = isInvoiceNeed;
-        };
+              $scope.orderConforming = true;
+              cart.gotoCheckOut()
+                  .then(function(retData){
+                      $scope.orderConforming = false;
+                      // $scope.paymentModal.show();
+                      $scope.userOrderId = retData;
 
-        $scope.conformUserOrderClick = function(){
-            if($scope.money.beforeDiscountMoney <= 0 ){
-                return ;
-            }
-
-            $scope.orderConforming = true;
-            userOrder.conformUserOrder()
-                .then(function(retData){
-                    $scope.orderConforming = false;
-                    // $scope.paymentModal.show();
-                    $scope.userOrderId = retData;
-
-                    userOrder.clearCart();
-                    $scope.foods={};
-                    $scope.totalMoney = 0;
-                    $rootScope.totalNum = 0;
-
+                      userOrder.clearCart();
+                      $scope.foods={};
+                      $scope.totalMoney = 0;
+                      $rootScope.totalNum = 0;
 
 
-                    $scope.isPaymentMethodModalShow = true;
 
-                    $scope.paymentInfo = {
-                        userOrderId: retData,
-                        totalMoney: userOrder.money.afterDiscountMoney,
-                        status: 1,
-                        paymentMethods: paymentMethodService.paymentMethods
-                    }
-                });
-        };
+                      $scope.isPaymentMethodModalShow = true;
 
-        $scope.saveInvoice = function(invoice){
-            userInfo.userInfo.invoice = invoice;
-        };
+                      $scope.paymentInfo = {
+                          userOrderId: retData,
+                          totalMoney: cart.money.afterDiscount,
+                          status: 1,
+                          paymentMethods: paymentMethodService.paymentMethods
+                      }
+                  });
+          };
+
+          $scope.afterConformPayment = function(){
+            cart.clearCart();
+            $state.go('tab.orders');
+
+          };
+
+          $scope.saveInvoice = function(invoice){
+              userInfo.userInfo.invoice = invoice;
+          };
     }]);
 

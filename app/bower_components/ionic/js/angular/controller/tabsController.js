@@ -8,6 +8,7 @@ function($scope, $element, $ionicHistory) {
   var selectedTab = null;
   var previousSelectedTab = null;
   var selectedTabIndex;
+  var isVisible = true;
   self.tabs = [];
 
   self.selectedIndex = function() {
@@ -35,7 +36,7 @@ function($scope, $element, $ionicHistory) {
       self.deselect(tab);
       //Try to select a new tab if we're removing a tab
       if (self.tabs.length === 1) {
-        //do nothing if there are no other tabs to select
+        //Do nothing if there are no other tabs to select
       } else {
         //Select previous tab if it's the last tab, else select next tab
         var newTabIndex = tabIndex === self.tabs.length - 1 ? tabIndex - 1 : tabIndex + 1;
@@ -114,4 +115,15 @@ function($scope, $element, $ionicHistory) {
     return false;
   };
 
+  self.showBar = function(show) {
+    if (arguments.length) {
+      if (show) {
+        $element.removeClass('tabs-item-hide');
+      } else {
+        $element.addClass('tabs-item-hide');
+      }
+      isVisible = !!show;
+    }
+    return isVisible;
+  };
 }]);

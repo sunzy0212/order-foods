@@ -1,0 +1,64 @@
+<ion-view view-title="订单详情" hide-nav-bar="true">
+  <div class="row row-no-padding layout-header-fixed order-detail-header">
+    <div class="ion-ios-arrow-back absolute-padding-left-16 arrow-style" ng-click="backToOrders()"></div>
+    <div style="margin-left: auto;margin-right: auto;">订单详情</div>
+  </div>
+  <ion-scroll class="full-screen-scroll" delegate-handle="orderDetailScroll" id="orderDetailScroll" zooming="false" direction="y" paging="false" scrollbar-y="true" style="position: relative">
+    <div class="horizontal-vertical-middle-container">
+      <div ng-show="loaded">
+        <div class="order-detail-status">
+          <div class="order-detail-status-inner">
+            <i class="icon ion-ios-paper-outline"></i>
+            <span class="order-detail-status-font">{{orderDetail.status}}</span>
+          </div>
+        </div>
+        <div class="list order-detail-list">
+          <div class="item item-divider food-item-divider"></div>
+          <div class="order-detail-item">
+            <div class="order-detail-item-inner">
+              <div class="float-left important-key">菜单信息</div>
+              <div class="clear-float"></div>
+            </div>
+          </div>
+          <div class="order-detail-item" ng-repeat="food in orderDetail.foods">
+            <div class="row row-no-padding order-detail-item-inner">
+              <div class="col col-70 description-key" ng-bind="food.foodName"></div>
+              <div class="col col-10 description-key">×{{food.num}}</div>
+              <div class="col col-20 description-key order-detail-money-column">¥ {{food.price}}</div>
+            </div>
+          </div>
+          <div class="order-detail-item">
+            <div class="order-detail-item-inner">
+              <div class="important-key float-right">订单总计: ¥ {{orderDetail.money.beforeDiscount}}</div>
+              <div class="clear-float"></div>
+            </div>
+          </div>
+          <div class="order-detail-item">
+            <div id="order-detail-money-item" class="order-detail-item-inner">
+              <div class="float-right"><span class="important-key">已优惠：</span> - ¥ {{orderDetail.money.discount}}</div>
+              <div class="clear-float"></div>
+              <div class="float-right"><span class="important-key">实付款：</span> ¥ {{orderDetail.money.beforeDiscount - orderDetail.money.discount}}</div>
+              <div class="clear-float"></div>
+            </div>
+          </div>
+          <div class="item item-divider food-item-divider"></div>
+          <div class="order-detail-item">
+            <div class="order-detail-item-inner">
+              <div class="float-left important-key">订单详情</div>
+              <div class="float-right description-key">订单号: {{orderDetail.userOrderId}}</div>
+              <div class="clear-float"></div>
+            </div>
+            <div class="order-detail-item-inner">
+              <div class="description-key">付款方式：{{orderDetail.paymentMethod}}</div>
+              <div class="description-key">发票信息：{{orderDetail.cartInfo.invoice || "暂无"}}</div>
+              <div class="description-key">座号：{{orderDetail.cartInfo.seatNum}}</div>
+              <div class="description-key">人数：{{orderDetail.cartInfo.peopleNum}}</div>
+              <div class="description-key">下单时间：{{orderDetail.time}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ion-spinner ng-hide="loaded" icon="bubbles" class="spinner-balanced horizontal-vertical-middle-spinner"  ng-cloak></ion-spinner>
+    </div>
+  </ion-scroll>
+</ion-view>

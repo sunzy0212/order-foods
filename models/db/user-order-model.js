@@ -23,15 +23,15 @@ var FoodValueSchema = new Schema({
 });
 
 var MoneySchema = new Schema({
-    beforeDiscountMoney :   Number,
-    discountMoney       :   Number
+    beforeDiscount :   Number,
+    discount       :   Number
 });
 
 // 支付方式说明
 //      0   -- 现金支付
 //      1   -- 支付宝支付
 //      2   -- 微信支付
-var UserInfoSchema = new Schema({
+var CartInfoSchema = new Schema({
     seatNum     :   String,
     peopleNum   :   Number,
     invoice     :   String
@@ -86,8 +86,8 @@ var UserOrderSchema = new Schema ({
         required : true,
         default : new Date().now
     },
-    userInfo : {
-        type : UserInfoSchema,
+    cartInfo : {
+        type : CartInfoSchema,
         require : true
     }
 });

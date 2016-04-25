@@ -4,7 +4,7 @@
             <tr>
                 <td style="width: 20%;text-align: center;" >
                     <div class="tab-item has-badge" style="margin-top: 3%;">
-                        <i class="badge badge-assertive" ng-bind="totalNum"></i>
+                        <i class="badge badge-assertive" ng-bind="totalNum.value"></i>
                         <i class="ion ion-ios-cart" style="font-size: 35px;color: #4cae4c;"></i>
                     </div>
                 </td>
@@ -16,7 +16,7 @@
                     <span class="order-food-total-money" ng-bind="totalMoney"></span>
                 </td>
                 <td style="vertical-align: middle; width: 40%;text-align: center;">
-                    <button class="button button-small button-energized" ng-disabled="totalNum < 1" ng-click="gotoCart()" style="height: 30px;width: 70px;">选好了</button>
+                    <button class="button button-small button-energized" ng-disabled="totalNum.value < 1" ng-click="gotoCart()" style="height: 30px;width: 70px;">选好了</button>
                 </td>
             </tr>
         </table>
@@ -24,7 +24,7 @@
     <div class="row row-no-padding responsive-break order-food-layout-content">
         <div class="col col-20 order-food-layout-side-bar">
             <ion-scroll delegate-handle="sideBarScroll" zooming="false" direction="y" paging="false" scrollbar-y="false" style="height: 100%;">
-              <side-bar list="foodTypes" change-item="changeFoodType(foodTypes.items[foodTypes.activeIndex])"></side-bar>
+              <side-bar list="foodTypes" change-item="changeFoodType(foodTypes.items[foodTypes.activeIndex].name)"></side-bar>
             </ion-scroll>
         </div>
         <div class="col col-80 order-food-layout-food-content">
@@ -54,7 +54,7 @@
                             <!--<span ng-bind="food.state"></span>-->
                         <div>
                             <span ng-repeat="price in food.price">
-                                <span class="food-description-font" ng-bind="price.name"></span>
+                                <span class="food-description-font" ng-bind="price.displayName"></span>
                                 <span ng-bind="price.price"></span>
                             </span>
                         </div>
@@ -64,14 +64,14 @@
                                         class="icon ion-ios-minus select-food-icon"
                                         ng-click="minusFoodClick(food.name)"
                                         style="position: absolute;left: 0px;"
-                                        ng-show="foodSelectedArray[food.name].num > 0"
+                                        ng-show="foodsSelectedStatus[food.name].num > 0"
                                         ng-cloak
                                         >
                                 </i>
                                 <span
-                                        ng-bind="foodSelectedArray[food.name].num"
+                                        ng-bind="foodsSelectedStatus[food.name].num"
                                         style="position: absolute; left: 40%;top: 20%;"
-                                        ng-show="foodSelectedArray[food.name].num > 0"
+                                        ng-show="foodsSelectedStatus[food.name].num > 0"
                                         ng-cloak
                                         >
                                 </span>
@@ -79,10 +79,10 @@
                             </div>
                             <div class="col col-33">
                                 <select class="food-price-select"
-                                        ng-init="selectVolume=foodSelectedArray[food.name]"
-                                        ng-model="selectVolume"
-                                        ng-options="item as item.name for item in food.price track by item.name"
-                                        ng-change="SelectVolume(food.name,selectVolume)"
+                                        ng-init="initVolume=foodsSelectedStatus[food.name].volume"
+                                        ng-model="initVolume"
+                                        ng-options="item as item.displayName for item in food.price track by item.name"
+                                        ng-change="SelectVolume(food.name,initVolume)"
                                         >
                                 </select>
                             </div>

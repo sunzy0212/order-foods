@@ -2,73 +2,80 @@
  * Created by ZhiyuanSun on 15/12/1.
  */
 ctrlModule
-.controller('orderFoodsCtrl',['$scope','$rootScope','$q','$http','$ionicScrollDelegate','userOrder','foodMenu', 'userInfo',function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo){
-        $scope.totalMoney  =userOrder.money.beforeDiscountMoney;
+.controller('orderFoodsCtrl',[
+    '$scope',
+    '$rootScope',
+    '$q',
+    '$http',
+    '$ionicScrollDelegate',
+    'userOrder',
+    'foodMenu',
+    'userInfo',
+    'orderFoodsCache',
+    'menu',
+    'cart',
+    function($scope,$rootScope,$q,$http,$ionicScrollDelegate,userOrder,foodMenu,userInfo,orderFoodsCache,menu,cart){
+        $scope.totalMoney  =cart.money.beforeDiscount;
+        $rootScope.totalNum = cart.totalNum;
 
-        //构建side bar用的数据
-        foodMenu.getAllFoodTypes()
+        var foodType = null;
+        orderFoodsCache.getFoodTypes()
             .then(function(foodTypes){
                 $scope.foodTypes = foodTypes;
-                return foodMenu.getFoodsByType(foodTypes.items[foodTypes.activeIndex]);
+                return menu.getFoodsByType(foodTypes && foodTypes.items && foodTypes.items[foodTypes.activeIndex] && (foodType = foodTypes.items[foodTypes.activeIndex].name));
             })
-            .then(function(typeFoods){
-                $scope.foods = typeFoods.selectedFoods;
-                $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
-            });
-
-        //如果餐厅信息未被加载，则加载餐厅信息
-        userInfo.getRestaurantInfo()
-            .then(function(restaurantInfo){
+            .then(function(foods){
+                $scope.foods = foods;
+                return orderFoodsCache.getFoodsSelectedStatusByType(foodType);
+            })
+            .then(function(foodsSelectedStatus){
+              console.log(foodsSelectedStatus);
+                $scope.foodsSelectedStatus = foodsSelectedStatus;
+                foodType = null;
             });
 
         $scope.addFoodClick = function(foodName){
-            foodMenu.getFoodsByType()
-                .then(function(typeFoods){
-                    userOrder.addFood(typeFoods.foodVolumeSelectedArray, foodName);
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
-
-                    $scope.totalMoney = userOrder.money.beforeDiscountMoney;
-                    $rootScope.totalNum = userOrder.totalNum;
-                });
+          var currentVolumeObj = $scope.foodsSelectedStatus[foodName].volume;
+          var ret= cart.addFood(foodName, currentVolumeObj);
+          $scope.foodsSelectedStatus[foodName].num = ret.num;
+          $scope.totalMoney = ret.money;
         };
 
         $scope.minusFoodClick = function(foodName){
-            foodMenu.getFoodsByType()
-                .then(function(typeFoods){
-                    userOrder.minusFood(typeFoods.foodVolumeSelectedArray, foodName);
-                    $scope.foodSelectedArray = typeFoods.foodVolumeSelectedArray;
-
-                    $scope.totalMoney = userOrder.money.beforeDiscountMoney;
-                    $rootScope.totalNum = userOrder.totalNum;
-                });
+          var currentVolumeObj = $scope.foodsSelectedStatus[foodName].volume;
+          var ret = cart.minFood(foodName,currentVolumeObj);
+          $scope.foodsSelectedStatus[foodName].num = ret.num;
+          $scope.totalMoney = ret.money;
         };
 
-        $scope.SelectVolume = function(foodName, selectVolume){
-
-            foodMenu.setFoodVolumeSelectedArray(foodName, selectVolume);
-
-            //该数组表示每一种菜当前select控件的选择情况
-            $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
+        $scope.SelectVolume = function(foodName, volume){
+          orderFoodsCache.getSelectedType()
+            .then(function(foodType){
+              orderFoodsCache.setFoodsSelectedVolumeStatus(foodType,foodName,volume);
+              $scope.foodsSelectedStatus[foodName].num = cart.getFoodNum(foodName,volume.displayName)
+            });
         };
 
         $scope.gotoCart = function(){
             window.location.href = "#/tab/cart";
         };
 
-        $scope.changeFoodType = function(foodTypeName){
+        $scope.changeFoodType = function(type){
             //设置content scroll到顶部
             $ionicScrollDelegate.$getByHandle('contentScroll').scrollTop();
 
-            //设置当前选择的菜的种类
-            foodMenu.getFoodsByType(foodTypeName)
-                .then(function(typeFoods){
-                    $scope.foods = typeFoods.selectedFoods;
-                    $scope.foodSelectedArray = foodMenu.getFoodVolumeSelectedArray();
-                });
+            //获取当前选择的菜的种类
+            menu.getFoodsByType(type)
+              .then(function(foods){
+                 $scope.foods = foods;
+                 return orderFoodsCache.getFoodsSelectedStatusByType(type);
+              })
+              .then(function(foodsSelectedStatus){
+                $scope.foodsSelectedStatus = foodsSelectedStatus;
+              });
         };
 
-        function currentSelectedFoodType(){
-          return $scope.foodTypes.items[$scope.foodTypes.activeIndex];
-        }
-
+        $scope.getFoodNum = function(foodName, volume){
+          return cart.getFoodNum(foodName,volume);
+        };
     }]);

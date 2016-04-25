@@ -19,6 +19,7 @@
   <link href="styles/directives/order-abstract-item.css" rel="stylesheet">
   <link href="styles/directives/payment-method-modal.css" rel="stylesheet">
   <link href="styles/orders.css" rel="stylesheet">
+  <link href="styles/order-detail.css" rel="stylesheet">
   <!-- endbuild -->
 </head>
 <body ng-app="orderFoodsApp" ng-controller="orderFoodsAppCtrl">
@@ -26,6 +27,9 @@
 <div style="display: none;">
     <span id="render_openId">
         <%=openId%>
+    </span>
+    <span id="render_accessToken">
+        <%=accessToken%>
     </span>
 </div>
 
@@ -48,8 +52,9 @@
 <!-- ionic/angularjs js -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+ <script src="bower_components/angular-animate/angular-animate.js"></script>
+ <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/ionic/release/js/ionic.js"></script>
 <script src="bower_components/ionic/release/js/ionic-angular.js"></script>
@@ -67,16 +72,24 @@
 <script src="scripts/templates.js" type="application/javascript"></script>
 
 <!--your controller's js-->
-<script src="scripts/controllers/order-foods.js" type="application/javascript"></script>
-<script src="scripts/controllers/orders.js" type="application/javascript"></script>
-<script src="scripts/controllers/mine.js" type="application/javascript"></script>
-<script src="scripts/controllers/cart.js" type="application/javascript"></script>
+<script src="scripts/controllers/order-foods.js"></script>
+<script src="scripts/controllers/orders.js"></script>
+<script src="scripts/controllers/mine.js"></script>
+<script src="scripts/controllers/cart.js"></script>
+<script src="scripts/controllers/order-detail.js"></script>
 
 <!--your service's js-->
 <script src="scripts/services/user-info.js" type="application/javascript"></script>
 <script src="scripts/services/user-order.js" type="application/javascript"></script>
 <script src="scripts/services/food-menu.js" type="application/javascript"></script>
 <script src="scripts/services/payment-method.js" type="application/javascript"></script>
+<script src="scripts/services/menu.js" type="application/javascript"></script>
+<script src="scripts/services/cart.js" type="application/javascript"></script>
+<script src="scripts/services/order-foods-cache.js" type="application/javascript"></script>
+<script src="scripts/services/cart-cache.js" type="application/javascript"></script>
+<script src="scripts/services/user-orders.js" type="application/javascript"></script>
+<script src="scripts/services/authorization.js"></script>
+
 
 <!--your directive's js-->
 <script src="scripts/directives/food-rate.js" type="application/javascript"></script>
