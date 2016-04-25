@@ -10,13 +10,18 @@ navigation history that also transitions its views in and out.
         <ion-nav-view name="tab-order-foods" animation="slide-left-right"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab badge-style="badge-assertive" badge="totalNum" title="购物车" icon-off="ion-ios-cart-outline" icon-on="ion-ios-cart" href="#/tab/cart">
+    <ion-tab title="购物车" badge-style="badge-assertive" badge="totalNum.value"  icon-off="ion-ios-cart-outline" 
+        icon-on="ion-ios-cart" href="#/tab/cart" hidden="true">
         <ion-nav-view name="tab-cart" animation="slide-left-right"></ion-nav-view>
     </ion-tab>
     <!-- Chats Tab -->
 
     <ion-tab title="订单" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" href="#/tab/orders">
         <ion-nav-view name="tab-orders" animation="slide-left-right"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="订单详情" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/order-detail" hidden="true">
+        <ion-nav-view name="tab-order-detail" animation="slide-left-right"></ion-nav-view>
     </ion-tab>
 
     <!-- Account Tab -->

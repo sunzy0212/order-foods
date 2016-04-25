@@ -67,7 +67,8 @@ IonicModule
   '$compile',
   '$ionicPlatform',
   '$rootScope',
-function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, $timeout, $q, $log, $compile, $ionicPlatform, $rootScope) {
+  'IONIC_BACK_PRIORITY',
+function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, $timeout, $q, $log, $compile, $ionicPlatform, $rootScope, IONIC_BACK_PRIORITY) {
 
   var loaderInstance;
   //default values
@@ -81,7 +82,9 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
      * @ngdoc method
      * @name $ionicLoading#show
      * @description Shows a loading indicator. If the indicator is already shown,
-     * it will set the options given and keep the indicator shown.
+     * it will set the options given and keep the indicator shown. Note: While this
+     * function still returns an $ionicLoading instance for backwards compatiblity,
+     * its use has been deprecated.
      * @param {object} opts The options for the loading indicator. Available properties:
      *  - `{string=}` `template` The html content of the indicator.
      *  - `{string=}` `templateUrl` The url of an html template to load as the content of the indicator.
@@ -142,7 +145,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
           //Disable hardware back button while loading
           deregisterBackAction = $ionicPlatform.registerBackButtonAction(
             noop,
-            PLATFORM_BACK_BUTTON_PRIORITY_LOADING
+            IONIC_BACK_PRIORITY.loading
           );
 
           templatePromise.then(function(html) {
@@ -176,12 +179,15 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
             }
             self.element.removeClass('active');
             $ionicBody.removeClass('loading-active');
-            setTimeout(function() {
+            self.element.removeClass('visible');
+            ionic.requestAnimationFrame(function() {
               !self.isShown && self.element.removeClass('visible');
-            }, 200);
+            });
           }
           $timeout.cancel(self.durationTimeout);
           self.isShown = false;
+          var loading = self.element.children();
+          loading.html("");
         };
 
         return self;
@@ -209,15 +215,20 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
     });
 
     return {
-      hide: deprecated.method(LOADING_HIDE_DEPRECATED, $log.error, hideLoader),
-      show: deprecated.method(LOADING_SHOW_DEPRECATED, $log.error, function() {
-        showLoader(options);
-      }),
-      setContent: deprecated.method(LOADING_SET_DEPRECATED, $log.error, function(content) {
-        getLoader().then(function(loader) {
+      hide: function deprecatedHide() {
+        $log.error(LOADING_HIDE_DEPRECATED);
+        return hideLoader.apply(this, arguments);
+      },
+      show: function deprecatedShow() {
+        $log.error(LOADING_SHOW_DEPRECATED);
+        return showLoader.apply(this, arguments);
+      },
+      setContent: function deprecatedSetContent(content) {
+        $log.error(LOADING_SET_DEPRECATED);
+        return getLoader().then(function(loader) {
           loader.show({ template: content });
         });
-      })
+      }
     };
   }
 

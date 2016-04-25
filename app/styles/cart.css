@@ -100,6 +100,11 @@
 .item-avatar-left > img:first-child {
   top: 10px;
 }
+.conform-payment-item {
+  height: 100px;
+  background-color: #ffffff;
+  padding-top: 25px;
+}
 .conform-payment-button {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -108,7 +113,6 @@
   text-align: center;
   color: #ffffff;
   width: 90%;
-  margin-top: 40px;
   margin-left: 5%;
   height: 50px;
   line-height: 50px;

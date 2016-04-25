@@ -44,7 +44,8 @@ IonicModule
   '$timeout',
   '$controller',
   '$ionicBind',
-function($timeout, $controller, $ionicBind) {
+  '$ionicConfig',
+function($timeout, $controller, $ionicBind, $ionicConfig) {
   return {
     restrict: 'E',
     scope: true,
@@ -57,10 +58,10 @@ function($timeout, $controller, $ionicBind) {
       innerElement.append(element.contents());
       element.append(innerElement);
 
+      var nativeScrolling = attr.overflowScroll !== "false" && (attr.overflowScroll === "true" || !$ionicConfig.scrolling.jsScrolling());
+
       return { pre: prelink };
       function prelink($scope, $element, $attr) {
-        var scrollView, scrollCtrl;
-
         $ionicBind($scope, $attr, {
           direction: '@',
           paging: '@',
@@ -79,14 +80,20 @@ function($timeout, $controller, $ionicBind) {
             innerElement.toggleClass('padding', !!newVal);
           });
         }
-        if($scope.$eval($scope.paging) === true) {
+        if ($scope.$eval($scope.paging) === true) {
           innerElement.addClass('scroll-paging');
         }
 
-        if(!$scope.direction) { $scope.direction = 'y'; }
+        if (!$scope.direction) { $scope.direction = 'y'; }
         var isPaging = $scope.$eval($scope.paging) === true;
 
-        var scrollViewOptions= {
+        if (nativeScrolling) {
+          $element.addClass('overflow-scroll');
+        }
+
+        $element.addClass('scroll-' + $scope.direction);
+
+        var scrollViewOptions = {
           el: $element[0],
           delegateHandle: $attr.delegateHandle,
           locking: ($attr.locking || 'true') === 'true',
@@ -99,18 +106,19 @@ function($timeout, $controller, $ionicBind) {
           zooming: $scope.$eval($scope.zooming) === true,
           maxZoom: $scope.$eval($scope.maxZoom) || 3,
           minZoom: $scope.$eval($scope.minZoom) || 0.5,
-          preventDefault: true
+          preventDefault: true,
+          nativeScrolling: nativeScrolling
         };
+
         if (isPaging) {
           scrollViewOptions.speedMultiplier = 0.8;
           scrollViewOptions.bouncing = false;
         }
 
-        scrollCtrl = $controller('$ionicScroll', {
+        $controller('$ionicScroll', {
           $scope: $scope,
           scrollViewOptions: scrollViewOptions
         });
-        scrollView = $scope.$parent.scrollView = scrollCtrl.scrollView;
       }
     }
   };

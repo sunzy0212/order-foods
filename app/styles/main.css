@@ -99,3 +99,36 @@
   -webkit-transition: all ease-in-out 250ms;
   transition: all ease-in-out 250ms;
 }
+.clear-float {
+  clear: both;
+}
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+.important-key {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "宋体";
+}
+.description-key {
+  font-size: 14px;
+  color: #444;
+}
+.horizontal-vertical-middle-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.horizontal-vertical-middle-spinner {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 28px;
+  width: 28px;
+}

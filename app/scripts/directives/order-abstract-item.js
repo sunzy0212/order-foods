@@ -7,7 +7,7 @@ directiveModule.directive('orderAbstract', function(){
     scope:{
       orderAbstractItem: '='
     },
-    templateUrl:'../../views/directives/order-abstract-item.html',
+    templateUrl:'views/directives/order-abstract-item.html',
     link: function(scope, element, attrs){
       var ORDER_PROCESS_TYPE = [
         "交易完成",

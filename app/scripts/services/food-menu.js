@@ -17,11 +17,11 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
     this.foods = {};
 
     this.setFoodVolumeSelectedArray = function(foodName, volume){
-        this.foods[currentSelectedFoodType()].foodVolumeSelectedArray[foodName] = volume;
+        this.foods[this.currentSelectedFoodType()].foodVolumeSelectedArray[foodName] = volume;
     };
 
     this.getFoodVolumeSelectedArray = function(){
-        var dic = this.foods[currentSelectedFoodType()].foodVolumeSelectedArray;
+        var dic = this.foods[this.currentSelectedFoodType()].foodVolumeSelectedArray;
         for(var key in dic){
             dic[key].num = userOrder.getFoodNum(key, dic[key].name);
         }
@@ -58,6 +58,7 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
     };
 
     this.getFoodsByType = function(sideItemName){
+        sideItemName = sideItemName || this.currentSelectedFoodType();
         var deferred = $q.defer();
         var promise = deferred.promise;
 
@@ -99,7 +100,7 @@ serviceModule.service('foodMenu',['$http', '$q', 'userOrder', function($http, $q
         return promise;
     };
 
-    function currentSelectedFoodType(){
+    this.currentSelectedFoodType = function(){
       return that.menuSideBar.items[that.menuSideBar.activeIndex];
     }
 

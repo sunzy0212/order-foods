@@ -3,8 +3,8 @@
  */
 var express = require('express');
 var router = express.Router();
-var CommonFun = require('../../models/common/common-func');
-var UserOrder = require('../../models/app/user-order');
+var CommonFun = require('../models/common/common-func');
+var UserOrder = require('../models/app/user-order');
 
 /*
  @params:    {
@@ -15,9 +15,8 @@ var UserOrder = require('../../models/app/user-order');
                  userInfo   :   ***
              }
  */
-router.post('/conformUserOrder',function(req, res, next){
+router.post('/secureApi/conformUserOrder',function(req, res, next){
     var userOrderIdObj = CommonFun.createUserOrderID();
-
     var userOrderData = req.body;
 
     //设置userOrderId和time
@@ -36,12 +35,9 @@ router.post('/conformUserOrder',function(req, res, next){
             console.log('catched the error: ',err);
             res.status(500).send(err);
         });
-
-    console.log(userOrderData);
-
 });
 
-router.post('/conformPayment',function(req, res, next){
+router.post('/secureApi/conformPayment',function(req, res, next){
     var newProperties = {
 
     };
@@ -69,7 +65,7 @@ router.post('/conformPayment',function(req, res, next){
                  status :   ***
              }
  */
-router.post('/setUserOrderStatus',function(req, res, next){
+router.post('/secureApi/setUserOrderStatus',function(req, res, next){
 
     UserOrder.setUserOrderStatus(req.body.userOrderId, req.body.status)
         .then(function(ret){
@@ -87,12 +83,13 @@ router.post('/setUserOrderStatus',function(req, res, next){
 /*
 @params:    {
                 openId  :   ***
+                status  :   ***
                 skipNum :   ***
                 limitNum:   ***
             }
 */
-router.post('/getUserOrderByOpenIdAndStatus', function(req, res, next){
-    UserOrder.getUserOrderByOpenIdAndStatus(req.body.openId, req.body.status, req.body.skipNum, req.body.limitNum)
+router.get('/secureApi/getUserOrdersByOpenIdAndStatus', function(req, res, next){
+    UserOrder.getUserOrderByOpenIdAndStatus(req.query.openId, req.query.status, req.query.skipNum, req.query.limitNum)
         .then(function(ret){
             return UserOrder.prototype.createUserOrderAbstract(ret);
         })
@@ -100,8 +97,17 @@ router.post('/getUserOrderByOpenIdAndStatus', function(req, res, next){
             res.status(200).send(ret);
         })
         .catch(function(err){
-            console.log('catched the error: ',err);
             res.status(500).send("Failed");
+        });
+});
+
+router.get('/secureApi/getUserOrderDetailByOrderId',function(req,res,next){
+    UserOrder.getUserOrderDetailByOrderId(req.query.orderId)
+        .then(function(ret){
+          res.status(200).send(ret);
+        })
+        .catch(function(err){
+          res.status(500).send(err);
         });
 });
 

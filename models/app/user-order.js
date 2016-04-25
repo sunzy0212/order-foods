@@ -1,19 +1,19 @@
 /**
  * Created by ZhiyuanSun on 15/12/12.
  */
-var userOrderModel = require('../db/user-order-model');
-var CommonFun = require('../common/common-func');
-var Menu = require('./menu');
-var fs = require('fs');
-var async=require('async');
-var Q = require('q');
-var EventProxy = require('eventproxy');
+ var userOrderModel = require('../db/user-order-model');
+ var CommonFun = require('../common/common-func');
+ var Menu = require('./menu');
+ var fs = require('fs');
+ var async=require('async');
+ var Q = require('q');
+ var EventProxy = require('eventproxy');
 
-function UserOrder(){
+ function UserOrder(){
 
-};
+ };
 
-module.exports = UserOrder;
+ module.exports = UserOrder;
 
 //从json文件中导入用户的订单记录到数据库
 UserOrder.prototype.import = function(path, callback){
@@ -131,7 +131,7 @@ UserOrder.getUserOrderByOpenIdAndStatus = function(parOpenId, status, skipNum, l
     var query = {
         openId : parOpenId
     };
-    if(status !== 0){
+    if(status != 0){
         query.status = status
     }
 
@@ -169,13 +169,13 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
         }
 
         Menu.prototype.getFood(item.foods[0].foodName)
-            .then(function(food){
-                var orderAbstractItem = {
-                    orderId : item.userOrderId,
+        .then(function(food){
+            var orderAbstractItem = {
+                orderId : item.userOrderId,
                     // status : ORDER_PROCESS_TYPE[item.status],
                     status : item.status,
                     orderTime : CommonFun.dateToString(item.time),
-                    totalMoney : item.money.beforeDiscountMoney - item.money.discountMoney,
+                    totalMoney : item.money.beforeDiscount - item.money.discount,
                     totalNum : item.totalNum,
                     displayFoodName : food.name,
                     displayFoodImg : food.img
@@ -188,4 +188,20 @@ UserOrder.prototype.createUserOrderAbstract = function(userOrders){
             });
     });
     return deferred.promise;
+};
+
+UserOrder.getUserOrderDetailByOrderId = function(orderId){
+    var query = {
+        userOrderId: orderId
+    };
+  var deferred = Q.defer();
+  userOrderModel.findOne(query,function(err,ret){
+    if(err){
+      deferred.reject(new Error(err));
+    }
+    else{
+      deferred.resolve(ret);
+    }
+  });
+  return deferred.promise;
 };

@@ -54,7 +54,7 @@ function($scope,
 
   if (!isDefined(scrollViewOptions.bouncing)) {
     ionic.Platform.ready(function() {
-      if (scrollView.options) {
+      if (scrollView && scrollView.options) {
         scrollView.options.bouncing = true;
         if (ionic.Platform.isAndroid()) {
           // No bouncing by default on Android
@@ -101,19 +101,25 @@ function($scope,
   };
 
   self.resize = function() {
-    return $timeout(resize).then(function() {
-      $element && $element.triggerHandler('scroll.resize');
+    return $timeout(resize, 0, false).then(function() {
+      $element && $element.triggerHandler('scroll-resize');
     });
   };
 
   self.scrollTop = function(shouldAnimate) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       scrollView.scrollTo(0, 0, !!shouldAnimate);
     });
   };
 
   self.scrollBottom = function(shouldAnimate) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       var max = scrollView.getScrollMax();
       scrollView.scrollTo(max.left, max.top, !!shouldAnimate);
     });
@@ -121,49 +127,64 @@ function($scope,
 
   self.scrollTo = function(left, top, shouldAnimate) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       scrollView.scrollTo(left, top, !!shouldAnimate);
     });
   };
 
   self.zoomTo = function(zoom, shouldAnimate, originLeft, originTop) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       scrollView.zoomTo(zoom, !!shouldAnimate, originLeft, originTop);
     });
   };
 
   self.zoomBy = function(zoom, shouldAnimate, originLeft, originTop) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       scrollView.zoomBy(zoom, !!shouldAnimate, originLeft, originTop);
     });
   };
 
   self.scrollBy = function(left, top, shouldAnimate) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       scrollView.scrollBy(left, top, !!shouldAnimate);
     });
   };
 
   self.anchorScroll = function(shouldAnimate) {
     self.resize().then(function() {
+      if (!scrollView) {
+        return;
+      }
       var hash = $location.hash();
       var elm = hash && $document[0].getElementById(hash);
       if (!(hash && elm)) {
-        scrollView.scrollTo(0,0, !!shouldAnimate);
+        scrollView.scrollTo(0, 0, !!shouldAnimate);
         return;
       }
       var curElm = elm;
-      var scrollLeft = 0, scrollTop = 0, levelsClimbed = 0;
+      var scrollLeft = 0, scrollTop = 0;
       do {
         if (curElm !== null) scrollLeft += curElm.offsetLeft;
         if (curElm !== null) scrollTop += curElm.offsetTop;
         curElm = curElm.offsetParent;
-        levelsClimbed++;
       } while (curElm.attributes != self.element.attributes && curElm.offsetParent);
       scrollView.scrollTo(scrollLeft, scrollTop, !!shouldAnimate);
     });
   };
 
   self.freezeScroll = scrollView.freeze;
+  self.freezeScrollShut = scrollView.freezeShut;
 
   self.freezeAllScrolls = function(shouldFreeze) {
     for (var i = 0; i < $ionicScrollDelegate._instances.length; i++) {

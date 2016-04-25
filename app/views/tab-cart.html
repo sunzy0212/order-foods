@@ -8,19 +8,19 @@
                 <td class="conform-order-button-left-part">
                     <span>
                         实付
-                        <span ng-bind="money.afterDiscountMoney"></span>
+                        <span ng-bind="money.afterDiscount"></span>
                         元
                     </span>
                     <span class="conform-order-button-discount">
                         已优惠
-                        <span ng-bind="money.discountMoney"></span>
+                        <span ng-bind="money.discount"></span>
                         元
                     </span>
                 </td>
                 <td
                         ng-init="orderConforming = false;"
                         class="conform-order-button-right-part"
-                        ng-class="{true: 'conform-order-button-right-part-active', false: 'conform-order-button-right-part-disactive'}[money.beforeDiscountMoney > 0]"
+                        ng-class="{true: 'conform-order-button-right-part-active', false: 'conform-order-button-right-part-disactive'}[money.beforeDiscount > 0]"
                         ng-click="conformUserOrderClick()">
                     <span ng-hide="orderConforming">确认订单</span>
                     <ion-spinner ng-show="orderConforming" icon="spiral" class="spinner-light"  ng-cloak></ion-spinner>
@@ -37,20 +37,16 @@
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">就餐人数：</span>
                     <select
-                            ng-init="peopleNum = userInfo.peopleNum"
-                            ng-model="peopleNum"
+                            ng-model="cartInfo.peopleNum"
                             ng-options="item as item for item in restaurantInfo.allPeople track by item"
-                            ng-change="selectPeopleNum(peopleNum)"
                             >
                     </select>
                 </label>
                 <label class="item item-input item-select cart-list vertical-content-middle">
                     <span class="input-label">我的桌号：</span>
                     <select
-                            ng-init="seatNum = userInfo.seatNum"
-                            ng-model="seatNum"
+                            ng-model="cartInfo.seatNum"
                             ng-options="item as item for item in restaurantInfo.allSeats track by item"
-                            ng-change="selectSeatNum(seatNum)"
                             >
                     </select>
                 </label>
@@ -59,9 +55,7 @@
                         是否需要发票
                         <label class="toggle toggle-balanced">
                             <input type="checkbox"
-                                   ng-init="isInvoiceNeed = userInfo.isInvoiceNeed"
-                                   ng-model="isInvoiceNeed"
-                                   ng-change="selectInvoiceNeed(isInvoiceNeed)">
+                                   ng-model="cartInfo.isInvoiceNeed">
                             <div class="track">
                                 <div class="handle"></div>
                             </div>
@@ -69,27 +63,15 @@
                     </div>
                     <div
                             class="item-input invoice-input-container cart-list vertical-content-middle"
-                            ng-show="userInfo.isInvoiceNeed"
+                            ng-show="cartInfo.isInvoiceNeed"
                             ng-cloak>
-                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人" ng-model="userInfo.invoice" ng-blur="saveInvoice(userInfo.invoice)">
+                        <input class="invoice-input" type="text" placeholder="请输入单位抬头或个人" ng-model="cartInfo.invoice" ng-blur="saveInvoice(cartInfo.invoice)">
                     </div>
                 </div>
 
-                <!--支付方式-->
-                <!--<label class="item item-input item-select cart-list vertical-content-middle">
-                    <span class="input-label">支付方式：</span>
-                    <select
-                            ng-init="paymentMethod = userInfo.paymentMethod"
-                            ng-model="paymentMethod"
-                            ng-options="item as item.paymentMethodName for item in restaurantInfo.allPaymentMethods track by item.paymentMethodId"
-                            ng-change="selectPaymentMethod(paymentMethod)"
-                            >
-                    </select>
-                </label>-->
-
                 <div class="item item-divider food-item-divider"></div>
                 <div style="height: 40px;">
-                    <cart-operation-button total-money="money.beforeDiscountMoney" foods="foods"></cart-operation-button>
+                    <cart-operation-button total-money="money.beforeDiscount" foods="foods"></cart-operation-button>
                 </div>
                 <!--所点的菜的详细列表-->
                 <div class="item cart-list" ng-repeat="(foodName,foodEntity) in foods">
@@ -99,27 +81,27 @@
                         </div>
                         <div class="col col-20 vertical-content-middle">
                             <span class="order-food-total-money" style="padding-left: 10%">¥</span>
-                            <span class="order-food-total-money" ng-bind="foodEntity.price"></span>
+                            <span class="order-food-total-money" ng-bind="foodEntity.volume.price"></span>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <i
                                     class="icon ion-ios-minus select-food-icon"
-                                    ng-click="minusFoodClick(foodEntity.foodName, foodEntity.volume, foodEntity.price)"
-                                    ng-show="foodEntity.foodNum > 0"
+                                    ng-click="minusFoodClick(foodEntity.foodName, foodEntity.volume)"
+                                    ng-show="foodEntity.num > 0"
                                     ng-cloak>
                             </i>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <span
-                                    ng-bind="foodEntity.foodNum"
-                                    ng-show="foodEntity.foodNum > 0"
+                                    ng-bind="foodEntity.num"
+                                    ng-show="foodEntity.num > 0"
                                     ng-cloak>
                             </span>
                         </div>
                         <div class="col col-10 vertical-content-middle horizontal-content-center">
                             <i
                                     class="icon ion-ios-plus select-food-icon"
-                                    ng-click="addFoodClick(foodEntity.foodName, foodEntity.volume, foodEntity.price)">
+                                    ng-click="addFoodClick(foodEntity.foodName, foodEntity.volume)">
                             </i>
                         </div>
                     </div>
@@ -129,7 +111,7 @@
                     <span>订单金额</span>
                     <span>
                         <span>¥</span>
-                        <span ng-bind="money.beforeDiscountMoney"></span>
+                        <span ng-bind="money.beforeDiscount"></span>
                     </span>
                 </div>
 
@@ -148,13 +130,14 @@
                     <span>实付金额</span>
                     <span>
                         <span>¥</span>
-                        <span ng-bind="money.afterDiscountMoney"></span>
+                        <span ng-bind="money.afterDiscount"></span>
                     </span>
                 </div>
             </div>
         </ion-scroll>
     </div>
-    <payment-method-modal payment-info="paymentInfo"
-        is-payment-method-modal-show="isPaymentMethodModalShow">
-    </payment-method-modal>
+    <div payment-method-modal payment-info="paymentInfo"
+        is-payment-method-modal-show="isPaymentMethodModalShow"
+        after-conform-payment="afterConformPayment()">
+    </div>
 </ion-view>

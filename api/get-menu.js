@@ -3,12 +3,12 @@
  */
 var express = require('express');
 var router = express.Router();
-var Menu = require('../../models/app/menu');
-var FoodType = require('../../models/app/food-type');
+var Menu = require('../models/app/menu');
+var FoodType = require('../models/app/food-type');
 
-var app = require('../../app');
+var app = require('../app');
 
-router.post('/GetMenu',function(req,res){
+router.get('/openApi/GetMenu',function(req,res){
     var menu=new Menu();
     menu.getAllFoods(function(err,doc){
         if(err){
@@ -18,7 +18,7 @@ router.post('/GetMenu',function(req,res){
     });
 });
 
-router.get('/GetFoodType',function(req,res){
+router.get('/openApi/GetFoodType',function(req,res){
     var foodType=new FoodType();
     foodType.getAllFoodType(function(err,foodTypeRet){
         if(err){
@@ -28,9 +28,9 @@ router.get('/GetFoodType',function(req,res){
     });
 });
 
-router.post('/GetFoodsByType',function(req,res){
+router.get('/openApi/GetFoodsByType',function(req,res){
     var menu = new Menu();
-    menu.getFoodsByType(req.body.foodType,function(err,doc){
+    menu.getFoodsByType(req.query.foodType,function(err,doc){
         if(err){
             res.status(500).send(err);
         }
