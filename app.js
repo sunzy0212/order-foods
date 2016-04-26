@@ -43,30 +43,34 @@
   app.use(userOrder);
 
   //微信访问
-  app.get('/app', function(req, res) {
-    var code=req.query.code;
-    if(code == undefined){
-      res.render('404.html');
-    }
+  app.get('/wechat-order-foods', function(req, res) {
+    var authUrl = oauthClient.getAuthorizeURL('http://zhiyuanagent.cloudapp.net/app','','snsapi_userinfo');
+    res.redirect(authUrl);
+  });
 
-    oauthClient.getAccessToken(code, function(err, data){
-      if(err){
-        unauthCallback(err,res);
-      }
-      if(data && data.access_token && data.openid){
-        res.cookie('openId',data.openid);
-        res.cookie('accessToken',data.access_token);
-
-        res.render('index.html',{
-          openId: data.openid,
-          accessToken: data.access_token
-        })
-      }
-      else{
-        unauthCallback('get token error',res);
+  app.get('/app', function(req, res, next){
+      var code=req.query.code;
+      if(code == undefined){
+          res.render('404.html');
       }
 
-    });
+      oauthClient.getAccessToken(code, function(err, data){
+          if(err){
+              unauthCallback(err,res);
+          }
+          if(data && data.access_token && data.openid){
+              res.cookie('openId',data.openid);
+              res.cookie('accessToken',data.access_token);
+
+              res.render('index.html',{
+                  openId: data.openid,
+                  accessToken: data.access_token
+              })
+          }
+          else{
+              unauthCallback('get token error',res);
+          }
+      });
   });
 
   //浏览器访问
@@ -106,7 +110,6 @@
         else
             return false;
     }
-
 
   module.exports = app;
 
