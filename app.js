@@ -89,7 +89,7 @@
         }
         var echostr = req.query.echostr;
         var arr = [wechatConfig.token, req.query.timestamp, req.query.nonce];
-        if(checkSigature(arr, req.query.signature)){
+        if(checkSignature(arr, req.query.signature)){
             res.end(echostr);
         }
         else{
@@ -97,7 +97,7 @@
         }
     });
 
-    function checkSigature(arr, sig, key){
+    function checkSignature(arr, sig, key){
         arr.sort();
         var tmpStr = arr.join('');
         var sha1Str = crypto.createHash('sha1').update(tmpStr).digest('hex');
