@@ -2,13 +2,14 @@
   'use strict';
   //lib modules
   var express = require("express");
-  var logger=require('morgan');
+  var logger = require('morgan');
   var cookieParser = require('cookie-parser');
   var bodyParser = require('body-parser');
   var path = require('path');
-  var wechat=require('wechat');
+  var wechat = require('wechat');
   var authoriztion = require('./routes/authorization');
-  var async=require('async');
+  var async = require('async');
+  var crypto = require('crypto');
 
   /*var session = require('express-session');
   var MongoStore = require('connect-mongo')(session);*/
@@ -23,6 +24,7 @@
   var oauthClient = authoriztion.oauthClient;
   var oauthMethod = authoriztion.router;
   var unauthCallback = authoriztion.unauthCallback;
+  var wechatConfig = authoriztion.wechatConfig;
 
   // Configuration
   app.use(express.static(path.join(__dirname, 'app')));
@@ -41,30 +43,34 @@
   app.use(userOrder);
 
   //微信访问
-  app.get('/app', function(req, res) {
-    var code=req.query.code;
-    if(code == undefined){
-      res.render('404.html');
-    }
+  app.get('/wechat-order-foods', function(req, res) {
+    var authUrl = oauthClient.getAuthorizeURL('http://zhiyuanagent.cloudapp.net/app','','snsapi_userinfo');
+    res.redirect(authUrl);
+  });
 
-    oauthClient.getAccessToken(code, function(err, data){
-      if(err){
-        unauthCallback(err,res);
-      }
-      if(data && data.access_token && data.openid){
-        res.cookie('openId',data.openid);
-        res.cookie('accessToken',data.access_token);
-
-        res.render('index.html',{
-          openId: data.openid,
-          accessToken: data.access_token
-        })
-      }
-      else{
-        unauthCallback('get token error',res);
+  app.get('/app', function(req, res, next){
+      var code=req.query.code;
+      if(code == undefined){
+          res.render('404.html');
       }
 
-    });
+      oauthClient.getAccessToken(code, function(err, data){
+          if(err){
+              unauthCallback(err,res);
+          }
+          if(data && data.access_token && data.openid){
+              res.cookie('openId',data.openid);
+              res.cookie('accessToken',data.access_token);
+
+              res.render('index.html',{
+                  openId: data.openid,
+                  accessToken: data.access_token
+              })
+          }
+          else{
+              unauthCallback('get token error',res);
+          }
+      });
   });
 
   //浏览器访问
@@ -81,21 +87,29 @@
 
   });
 
-  //浏览器访问
-  app.get('/app', function(req, res) {
-    var openId='os1N1v1asWV4hAzEqANL-e2c4E5E';
-    res.render('index.html',{
-      openId:openId
+    app.all('/inwechat', function(req, res){
+        if(!req.query){
+            res.end("false");
+        }
+        var echostr = req.query.echostr;
+        var arr = [wechatConfig.token, req.query.timestamp, req.query.nonce];
+        if(checkSignature(arr, req.query.signature)){
+            res.end(echostr);
+        }
+        else{
+            res.end("false");
+        }
     });
 
-  });
-
-
-  app.use('/wechat1', wechat(globalValue.wechatConfig,function(req,res,next){
-    // 微信输入信息都在req.weixin上
-    var message=req.weixin;
-
-  }));
+    function checkSignature(arr, sig, key){
+        arr.sort();
+        var tmpStr = arr.join('');
+        var sha1Str = crypto.createHash('sha1').update(tmpStr).digest('hex');
+        if(sig == sha1Str)
+            return true;
+        else
+            return false;
+    }
 
   module.exports = app;
 

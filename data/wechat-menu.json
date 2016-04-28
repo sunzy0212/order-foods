@@ -6,7 +6,7 @@
                 {
                     "type":"view",
                     "name":"店内点餐",
-                    "url":"http://zhiyuanagent.cloudapp.net/app"
+                    "url":"http://zhiyuanagent.cloudapp.net/wechat-order-foods"
                 },
                 {
                     "type":"view",
