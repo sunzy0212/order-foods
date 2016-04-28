@@ -1,5 +1,5 @@
 (function(){
-  var express = require('express');
+	var express = require('express');
 	var OAuth=require('../middlewares/wechat-oauth')
 	var WechatApi=require('wechat-api');
 	var fs = require('fs');
@@ -31,6 +31,9 @@
 				if(global.isDev){
 					next();
 				}
+				else{
+					handleUnauthorization(oauth,res);
+				}
 			}
 			else{
 				next();
@@ -43,18 +46,16 @@
 		return reg.test(authorizationHeader);
 	}
 
-  function handleUnauthorization(){
-  }
+	function handleUnauthorization(oauth, res){
+		var authUrl = oauth.getAuthorizeURL('http://zhiyuanagent.cloudapp.net/app','','snsapi_userinfo');
+		res.redirect(authUrl);
+	}
 
 	module.exports={
-	    wechatConfig: config,
-	    oauthClient: oauth,
-	    wechatApi: api,
-	    router: router,
-	    unauthCallback: function(err, res, data){
-    		if(err){
-    			res.render('404.html');
-    		}
-	    }
+		wechatConfig: config,
+		oauthClient: oauth,
+		wechatApi: api,
+		router: router,
+		unauthCallback: handleUnauthorization
 	};
 })();
