@@ -1,8 +1,8 @@
 /**
  * Created by ZhiyuanSun on 15/12/10.
  */
-var oauthClient = require('../common/global-values').oauthClient;
-var wechatApi = require('../common/global-values').wechatApi;
+var oauthClient = require('../../routes/authorization').oauthClient;
+var wechatApi = require('../../routes/authorization').wechatApi;
 var fs=require('fs');
 
 function WechatMenu(path){
@@ -11,8 +11,25 @@ function WechatMenu(path){
 
 module.exports = WechatMenu;
 
-
 WechatMenu.prototype.createMenu = function(callback){
+    fs.readFile(this.menuFilePath,'utf8',function(err,data){
+        if(err){
+            callback(err);
+        }
+        var wechatMenuData = JSON.parse(data);
+
+        wechatApi.getLatestToken(function(err,token){
+            if(err){
+                callback(err);
+            }
+            wechatApi.createMenu(wechatMenuData,function(err,ret){
+                callback(err,ret);
+            })
+        })
+    });
+}
+
+WechatMenu.prototype.createMenu1 = function(callback){
     fs.readFile(this.menuFilePath,'utf8',function(err,data){
         if(err){
             callback(err);
