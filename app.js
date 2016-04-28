@@ -56,7 +56,7 @@
 
       oauthClient.getAccessToken(code, function(err, data){
           if(err){
-              unauthCallback(err,res);
+              unauthCallback(oauthClient,res);
           }
           if(data && data.access_token && data.openid){
               res.cookie('openId',data.openid);
@@ -68,7 +68,7 @@
               })
           }
           else{
-              unauthCallback('get token error',res);
+              unauthCallback(oauthClient,res);
           }
       });
   });
